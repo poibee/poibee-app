@@ -13,7 +13,9 @@
     "test:headless": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "precypress:run": "npm run start &",
     "cypress:open": "cypress open",
+    "postcypress:run": "pkill -f 'ng serve'",
     "cypress:run": "cypress run"
   },
   "private": true,
