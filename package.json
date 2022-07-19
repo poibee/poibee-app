@@ -14,7 +14,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:app:start": "ng serve &",
+    "cypress:app:stop": "pkill -f 'ng serve'",
+    "cypress:run": "npm run cypress:app:start; sleep 30; cypress run; CYPRESS_RESULT=$?; npm run cypress:app:stop; echo \"Ignore exit code: $?\"; exit $CYPRESS_RESULT"
   },
   "private": true,
   "dependencies": {
