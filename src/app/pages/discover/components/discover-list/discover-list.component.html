@@ -1,0 +1,13 @@
+<p class="ion-padding-start ion-padding-end" *ngIf="pois.length === 0">
+  Es wurden keine POIs gefunden. Bitte Suchkriterien anpassen.
+</p>
+
+<ion-list>
+  <ion-item *ngFor="let poi of pois" detail="false">
+    <ion-label>
+      <h3>{{poi.category}}</h3>
+      <p>{{poi.name}}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+

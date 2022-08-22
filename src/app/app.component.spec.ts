@@ -28,9 +28,10 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-label');
-    expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].textContent).toContain('Ein Dank an ...');
-    expect(menuItems[1].textContent).toContain('Kontakt / Impressum');
+    expect(menuItems.length).toEqual(3);
+    expect(menuItems[0].textContent).toContain('Entdecken');
+    expect(menuItems[1].textContent).toContain('Ein Dank an ...');
+    expect(menuItems[2].textContent).toContain('Kontakt / Impressum');
   }));
 
   it('should have urls', waitForAsync(() => {
@@ -38,9 +39,10 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const app = fixture.nativeElement;
     const menuItems = app.querySelectorAll('ion-item');
-    expect(menuItems.length).toEqual(2);
-    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/credit');
-    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual('/about');
+    expect(menuItems.length).toEqual(3);
+    expect(menuItems[0].getAttribute('ng-reflect-router-link')).toEqual('/discover');
+    expect(menuItems[1].getAttribute('ng-reflect-router-link')).toEqual('/credit');
+    expect(menuItems[2].getAttribute('ng-reflect-router-link')).toEqual('/about');
   }));
 
 });

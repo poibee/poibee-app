@@ -1,0 +1,154 @@
+[
+  {
+    "id": "way/45666704",
+    "name": "Christuskirche",
+    "website": "https://www.kirche-harpstedt.de/",
+    "categories": [
+      "church"
+    ],
+    "coordinates": [
+      52.9082584,
+      8.5886623
+    ],
+    "tags": {
+      "addr:city": "Harpstedt",
+      "addr:housenumber": "2",
+      "addr:postcode": "27243",
+      "addr:street": "1. Kirchstraße",
+      "amenity": "place_of_worship",
+      "building": "church",
+      "denomination": "lutheran",
+      "email": "buero@kirche-harpstedt.de",
+      "fax": "+49 4244 9653059",
+      "name": "Christuskirche",
+      "opening_hours": "Th 12:00-12:00; Su 13:30-17:00",
+      "phone": "+49 4244 452",
+      "religion": "christian",
+      "service_times": "Su 10:00-11:00",
+      "website": "https://www.kirche-harpstedt.de/",
+      "wikidata": "Q1087325"
+    }
+  },
+  {
+    "categories": [
+      "hotel",
+      "restaurant"
+    ],
+    "coordinates": [
+      52.91009245,
+      8.59079985
+    ],
+    "id": "way/181894115",
+    "name": "Akzent Hotel Zur Wasserburg",
+    "website": "https://www.zur-wasserburg.de/",
+    "tags": {
+      "addr:housenumber": "4",
+      "addr:postcode": "27243",
+      "addr:street": "Amtsfreiheit",
+      "amenity": "restaurant",
+      "building": "yes",
+      "cuisine": "german",
+      "name": "Akzent Hotel Zur Wasserburg",
+      "phone": "+49 4244 1008",
+      "tourism": "hotel",
+      "website": "https://www.zur-wasserburg.de/"
+    }
+  },
+  {
+    "categories": [
+      "restaurant"
+    ],
+    "coordinates": [
+      52.9085109,
+      8.5874905
+    ],
+    "id": "node/1628572328",
+    "name": "Charisma",
+    "website": "https://charisma-harpstedt.com/",
+    "tags": {
+      "addr:city": "Harpstedt",
+      "addr:country": "DE",
+      "addr:housenumber": "10",
+      "addr:postcode": "27243",
+      "addr:street": "Lange Straße",
+      "amenity": "restaurant",
+      "bar": "yes",
+      "cafe": "yes",
+      "cuisine": "german",
+      "name": "Charisma",
+      "opening_hours": "17:00+",
+      "operator": "Andreas Jakob",
+      "phone": "+49 4244 967666",
+      "smoking": "separated",
+      "website": "https://charisma-harpstedt.com/"
+    }
+  },
+  {
+    "id": "node/1628572605",
+    "name": "Marktkieker",
+    "categories": [
+      "amenity"
+    ],
+    "coordinates": [
+      52.9075896,
+      8.5878592
+    ],
+    "tags": {
+      "addr:city": "Harpstedt",
+      "addr:country": "DE",
+      "addr:housenumber": "20",
+      "addr:postcode": "27243",
+      "addr:street": "Lange Straße",
+      "amenity": "community_centre",
+      "name": "Marktkieker"
+    }
+  },
+  {
+    "id": "node/1628573037",
+    "categories": [
+      "information"
+    ],
+    "coordinates": [
+      52.9080359,
+      8.5877197
+    ],
+    "tags": {
+      "tourism": "information"
+    }
+  },
+  {
+    "id": "node/1628573040",
+    "name": "Kriegerdenkmal 1870-71",
+    "website": "http://denkmalprojekt.org/dkm_deutschland/harpstedt_1870-71_ns.htm",
+    "categories": [
+      "memorial"
+    ],
+    "coordinates": [
+      52.9083502,
+      8.5881977
+    ],
+    "tags": {
+      "historic": "memorial",
+      "name": "Kriegerdenkmal 1870-71",
+      "website": "http://denkmalprojekt.org/dkm_deutschland/harpstedt_1870-71_ns.htm"
+    }
+  },
+  {
+    "id": "way/45666703",
+    "name": "Marktplatz",
+    "categories": [
+      "parking"
+    ],
+    "coordinates": [
+      52.90812595,
+      8.58785515
+    ],
+    "tags": {
+      "amenity": "parking",
+      "capacity": "35",
+      "name": "Marktplatz",
+      "note": "auch Parkplatz",
+      "parking": "surface"
+    }
+  }
+]

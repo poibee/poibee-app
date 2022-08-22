@@ -23,3 +23,9 @@
 ```docker build -t poibee-app docker```
 ```docker images```
 ```docker run -p 55560:80 -d --name my-poibee-app poibee-app```
+
+## Generate components
+
+ng g service services/PoisOverpass
+ng g page pages/discover
+ng g component pages/discover/components/discover-list
