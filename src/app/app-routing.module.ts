@@ -4,8 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'credit',
+    redirectTo: 'discover',
     pathMatch: 'full'
+  },
+  {
+    path: 'discover',
+    loadChildren: () => import('./pages/discover/discover.module').then( m => m.DiscoverPageModule)
   },
   {
     path: 'credit',
