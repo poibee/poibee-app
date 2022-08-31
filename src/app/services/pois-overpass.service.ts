@@ -4,6 +4,7 @@ import {LatLon} from "../data/lat-lon";
 import {Poi} from "../data/poi";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,7 @@ export class PoisOverpassService {
   }
 
   searchPois(position: LatLon, distance: number, category: string): Observable<Poi[]> {
-    //const url = 'http://localhost:55556/pois';
-    const url = 'http://localhost:3000/pois';
+    const url = this.baseUrl() + '/pois';
     const params = new HttpParams()
       .set('lat', position.lat)
       .set('lon', position.lon)
@@ -28,6 +28,10 @@ export class PoisOverpassService {
           poisJsons.map(poiJson => PoisOverpassService.jsonToPoi(poiJson))
         )
       );
+  }
+
+  private baseUrl(): string {
+    return environment.backendUrlOverpass;
   }
 
   private static jsonToPoi(p: PoiJson): Poi {
