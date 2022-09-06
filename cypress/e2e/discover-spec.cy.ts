@@ -8,6 +8,7 @@ describe('Discover page', () => {
 
   beforeEach(() => {
     cy.viewport('iphone-x')
+    cy.intercept('GET', '/pois/way12345678', { fixture: 'poi-wasserburg.json' }).as('poi-wasserburg');
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
     discoverPage.visit()
   });
@@ -30,6 +31,16 @@ describe('Discover page', () => {
       cy.get('@marktplatzItem').find('ion-label p').should('have.text', 'Marktplatz')
     });
 
+    it('navigates to poi details after poi click', () => {
+      cy.get('app-discover-list ion-list ion-item').eq(1).as('wasserburgItem')
+      cy.get('@wasserburgItem').find('ion-label h3').click()
+
+      cy.url().should('include', '/poi/way-12345678')
+      cy.get('ion-content').contains('Koordinaten:')
+      cy.get('ion-content').contains('52.91009245 / 8.59079985')
+      cy.get('ion-content').contains('Name:')
+      cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
+    });
   });
 
 });

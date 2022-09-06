@@ -15,6 +15,7 @@ export class PoisOverpassService {
     private http: HttpClient) {
   }
 
+  // GET /pois?category=restaurant&lat=52.9&lon=8.4&distance=100
   searchPois(position: LatLon, distance: number, category: string): Observable<Poi[]> {
     const url = this.baseUrl() + '/pois';
     const params = new HttpParams()
@@ -30,12 +31,21 @@ export class PoisOverpassService {
       );
   }
 
+  // GET /pois/way45401909
+  searchPoi(poiId: string): Observable<Poi> {
+    const url = this.baseUrl() + '/pois/' + poiId;
+    return this.http.get<PoiJson>(url)
+      .pipe(
+        map(poiJson => PoisOverpassService.jsonToPoi(poiJson))
+      );
+  }
+
   private baseUrl(): string {
     return environment.backendUrlOverpass;
   }
 
   private static jsonToPoi(p: PoiJson): Poi {
-    return new Poi(p.id, p.categories[0], p.name, new LatLon(p.coordinates[0], p.coordinates[1]), {});
+    return new Poi(p.id, p.categories[0], p.name, new LatLon(p.coordinates.lat, p.coordinates.lon), {});
   }
 }
 
@@ -44,6 +54,6 @@ export interface PoiJson {
   name: string;
   website: string;
   categories: string[];
-  coordinates: [number, number];
+  coordinates: { lat: number, lon: number };
   tags: { key: string, value: string } [];
 }

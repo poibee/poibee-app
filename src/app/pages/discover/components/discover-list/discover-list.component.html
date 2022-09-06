@@ -3,7 +3,7 @@
 </p>
 
 <ion-list>
-  <ion-item *ngFor="let poi of pois" detail="false">
+  <ion-item *ngFor="let poi of pois" detail="false" (click)='navigateTo(poi)'>
     <ion-label>
       <h3>{{poi.category}}</h3>
       <p>{{poi.name}}</p>

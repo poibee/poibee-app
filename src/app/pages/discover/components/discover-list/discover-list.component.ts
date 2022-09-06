@@ -3,6 +3,7 @@ import {Poi} from "../../../../data/poi";
 import {PoisOverpassService} from "../../../../services/pois-overpass.service";
 import {LatLon} from "../../../../data/lat-lon";
 import {Subscription} from "rxjs";
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-discover-list',
@@ -15,6 +16,7 @@ export class DiscoverListComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(
+    private navCtrl: NavController,
     private poisOverpassService: PoisOverpassService) {
   }
 
@@ -30,4 +32,8 @@ export class DiscoverListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  navigateTo(poi: Poi) {
+    const poiId = poi.id.replace("/", "-");
+    this.navCtrl.navigateRoot("/poi/" + poiId)
+  }
 }

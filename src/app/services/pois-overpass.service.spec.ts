@@ -18,12 +18,18 @@ describe('PoisOverpassService', () => {
           id: 'myId',
           name: 'myName',
           categories: ['myCategory'],
-          coordinates: [1.1, 2.2]
+          coordinates: {
+            lat: 1.1,
+            lon: 2.2
+          }
         }, {
           id: 'otherId',
           name: 'otherName',
           categories: ['otherCategory'],
-          coordinates: [1.12, 2.23]
+          coordinates: {
+            lat: 1.12,
+            lon: 2.23
+          }
         }
       ])
     };

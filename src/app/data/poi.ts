@@ -8,7 +8,7 @@ export class Poi {
     public readonly name: string,
     public readonly coordinates: LatLon,
     public readonly tags: Record<string, string>
-) {
+  ) {
   }
 
 }
