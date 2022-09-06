@@ -1,0 +1,25 @@
+{
+  "categories": [
+    "hotel",
+    "restaurant"
+  ],
+  "coordinates": {
+    "lat": 52.91009245,
+    "lon": 8.59079985
+  },
+  "id": "way/12345678",
+  "name": "Akzent Hotel Zur Wasserburg",
+  "website": "https://www.zur-wasserburg.de/",
+  "tags": {
+    "addr:housenumber": "4",
+    "addr:postcode": "27243",
+    "addr:street": "Amtsfreiheit",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "german",
+    "name": "Akzent Hotel Zur Wasserburg",
+    "phone": "+49 4244 1008",
+    "tourism": "hotel",
+    "website": "https://www.zur-wasserburg.de/"
+  }
+}

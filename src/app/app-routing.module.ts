@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'poi/:id',
+    loadChildren: () => import('./pages/poi/poi.module').then( m => m.PoiPageModule)
   }
 ];
 

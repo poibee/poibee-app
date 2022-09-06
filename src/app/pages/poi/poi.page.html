@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>poi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list  *ngIf="poi">
+    <ion-item>
+      Id:
+      <div class="item-note" slot="end">
+        {{poi.id}}
+      </div>
+    </ion-item>
+    <ion-item>
+      Name:
+      <div class="item-note" slot="end">
+        {{poi.name}}
+      </div>
+    </ion-item>
+    <ion-item>
+      Kategorie:
+      <div class="item-note" slot="end">
+        {{poi.category}}
+      </div>
+    </ion-item>
+    <ion-item>
+      Koordinaten:
+      <div class="item-note" slot="end">
+        {{poi.coordinates.lat}} / {{poi.coordinates.lon}}
+      </div>
+    </ion-item>
+    <ion-item>
+      OSM-Datensatz:
+      <div class="item-note" slot="end">
+        <a href="https://www.openstreetmap.org/{{poi.id}}" target="_blank">{{poi.id}}</a>
+      </div>
+    </ion-item>
+    <ion-item>
+      OSM-Standort:
+      <div class="item-note" slot="end">
+        <a href="https://www.openstreetmap.org/#map=19/{{poi.coordinates.lat}}/{{poi.coordinates.lon}}" target="_blank">{{poi.coordinates}}</a>
+      </div>
+    </ion-item>
+    <ion-item>
+      Google-Maps:
+      <div class="item-note" slot="end">
+        <a href="https://www.google.de/maps/@{{poi.coordinates.lat}},{{poi.coordinates.lon}},18z" target="_blank">{{poi.coordinates}}</a>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

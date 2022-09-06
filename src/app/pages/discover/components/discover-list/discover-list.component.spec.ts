@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {IonicModule} from '@ionic/angular';
+import {IonicModule, NavController} from '@ionic/angular';
 
 import {DiscoverListComponent} from './discover-list.component';
 import {of} from "rxjs";
@@ -10,8 +10,8 @@ describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
   let fixture: ComponentFixture<DiscoverListComponent>;
 
-
   let poisOverpassServiceMock;
+  let navCtrlMock;
 
   beforeEach(() => {
     poisOverpassServiceMock = {
@@ -32,11 +32,16 @@ describe('DiscoverListComponent', () => {
         }
       ])
     };
-
     spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
+
+    navCtrlMock = {
+      navigateRoot: (url: string) => {}
+    };
+    spyOn(navCtrlMock, 'navigateRoot').and.callThrough();
 
     TestBed.configureTestingModule({
       providers: [
+        {provide: NavController, useValue: navCtrlMock},
         {provide: PoisOverpassService, useValue: poisOverpassServiceMock}
       ]
     });
