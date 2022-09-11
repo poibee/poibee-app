@@ -20,11 +20,14 @@ describe('PoiPage', () => {
         {
           id: 'myId/12345',
           name: 'myName',
-          categories: 'myCategory',
+          categories: ['myCategory'],
           coordinates: {
             lat: 1.1,
             lon: 2.2
-          }
+          },
+          attributes: {},
+          contact: {},
+          references: {}
         })
     };
     spyOn(poisOverpassServiceMock, 'searchPoi').and.callThrough();

@@ -19,16 +19,21 @@ describe('DiscoverListComponent', () => {
         {
           id: 'myId',
           name: 'myName',
-          categories: 'myCategory',
+          categories: ['myCategory'],
           coordinates: {
             lat: 1.1,
             lon: 2.2
-          }
+          },
+          tags: {}
         }, {
           id: 'otherId',
           name: 'otherName',
-          categories: 'otherCategory',
-          coordinates: [1.12, 2.23]
+          categories: ['otherCategory'],
+          coordinates: {
+            lat: 1.12,
+            lon: 2.23
+          },
+          tags: {}
         }
       ])
     };

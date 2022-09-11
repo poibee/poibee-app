@@ -1,0 +1,31 @@
+{
+  "id": "way/45666704",
+  "name": "Christuskirche",
+  "website": "https://www.kirche-harpstedt.de/",
+  "categories": [
+    "church"
+  ],
+  "coordinates": {
+    "lat": 52.9082584,
+    "lon": 8.5886623
+  },
+  "tags": {
+    "addr:city": "Harpstedt",
+    "addr:housenumber": "2",
+    "addr:postcode": "27243",
+    "addr:street": "1. Kirchstraße",
+    "amenity": "place_of_worship",
+    "building": "church",
+    "denomination": "lutheran",
+    "email": "buero@kirche-harpstedt.de",
+    "fax": "+49 4244 9653059",
+    "name": "Christuskirche",
+    "opening_hours": "Th 12:00-12:00; Su 13:30-17:00",
+    "phone": "+49 4244 452",
+    "religion": "christian",
+    "service_times": "Su 10:00-11:00",
+    "website": "https://www.kirche-harpstedt.de/",
+    "wikidata": "Q1087325",
+    "wikipedia": "de:Christuskirche (Harpstedt)"
+  }
+}
