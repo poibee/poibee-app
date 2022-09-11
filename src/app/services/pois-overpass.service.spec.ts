@@ -21,7 +21,8 @@ describe('PoisOverpassService', () => {
           coordinates: {
             lat: 1.1,
             lon: 2.2
-          }
+          },
+          tags: {}
         }, {
           id: 'otherId',
           name: 'otherName',
@@ -29,7 +30,8 @@ describe('PoisOverpassService', () => {
           coordinates: {
             lat: 1.12,
             lon: 2.23
-          }
+          },
+          tags: {}
         }
       ])
     };
@@ -54,7 +56,7 @@ describe('PoisOverpassService', () => {
 
       expect(receivedPois[0].id).toBe('myId');
       expect(receivedPois[0].name).toBe('myName');
-      expect(receivedPois[0].category).toBe('myCategory');
+      expect(receivedPois[0].categories).toEqual(['MyCategory']);
       expect(receivedPois[0].coordinates).toEqual(new LatLon(1.1, 2.2));
 
       expect(receivedPois[1].id).toBe('otherId');

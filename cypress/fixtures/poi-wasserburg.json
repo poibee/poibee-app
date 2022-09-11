@@ -11,15 +11,21 @@
   "name": "Akzent Hotel Zur Wasserburg",
   "website": "https://www.zur-wasserburg.de/",
   "tags": {
+    "addr:city": "Harpstedt",
     "addr:housenumber": "4",
     "addr:postcode": "27243",
     "addr:street": "Amtsfreiheit",
     "amenity": "restaurant",
+    "bar": "yes",
     "building": "yes",
+    "cafe": "yes",
     "cuisine": "german",
+    "email": "info@zur-wasserburg.de",
+    "fax":  "+49 4244 1009",
     "name": "Akzent Hotel Zur Wasserburg",
+    "opening_hours": "17:00+",
     "phone": "+49 4244 1008",
     "tourism": "hotel",
-    "website": "https://www.zur-wasserburg.de/"
+    "website": "https://www.zur-wasserburg.de"
   }
 }
