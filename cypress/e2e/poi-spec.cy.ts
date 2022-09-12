@@ -2,9 +2,9 @@ describe('POI detail page', () => {
 
   beforeEach(() => {
     cy.viewport('iphone-x')
-    cy.intercept('GET', '/pois/way12345678', { fixture: 'poi-wasserburg.json' }).as('poi-wasserburg');
-    cy.intercept('GET', '/pois/node1628573037', { fixture: 'poi-information.json' }).as('poi-information');
-    cy.intercept('GET', '/pois/way45666704', { fixture: 'poi-christuskirche.json' }).as('poi-christuskirche');
+    cy.intercept('GET', '/pois/way12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
+    cy.intercept('GET', '/pois/node1628573037', {fixture: 'poi-information.json'}).as('poi-information');
+    cy.intercept('GET', '/pois/way45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
   });
 
   describe('shows poi details of a poi', () => {
@@ -99,6 +99,21 @@ describe('POI detail page', () => {
       cy.get('[data-cy=chipGoogleLocation] a').invoke('attr', 'href').should('eq', 'https://www.google.de/maps/@52.9080359,8.5877197,18z')
       cy.get('[data-cy=chipWikipedia]').should('not.exist')
       cy.get('[data-cy=chipWikidata]').should('not.exist')
+    });
+
+    it('with spinner and poi markers on map', () => {
+      cy.visit('/poi/way-12345678')
+      cy.url().should('include', '/poi/way-12345678')
+
+      cy.get('[data-cy=divPoiMap]').should('exist')
+
+      cy.get('[data-cy=divPoiMap] ion-spinner').should('exist')
+      cy.get('[data-cy=divPoiMap] ion-spinner').should('not.exist')
+
+      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').should('exist')
+      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').should('have.length', 1)
+      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.class', 'leaflet-marker-icon')
+      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/marker/marker-icon.png')
     });
   });
 

@@ -148,32 +148,9 @@
   </ion-card>
 
   <ion-card>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <div #poiMapDiv class="map" data-cy="divPoiMap">
+      <ion-spinner color="primary" name="lines" *ngIf="showProgress"></ion-spinner>
+    </div>
   </ion-card>
 
 </ion-content>
