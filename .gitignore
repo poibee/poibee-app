@@ -19,6 +19,7 @@ npm-debug.log*
 
 /.angular
 /.idea
+*.iml
 /.ionic
 /.sass-cache
 /.sourcemaps
@@ -30,3 +31,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+/temp
+
+/src/assets/category

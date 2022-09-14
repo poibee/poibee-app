@@ -13,10 +13,10 @@
           <ion-col data-cy="columnCategories">
             <div class="ion-text-start">
               <ion-item *ngFor="let category of poi.categories">
-                <ion-chip>
-                  <ion-icon name="pin" color="primary"></ion-icon>
-                  <ion-label>{{ category }}</ion-label>
-                </ion-chip>
+                <ion-thumbnail>
+                  <img src="{{ 'assets/category/' + category.toLowerCase() + '.png'}}" alt="{{ category }}">
+                </ion-thumbnail>
+                <ion-label>{{ category }}</ion-label>
               </ion-item>
             </div>
           </ion-col>

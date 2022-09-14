@@ -19,18 +19,11 @@ describe('POI detail page', () => {
       cy.visit('/poi/way-12345678')
       cy.url().should('include', '/poi/way-12345678')
 
-      cy.get('[data-cy=columnCategories] ion-chip').should('have.length', 2)
-      cy.get('[data-cy=columnCategories] ion-chip').eq(0).should('have.text', 'Hotel')
-      cy.get('[data-cy=columnCategories] ion-chip').eq(1).should('have.text', 'Restaurant')
-    });
-
-    it('with categories', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
-
-      cy.get('[data-cy=columnCategories] ion-chip').should('have.length', 2)
-      cy.get('[data-cy=columnCategories] ion-chip').eq(0).should('have.text', 'Hotel')
-      cy.get('[data-cy=columnCategories] ion-chip').eq(1).should('have.text', 'Restaurant')
+      cy.get('[data-cy=columnCategories] ion-item').should('have.length', 2)
+      cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-label').should('have.text', 'Hotel')
+      cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/hotel.png')
+      cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-label').should('have.text', 'Restaurant')
+      cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/restaurant.png')
     });
 
     it('with specific attributes', () => {

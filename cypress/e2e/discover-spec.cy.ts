@@ -35,6 +35,15 @@ describe('Discover page', () => {
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=restaurant&distance=1000')
     });
 
+    it('shows poi details as line item', () => {
+      cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
+
+      cy.get('app-discover-list ion-list ion-item').first().as('christuskircheItem')
+      cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
+      cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
+      cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
+    });
+
     it('navigates to poi details after poi click', () => {
       cy.get('app-discover-list ion-list ion-item').eq(1).as('wasserburgItem')
       cy.get('@wasserburgItem').find('ion-label h3').click()
