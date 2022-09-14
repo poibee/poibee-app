@@ -5,6 +5,8 @@ COPY package*.json ./
 RUN npm install glob rimraf
 RUN npm install --only=development
 COPY . .
+RUN apk add curl
+RUN npm run download:icons
 RUN npm run build:prod
 
 FROM nginx:1.21-alpine

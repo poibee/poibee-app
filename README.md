@@ -20,7 +20,7 @@
 
 ## Docker
 ```npm run build:prod```
-```docker build -t poibee-app docker```
+```docker build -t poibee-app .```
 ```docker images```
 ```docker run -p 55560:80 -d --name my-poibee-app poibee-app```
 

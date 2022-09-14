@@ -4,6 +4,9 @@
 
 <ion-list>
   <ion-item *ngFor="let poi of pois" detail="false" (click)='navigateTo(poi)'>
+    <ion-thumbnail>
+      <img src="{{ 'assets/category/' + poi.categories[0].toLowerCase() + '.png'}}">
+    </ion-thumbnail>
     <ion-label>
       <h3>{{poi.categories[0]}}</h3>
       <p>{{poi.name}}</p>
