@@ -1,8 +1,12 @@
 # Poimania App
 
 ## Environment
-```nvm use --delete-prefix v16.16.0```
-```ionic``` ==> CLI 6.20.1
+```nvm use 16```
+```npm install --location=global @ionic/cli```
+
+```npm --version``` ==> 8.11.0
+```node --version``` ==> 16.16.0
+```ionic --version``` ==> 6.20.1
 
 ## Start Ionic local server
 ```ionic serve```

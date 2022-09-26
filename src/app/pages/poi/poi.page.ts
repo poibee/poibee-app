@@ -57,6 +57,7 @@ export class PoiPage implements OnInit {
 
     const poiMap = new Map(this.poiMapContainer.nativeElement, {
       doubleClickZoom: false,
+      scrollWheelZoom: false,
       center: mapCenter,
       zoom: 17,
       layers: [osmTileLayer, poiPositionLayer]
