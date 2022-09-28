@@ -60,6 +60,8 @@ describe('DiscoverListComponent', () => {
 
     fixture = TestBed.createComponent(DiscoverListComponent);
     component = fixture.componentInstance;
+    component.filterValue = '';
+
     fixture.detectChanges();
   }));
 
