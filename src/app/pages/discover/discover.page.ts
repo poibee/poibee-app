@@ -5,6 +5,8 @@ import {Poi} from "../../data/poi";
 import {Subscription} from "rxjs";
 import {NavController} from "@ionic/angular";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
+import {PoisFilterService} from "../../services/pois-filter.service";
+import {PoisSorterService} from "../../services/pois-sorter.service";
 
 @Component({
   selector: 'app-discover',
@@ -14,7 +16,9 @@ import {PoisOverpassService} from "../../services/pois-overpass.service";
 export class DiscoverPage implements OnInit {
 
   constructor(
-    private poisOverpassService: PoisOverpassService) {
+    private poisOverpassService: PoisOverpassService,
+    private poisFilterService: PoisFilterService,
+    private poisSorterService: PoisSorterService) {
   }
 
   pois: Poi[] = [];
@@ -51,26 +55,9 @@ export class DiscoverPage implements OnInit {
   }
 
   private updatePois() {
-    this.pois = this.sortedPois();
-  }
-
-  private sortedPois(): Poi[] {
-    const copiedPois: Poi[] = [];
-    this.allPois.forEach(poi => {
-      if (this.filterValue.length == 0 || (poi.name && poi.name.toLowerCase().includes(this.filterValue.toLowerCase()))) {
-        copiedPois.push(poi);
-      }
-    });
-    const compareCategory = (p1: Poi, p2: Poi) => ('' + p1.categories[0]).localeCompare(p2.categories[0]);
-    const compareName = (p1: Poi, p2: Poi) => ('' + p1.name).localeCompare(p2.name);
-    let compareMethod = compareCategory || compareName;
-    if (this.selectedSort === 'category') {
-      compareMethod = compareCategory || compareName;
-    } else if (this.selectedSort === 'name') {
-      compareMethod = compareName || compareCategory;
-    }
-    const sortedPois = copiedPois.sort(compareMethod);
-    return sortedPois;
+    const filteredPois = this.poisFilterService.filterPois(this.allPois, this.filterValue);
+    const sortedPois = this.poisSorterService.sortPois(filteredPois, this.selectedSort);
+    this.pois = sortedPois;
   }
 
 }
