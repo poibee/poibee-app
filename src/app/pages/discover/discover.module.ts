@@ -8,6 +8,7 @@ import {DiscoverPageRoutingModule} from './discover-routing.module';
 
 import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
 import {DiscoverPage} from './discover.page';
+import {DiscoverFilterComponent} from "./components/discover-filter/discover-filter.component";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {DiscoverPage} from './discover.page';
     DiscoverPageRoutingModule
   ],
   declarations: [
+    DiscoverFilterComponent,
     DiscoverListComponent,
     DiscoverPage
   ]
