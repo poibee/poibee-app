@@ -5,62 +5,35 @@ import {DiscoverListComponent} from './discover-list.component';
 import {of} from "rxjs";
 import {PoisOverpassService} from "../../../../services/pois-overpass.service";
 import {LatLon} from "../../../../data/lat-lon";
+import {Poi} from "../../../../data/poi";
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
   let fixture: ComponentFixture<DiscoverListComponent>;
 
-  let poisOverpassServiceMock;
-  let navCtrlMock;
+  const pois = [
+    new Poi('myId', 'myName', ['myCategory'], null, null, null, null, {}),
+    new Poi('otherId', 'otherName', ['otherCategory'], null, null, null, null, {}),
+  ];
 
-  beforeEach(() => {
-    poisOverpassServiceMock = {
-      searchPois: (position: LatLon, distance: number, category: string) => of([
-        {
-          id: 'myId',
-          name: 'myName',
-          categories: ['myCategory'],
-          coordinates: {
-            lat: 1.1,
-            lon: 2.2
-          },
-          tags: {}
-        }, {
-          id: 'otherId',
-          name: 'otherName',
-          categories: ['otherCategory'],
-          coordinates: {
-            lat: 1.12,
-            lon: 2.23
-          },
-          tags: {}
-        }
-      ])
-    };
-    spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
-
-    navCtrlMock = {
+  beforeEach(waitForAsync(() => {
+    const navCtrlMock = {
       navigateRoot: (url: string) => {}
     };
     spyOn(navCtrlMock, 'navigateRoot').and.callThrough();
 
     TestBed.configureTestingModule({
+      declarations: [DiscoverListComponent],
+      imports: [IonicModule.forRoot()],
       providers: [
         {provide: NavController, useValue: navCtrlMock},
-        {provide: PoisOverpassService, useValue: poisOverpassServiceMock}
       ]
-    });
-  });
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [DiscoverListComponent],
-      imports: [IonicModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DiscoverListComponent);
     component = fixture.componentInstance;
-    component.filterValue = '';
+
+    component.pois = pois;
 
     fixture.detectChanges();
   }));

@@ -6,28 +6,15 @@
     <ion-title>Meine POIs</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar>
-    <ion-buttons slot="primary">
-      <ion-button class="hide-label-md sortSelectionButton" fill="outline" shape="round">
-        <ion-icon name="filter-outline" size="small"></ion-icon>
-        <ion-select class="sortSelectionPanel" interface="popover" value="{{ selectedSort }}" (ionChange)="updateSortType($event)" data-cy="buttonSort">
-          <ion-select-option *ngFor="let sortType of sortTypes()" value="{{sortType[0]}}">{{sortType[1]}}</ion-select-option>
-        </ion-select>
-      </ion-button>
-
-      <ion-button class="hide-label-md sortSelectionButton" fill="outline" shape="round" color="primary">
-        <ion-icon slot="start" name="search"></ion-icon>
-        Suchen
-      </ion-button>
-    </ion-buttons>
-    <ion-searchbar placeholder="Filtere Ergebnisse" search-icon="funnel-outline" [(ngModel)]="filterValue" data-cy="searchbarFilter"></ion-searchbar>
-  </ion-toolbar>
+  <app-discover-filter
+    (selectedSortUpdated)="updateSelectedSort($event)"
+    (filterValueUpdated)="updateFilterValue($event)">
+  </app-discover-filter>
 </ion-header>
 
 <ion-content>
   <app-discover-list
-    [selectedSort]="selectedSort"
-    [filterValue]="filterValue"
+    [pois]="pois"
     data-cy="componentDiscoverList">
   </app-discover-list>
 </ion-content>
