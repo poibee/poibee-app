@@ -1,18 +1,19 @@
 <ion-toolbar>
   <ion-buttons slot="primary">
-    <ion-button class="hide-label-md sortSelectionButton" fill="outline" shape="round">
+    <ion-button [disabled]="searchActive" class="hide-label-md sortSelectionButton" fill="outline" shape="round">
       <ion-icon name="filter-outline" size="small"></ion-icon>
       <ion-select class="sortSelectionPanel" interface="popover" value="{{ selectedSort }}" (ionChange)="updateSelectedSort($event)" data-cy="buttonSort">
         <ion-select-option *ngFor="let sortType of sortTypes()" value="{{sortType[0]}}">{{sortType[1]}}</ion-select-option>
       </ion-select>
     </ion-button>
-
-    <ion-button class="hide-label-md sortSelectionButton" fill="outline" shape="round" color="primary">
-      <ion-icon slot="start" name="search"></ion-icon>
+    <ion-button (click)="openSearchDialog()" class="hide-label-md" fill="outline" shape="round" color="primary">
+      <ion-spinner color="primary" name="lines" *ngIf="searchActive"></ion-spinner>
+      <ion-icon slot="start" name="search" *ngIf="!searchActive"></ion-icon>
       Suchen
     </ion-button>
   </ion-buttons>
   <ion-searchbar
+    [disabled]="searchActive"
     placeholder="Filtere Ergebnisse"
     search-icon="funnel-outline"
     (ionInput)="updateFilterValue($event)"

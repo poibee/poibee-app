@@ -7,8 +7,11 @@
   </ion-toolbar>
 
   <app-discover-filter
+    [searchAttributes]="searchAttributes"
+    [searchActive]="searchActive"
     (selectedSortUpdated)="updateSelectedSort($event)"
-    (filterValueUpdated)="updateFilterValue($event)">
+    (filterValueUpdated)="updateFilterValue($event)"
+    (searchUpdated)="executeSearch($event)">
   </app-discover-filter>
 </ion-header>
 
