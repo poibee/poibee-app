@@ -1,17 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-// TODO import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import {
-  Control,
-  control,
-  ErrorEvent,
-  LatLng,
-  LatLngExpression,
-  LayerGroup,
-  LocationEvent,
-  Map,
-  Marker,
-  TileLayer
-} from "leaflet";
+import {Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, TileLayer} from "leaflet";
+import {Geocoder} from "leaflet-control-geocoder";
+
 import {ImageService} from "../../../../services/image.service";
 import {ToastController} from "@ionic/angular";
 import {PoimaniaLeafletControl} from "./poimania-leaflet.control";
@@ -84,15 +74,12 @@ export class MyPositionMapComponent implements OnInit {
     this.myPositionLayer.addLayer(this.myPositionMarker);
 
     const updateMyPositionAndFlyToItLocal = (pos) => this.updateMyPositionAndFlyToIt(pos);
-    const myPositionMapLocal = this.myPositionMap;
-    // TODO
-    /*
-    (L.Control as any).geocoder({
+    new Geocoder({
       defaultMarkGeocode: false
-    }).on('markgeocode', function(e) {
-      updateMyPositionAndFlyToItLocal([e.geocode.center.lat, e.geocode.center.lng]);
-    }).addTo(myPositionMapLocal);
-*/
+    }).on('markgeocode', function (e) {
+      updateMyPositionAndFlyToItLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
+    }).addTo(this.myPositionMap);
+
     const myPositionLocateLocal = () => this.myPositionLocate();
     new PoimaniaLeafletControl('Standort lokalisieren', 'svg/aperture-sharp.svg', myPositionLocateLocal, {position: 'topright'}).addTo(this.myPositionMap);
 
@@ -119,9 +106,7 @@ export class MyPositionMapComponent implements OnInit {
 
   private myPositionFromMapCenter() {
     const center: LatLng = this.myPositionMap.getCenter();
-    this.updateMyPositionAndFlyToIt(new LatLon(
-
-      center.lat, center.lng));
+    this.updateMyPositionAndFlyToIt(new LatLon(center.lat, center.lng));
   }
 
   private updateMyPositionAndFlyToIt(myPosition: LatLon) {

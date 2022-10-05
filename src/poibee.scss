@@ -1,0 +1,8 @@
+// Leaflet search field has a transparent color
+.leaflet-control-geocoder {
+  .leaflet-control-geocoder-form {
+    input {
+      color: black;
+    }
+  }
+}
