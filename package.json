@@ -34,6 +34,7 @@
     "@capacitor/status-bar": "1.0.8",
     "@ionic/angular": "^6.1.9",
     "leaflet": "^1.7.1",
+    "leaflet-control-geocoder": "^2.4.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
