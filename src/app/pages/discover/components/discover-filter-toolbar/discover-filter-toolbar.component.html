@@ -6,11 +6,6 @@
         <ion-select-option *ngFor="let sortType of sortTypes()" value="{{sortType[0]}}">{{sortType[1]}}</ion-select-option>
       </ion-select>
     </ion-button>
-    <ion-button (click)="openSearchDialog()" class="hide-label-md" fill="outline" shape="round" color="primary">
-      <ion-spinner color="primary" name="lines" *ngIf="searchActive"></ion-spinner>
-      <ion-icon slot="start" name="search" *ngIf="!searchActive"></ion-icon>
-      Suchen
-    </ion-button>
   </ion-buttons>
   <ion-searchbar
     [disabled]="searchActive"

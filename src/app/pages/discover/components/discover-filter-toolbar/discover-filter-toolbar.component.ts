@@ -6,19 +6,17 @@ import {SearchAttributes} from "../../../../data/search-attributes";
 import {LatLon} from "../../../../data/lat-lon";
 
 @Component({
-  selector: 'app-discover-filter',
-  templateUrl: './discover-filter.component.html',
-  styleUrls: ['./discover-filter.component.scss'],
+  selector: 'app-discover-filter-toolbar',
+  templateUrl: './discover-filter-toolbar.component.html',
+  styleUrls: ['./discover-filter-toolbar.component.scss'],
 })
-export class DiscoverFilterComponent implements OnInit {
+export class DiscoverFilterToolbarComponent implements OnInit {
 
   selectedSort: string = sortTypesAsArray()[0][0];
-  @Input() searchAttributes: SearchAttributes;
   @Input() searchActive: boolean = false;
 
   @Output() selectedSortUpdated = new EventEmitter<string>();
   @Output() filterValueUpdated = new EventEmitter<string>();
-  @Output() searchUpdated = new EventEmitter<SearchAttributes>();
 
   constructor(
     private modalController: ModalController
@@ -40,24 +38,6 @@ export class DiscoverFilterComponent implements OnInit {
   updateFilterValue(event: any) {
     const value = event.target.value;
     this.filterValueUpdated.emit(value);
-  }
-
-  async openSearchDialog() {
-    const modal = await this.modalController.create({
-      component: DiscoverSearchModalComponent,
-      cssClass: 'search-modal',
-      animated: true,
-      backdropDismiss: true,
-      componentProps: {
-        searchAttributes: this.searchAttributes
-      }
-    });
-    modal.present();
-
-    const {data} = await modal.onWillDismiss();
-    if (data) {
-      this.searchUpdated.emit(data);
-    }
   }
 
 }

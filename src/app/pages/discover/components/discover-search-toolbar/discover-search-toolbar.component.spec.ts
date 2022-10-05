@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DiscoverFilterComponent } from './discover-filter.component';
+import { DiscoverSearchToolbarComponent } from './discover-search-toolbar.component';
 
-describe('DiscoverFilterComponent', () => {
-  let component: DiscoverFilterComponent;
-  let fixture: ComponentFixture<DiscoverFilterComponent>;
+describe('DiscoverSearchToolbarComponent', () => {
+  let component: DiscoverSearchToolbarComponent;
+  let fixture: ComponentFixture<DiscoverSearchToolbarComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiscoverFilterComponent ],
+      declarations: [ DiscoverSearchToolbarComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DiscoverFilterComponent);
+    fixture = TestBed.createComponent(DiscoverSearchToolbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
