@@ -22,11 +22,12 @@ export class DiscoverPage implements OnInit {
 
   searchActive = false;
   searchAttributes: SearchAttributes = INITIAL_SEARCH_ATTRIBUTES;
-  pois: Poi[] = [];
+
+  allPois: Poi[] = [];
+  filteredPois: Poi[] = [];
 
   private selectedSort: string = sortTypesAsArray()[0][0];
   private filterValue: string = '';
-  private allPois: Poi[] = [];
 
   private subscription: Subscription;
 
@@ -70,6 +71,6 @@ export class DiscoverPage implements OnInit {
   private updatePois() {
     const filteredPois = this.poisFilterService.filterPois(this.allPois, this.filterValue);
     const sortedPois = this.poisSorterService.sortPois(filteredPois, this.selectedSort);
-    this.pois = sortedPois;
+    this.filteredPois = sortedPois;
   }
 }

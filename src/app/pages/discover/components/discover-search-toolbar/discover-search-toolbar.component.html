@@ -1,0 +1,13 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-title>Gefundene POIs: <i>{{ numberOfFilterResults }}</i> mit Filter, <i>{{ numberOfSearchResults }}</i> insgesamt</ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="openSearchDialog()" class="hide-label-md" fill="outline" shape="round" color="light">
+      <ion-spinner slot="start" name="lines" *ngIf="searchActive"></ion-spinner>
+      <ion-icon slot="start" name="search" *ngIf="!searchActive"></ion-icon>
+      Suchen
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

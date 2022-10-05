@@ -36,13 +36,13 @@ describe('DiscoverPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
 
-    expect(component.pois.length).toBe(2);
+    expect(component.filteredPois.length).toBe(2);
 
-    expect(component.pois[0].id).toBe('myId');
-    expect(component.pois[0].name).toBe('myName');
-    expect(component.pois[0].categories).toEqual(['myCategory']);
-    expect(component.pois[0].coordinates).toEqual(new LatLon(1.1, 2.2));
+    expect(component.filteredPois[0].id).toBe('myId');
+    expect(component.filteredPois[0].name).toBe('myName');
+    expect(component.filteredPois[0].categories).toEqual(['myCategory']);
+    expect(component.filteredPois[0].coordinates).toEqual(new LatLon(1.1, 2.2));
 
-    expect(component.pois[1].id).toBe('otherId');
+    expect(component.filteredPois[1].id).toBe('otherId');
   });
 });

@@ -8,7 +8,8 @@ import {DiscoverPageRoutingModule} from './discover-routing.module';
 
 import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
 import {DiscoverPage} from './discover.page';
-import {DiscoverFilterComponent} from "./components/discover-filter/discover-filter.component";
+import {DiscoverFilterToolbarComponent} from "./components/discover-filter-toolbar/discover-filter-toolbar.component";
+import {DiscoverSearchToolbarComponent} from "./components/discover-search-toolbar/discover-search-toolbar.component";
 import {DiscoverSearchModalComponent} from "./components/discover-search-modal/discover-search-modal.component";
 import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
 
@@ -21,9 +22,10 @@ import {MyPositionMapComponent} from "./components/my-position-map/my-position-m
     DiscoverPageRoutingModule
   ],
   declarations: [
-    DiscoverFilterComponent,
+    DiscoverFilterToolbarComponent,
     DiscoverListComponent,
     DiscoverSearchModalComponent,
+    DiscoverSearchToolbarComponent,
     MyPositionMapComponent,
     DiscoverPage
   ]
