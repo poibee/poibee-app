@@ -1,12 +1,11 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {sortTypesAsArray} from "../../data/sort-types";
-import {LatLon} from "../../data/lat-lon";
 import {Poi} from "../../data/poi";
 import {Subscription} from "rxjs";
-import {NavController} from "@ionic/angular";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {PoisFilterService} from "../../services/pois-filter.service";
 import {PoisSorterService} from "../../services/pois-sorter.service";
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
 
 @Component({
   selector: 'app-discover',
@@ -21,6 +20,8 @@ export class DiscoverPage implements OnInit {
     private poisSorterService: PoisSorterService) {
   }
 
+  searchActive = false;
+  searchAttributes: SearchAttributes = INITIAL_SEARCH_ATTRIBUTES;
   pois: Poi[] = [];
 
   private selectedSort: string = sortTypesAsArray()[0][0];
@@ -30,14 +31,7 @@ export class DiscoverPage implements OnInit {
   private subscription: Subscription;
 
   ngOnInit() {
-    const lat = 52.908;
-    const lon = 8.588;
-    const distance = 1000;
-    const category = 'restaurant';
-    this.subscription = this.poisOverpassService.searchPois(new LatLon(lat, lon), distance, category).subscribe(pois => {
-      this.allPois = pois;
-      this.updatePois();
-    });
+    // this.reloadPois(this.searchAttributes);
   }
 
   ngOnDestroy(): void {
@@ -54,10 +48,28 @@ export class DiscoverPage implements OnInit {
     this.updatePois();
   }
 
+  executeSearch(value: SearchAttributes) {
+    this.searchAttributes = value;
+    this.reloadPois(value);
+  }
+
+  private reloadPois(attr: SearchAttributes) {
+    this.searchActive = true;
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category).subscribe(pois => {
+      this.allPois = pois;
+      this.updatePois();
+      this.searchActive = false;
+    });
+  }
+
   private updatePois() {
     const filteredPois = this.poisFilterService.filterPois(this.allPois, this.filterValue);
     const sortedPois = this.poisSorterService.sortPois(filteredPois, this.selectedSort);
     this.pois = sortedPois;
   }
-
 }

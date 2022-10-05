@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-title>POIs suchen</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="end" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="disc-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Maximale Entfernung</ion-label>
+        <ion-select interface="popover" value="{{ selectedDistance }}" (ionChange)="updateSearchDistance($event)" data-cy="buttonDistance">
+          <ion-select-option *ngFor="let distance of distanceArray" value="{{distance.asMeter()}}">{{ distance.asString() }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="bookmark-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Kategorie</ion-label>
+        <ion-button (click)="openCategoryModal()" class="categorySelection" data-cy="buttonCategory" fill="outline" shape="round" size="small">
+          <ion-thumbnail slot="start">
+            <img src="{{ 'assets/category/' + selectedCategory.toLowerCase() + '.png'}}">
+          </ion-thumbnail>
+          <ion-label class="ion-hide-sm-down ion-text-capitalize">
+            {{ selectedCategory }}
+          </ion-label>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <div slot="end">
+          <ion-button *ngFor="let category of categoryArray" (click)="selectCategory(category)" class="categorySelection" data-cy="buttonCategory" color="medium"  fill="outline" shape="round" size="small">
+            <ion-thumbnail slot="start">
+              <img src="{{ 'assets/category/' + category.toLowerCase() + '.png'}}">
+            </ion-thumbnail>
+          </ion-button>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>Meine Position auswählen</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-my-position-map [myPosition]="selectedPosition" (onUpdateMyPosition)="updateSearchPosition($event)"></app-my-position-map>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="hide-label-md" slot="end" fill="outline" shape="round" color="primary" (click)="startSearch()">
+      <ion-icon slot="start" name="search"></ion-icon>
+      Suche ausführen
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

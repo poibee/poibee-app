@@ -9,6 +9,8 @@ import {DiscoverPageRoutingModule} from './discover-routing.module';
 import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
 import {DiscoverPage} from './discover.page';
 import {DiscoverFilterComponent} from "./components/discover-filter/discover-filter.component";
+import {DiscoverSearchModalComponent} from "./components/discover-search-modal/discover-search-modal.component";
+import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import {DiscoverFilterComponent} from "./components/discover-filter/discover-fil
   declarations: [
     DiscoverFilterComponent,
     DiscoverListComponent,
+    DiscoverSearchModalComponent,
+    MyPositionMapComponent,
     DiscoverPage
   ]
 })
