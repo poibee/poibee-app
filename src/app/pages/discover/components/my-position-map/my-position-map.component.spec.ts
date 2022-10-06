@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MyPositionMapComponent } from './discover-map.component';
+import { MyPositionMapComponent } from './my-position-map.component';
+import {Input} from "@angular/core";
+import {LatLon} from "../../../../data/lat-lon";
 
 describe('DiscoverMapComponent', () => {
   let component: MyPositionMapComponent;
@@ -15,6 +17,9 @@ describe('DiscoverMapComponent', () => {
 
     fixture = TestBed.createComponent(MyPositionMapComponent);
     component = fixture.componentInstance;
+
+    component.myPosition = new LatLon(1,2);
+
     fixture.detectChanges();
   }));
 

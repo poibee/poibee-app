@@ -25,12 +25,9 @@ export class DiscoverSearchModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("xxxx: " + JSON.stringify( this.searchAttributes ));
     this.selectedPosition = this.searchAttributes.position;
     this.selectedDistance = this.searchAttributes.distance;
     this.selectedCategory = this.searchAttributes.category;
-
-    console.log("yyyyy: " + JSON.stringify( this.searchAttributes ));
   }
 
   updateSearchCategory(event: any) {

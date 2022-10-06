@@ -32,11 +32,13 @@ export class DiscoverPage implements OnInit {
   private subscription: Subscription;
 
   ngOnInit() {
-    // this.reloadPois(this.searchAttributes);
+    this.reloadPois(this.searchAttributes);
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   updateSelectedSort(value: any) {

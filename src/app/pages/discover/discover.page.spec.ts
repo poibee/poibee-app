@@ -5,6 +5,17 @@ import {of} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {LatLon} from "../../data/lat-lon";
 import {Poi} from "../../data/poi";
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {DiscoverPageRoutingModule} from "./discover-routing.module";
+import {DiscoverFilterToolbarComponent} from "./components/discover-filter-toolbar/discover-filter-toolbar.component";
+import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
+import {DiscoverSearchModalComponent} from "./components/discover-search-modal/discover-search-modal.component";
+import {DiscoverSearchToolbarComponent} from "./components/discover-search-toolbar/discover-search-toolbar.component";
+import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
+import {DiscoverPageModule} from "./discover.module";
+import {AppModule} from "../../app.module";
 
 describe('DiscoverPage', () => {
   let component: DiscoverPage;
@@ -21,7 +32,6 @@ describe('DiscoverPage', () => {
     spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
 
     TestBed.configureTestingModule({
-      declarations: [DiscoverPage],
       imports: [IonicModule.forRoot()],
       providers: [
         {provide: PoisOverpassService, useValue: poisOverpassServiceMock}
