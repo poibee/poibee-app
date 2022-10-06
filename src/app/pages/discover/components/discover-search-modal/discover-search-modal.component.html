@@ -51,7 +51,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-my-position-map [myPosition]="selectedPosition" (onUpdateMyPosition)="updateSearchPosition($event)"></app-my-position-map>
+  <app-my-position-map
+    [searchDistance]="selectedDistance"
+    [myPosition]="selectedPosition"
+    (onUpdateMyPosition)="updateSearchPosition($event)">
+  </app-my-position-map>
 </ion-content>
 
 <ion-footer>
