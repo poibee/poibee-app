@@ -33,7 +33,7 @@ describe('DiscoverListComponent', () => {
     fixture = TestBed.createComponent(DiscoverListComponent);
     component = fixture.componentInstance;
 
-    component.filteredPois = pois;
+    component.pois = pois;
 
     fixture.detectChanges();
   }));

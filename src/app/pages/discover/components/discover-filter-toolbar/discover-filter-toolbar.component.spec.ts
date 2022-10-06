@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DiscoverFilterToolbarComponent } from './discover-filter-toolbar-toolbar.component';
+import { DiscoverFilterToolbarComponent } from './discover-filter-toolbar.component';
 
 describe('DiscoverFilterToolbarComponent', () => {
   let component: DiscoverFilterToolbarComponent;
