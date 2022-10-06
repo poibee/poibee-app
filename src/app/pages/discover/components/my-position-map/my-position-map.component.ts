@@ -1,11 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, TileLayer} from "leaflet";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Circle, Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, TileLayer} from "leaflet";
 import {Geocoder} from "leaflet-control-geocoder";
 
 import {ImageService} from "../../../../services/image.service";
 import {ToastController} from "@ionic/angular";
 import {PoimaniaLeafletControl} from "./poimania-leaflet.control";
 import {LatLon} from "../../../../data/lat-lon";
+import {SearchDistance} from "../../../../data/search-distance";
 
 const osmAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -15,7 +16,7 @@ const MAP_ZOOM = 13;
   templateUrl: './my-position-map.component.html',
   styleUrls: ['./my-position-map.component.scss'],
 })
-export class MyPositionMapComponent implements OnInit {
+export class MyPositionMapComponent implements OnInit, OnChanges {
 
   // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
   @ViewChild('myPositionMap') myPositionMapContainer;
@@ -24,7 +25,9 @@ export class MyPositionMapComponent implements OnInit {
   private myPositionMap: Map;
   private myPositionLayer: LayerGroup;
   private myPositionMarker: Marker;
+  private searchDistanceLayer: LayerGroup;
 
+  @Input() searchDistance;
   @Input() myPosition: LatLon;
   @Output() onUpdateMyPosition = new EventEmitter<LatLon>();
 
@@ -42,8 +45,13 @@ export class MyPositionMapComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.updateSearchDistance();
+  }
+
   private constructMap() {
     this.myPositionLayer = new LayerGroup();
+    this.searchDistanceLayer = new LayerGroup();
     const osmTileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19
     });
@@ -55,7 +63,7 @@ export class MyPositionMapComponent implements OnInit {
       doubleClickZoom: false,
       center: mapCenterAsLeaflet,
       zoom: MAP_ZOOM,
-      layers: [osmTileLayer, this.myPositionLayer]
+      layers: [osmTileLayer, this.myPositionLayer, this.searchDistanceLayer]
     });
     new Control.Zoom({position: 'topleft'}).addTo(this.myPositionMap);
     new Control.Attribution({position: 'bottomleft'}).addTo(this.myPositionMap);
@@ -85,6 +93,11 @@ export class MyPositionMapComponent implements OnInit {
 
     const myPositionFromMapCenterLocal = () => this.myPositionFromMapCenter();
     new PoimaniaLeafletControl('Kartenmitte als Standort', 'svg/contract-outline.svg', myPositionFromMapCenterLocal, {position: 'topright'}).addTo(this.myPositionMap);
+
+    const zoomToSearchDistanceLocal = () => this.zoomToSearchDistance();
+    new PoimaniaLeafletControl('Kartenmitte als Standort', 'svg/disc-sharp.svg', zoomToSearchDistanceLocal, {position: 'topleft'}).addTo(this.myPositionMap);
+
+    this.updateSearchDistance();
   }
 
   private myPositionLocate() {
@@ -109,12 +122,30 @@ export class MyPositionMapComponent implements OnInit {
     this.updateMyPositionAndFlyToIt(new LatLon(center.lat, center.lng));
   }
 
+  private zoomToSearchDistance() {
+    const zoomLevel = SearchDistance.kmAsZoomLevel(this.searchDistance);
+    return this.myPositionMap.setZoom(zoomLevel);
+  }
+
   private updateMyPositionAndFlyToIt(myPosition: LatLon) {
     if (myPosition.lat != this.myPosition.lat || myPosition.lon != this.myPosition.lon) {
       this.myPosition = myPosition;
       this.myPositionMarker.setLatLng(myPosition.asLatLng());
       this.myPositionMap.flyTo(this.myPosition.asLatLng(), this.myPositionMap.getZoom());
+      this.updateSearchDistance();
       this.onUpdateMyPosition.emit(this.myPosition);
+    }
+  }
+
+  private updateSearchDistance() {
+    if (this.searchDistanceLayer) {
+      this.searchDistanceLayer.clearLayers();
+      new Circle(this.myPosition.asLatLng(),  {
+        radius: this.searchDistance,
+        color: '#ff7777',
+        weight: 1
+      }).addTo(this.searchDistanceLayer);
+      this.zoomToSearchDistance();
     }
   }
 
