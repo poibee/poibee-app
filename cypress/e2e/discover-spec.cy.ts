@@ -32,7 +32,7 @@ describe('Discover page', () => {
 
       cy.get('@search-pois')
         .its('request.url')
-        .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=restaurant&distance=1000')
+        .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=all&distance=250')
     });
 
     it('shows poi details as line item', () => {

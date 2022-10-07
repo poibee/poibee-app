@@ -63,7 +63,7 @@ export class DiscoverPage implements OnInit {
       this.subscription.unsubscribe();
     }
 
-    this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category).subscribe(pois => {
+    this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category.key).subscribe(pois => {
       this.allPois = pois;
       this.updatePois();
       this.searchActive = false;

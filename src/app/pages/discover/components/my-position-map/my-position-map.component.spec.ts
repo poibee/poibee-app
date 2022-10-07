@@ -5,7 +5,7 @@ import { MyPositionMapComponent } from './my-position-map.component';
 import {Input} from "@angular/core";
 import {LatLon} from "../../../../data/lat-lon";
 
-describe('DiscoverMapComponent', () => {
+describe('MyPositionMapComponent', () => {
   let component: MyPositionMapComponent;
   let fixture: ComponentFixture<MyPositionMapComponent>;
 
@@ -19,6 +19,7 @@ describe('DiscoverMapComponent', () => {
     component = fixture.componentInstance;
 
     component.myPosition = new LatLon(1,2);
+    component.searchDistance = 100;
 
     fixture.detectChanges();
   }));

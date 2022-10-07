@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-thumbnail slot="start">
+      <img src="{{selectedCategory.image()}}">
+    </ion-thumbnail>
+    <ion-title slot="start">{{selectedCategory.label}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="end" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-radio-group value="{{selectedCategory.key}}">
+      <ion-item-group *ngFor="let mainCategory of allCategories">
+        <app-category-modal-main-item
+          [mainCategory]="mainCategory"
+          [selectedCategory]="selectedCategory"
+          (selectedCategoryUpdated)="updateSelectedCategory($event)">
+        </app-category-modal-main-item>
+      </ion-item-group>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="hide-label-md" slot="end" fill="outline" shape="round" color="primary" (click)="selectCategory()">
+      <ion-icon slot="start" name="search"></ion-icon>
+      Kategorie auswählen
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
