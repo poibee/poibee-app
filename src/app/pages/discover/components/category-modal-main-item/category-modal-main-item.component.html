@@ -1,0 +1,22 @@
+<ion-item (click)='updateSelectedCategory(mainCategory)' class='main-item'>
+  <ion-radio slot="start" value="{{mainCategory.key}}">{{mainCategory.key}}</ion-radio>
+  <ion-thumbnail>
+    <img src="{{mainCategory.image()}}">
+  </ion-thumbnail>
+  <ion-label>{{mainCategory.label}}</ion-label>
+</ion-item>
+<ion-grid *ngIf="mainCategorySelected" >
+  <ion-row>
+    <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2" *ngFor="let subCategory of sorted(mainCategory.children)" (click)='updateSelectedCategory(subCategory)'>
+      <ion-item class='sub-item' detailIcon='chevron-forward'>
+        <ion-radio slot="start" value="{{subCategory.key}}">{{subCategory.key}}</ion-radio>
+        <ion-thumbnail>
+          <img src="{{subCategory.image()}}">
+        </ion-thumbnail>
+        <ion-label>
+          <h3>{{subCategory.label}}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -1,8 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {Distance, SearchDistance} from "../../../../data/search-distance";
+import {SearchDistance} from "../../../../data/search-distance";
 import {LatLon} from "../../../../data/lat-lon";
 import {SearchAttributes} from "../../../../data/search-attributes";
+import {CategoryModalComponent} from "../category-modal/category-modal.component";
+import {CategoryEntry} from "../../../../data/category-entry";
+import {CategoryService} from "../../../../services/category.service";
 
 @Component({
   selector: 'app-discover-search-modal',
@@ -14,17 +17,19 @@ export class DiscoverSearchModalComponent implements OnInit {
   @Input() searchAttributes: SearchAttributes;
 
   public distanceArray = SearchDistance.ALL;
-  public categoryArray = ['attraction', 'bakery', 'bench', 'cinema', 'fuel', 'playground', 'restaurant', 'zoo', 'all'];
+  public favoriteCategoryArray: CategoryEntry[];
 
   public selectedPosition: LatLon;
   public selectedDistance: number;
-  public selectedCategory: string;
+  public selectedCategory: CategoryEntry;
 
   constructor(
+    private categoryService: CategoryService,
     private modalController: ModalController) {
   }
 
   ngOnInit() {
+    this.favoriteCategoryArray = this.categoryService.favoriteCategories();
     this.selectedPosition = this.searchAttributes.position;
     this.selectedDistance = this.searchAttributes.distance;
     this.selectedCategory = this.searchAttributes.category;
@@ -44,7 +49,7 @@ export class DiscoverSearchModalComponent implements OnInit {
     this.selectedDistance = distance;
   }
 
-  selectCategory(value: any) {
+  selectCategory(value: CategoryEntry) {
     this.selectedCategory = value;
   }
 
@@ -55,11 +60,24 @@ export class DiscoverSearchModalComponent implements OnInit {
   }
 
   cancel() {
-    return this.modalController.dismiss();
+    this.modalController.dismiss();
   }
 
-  openCategoryModal() {
-    alert("Selected Category: " + this.selectedCategory)
-  }
+  async openCategoryModal() {
+    const modal = await this.modalController.create({
+      component: CategoryModalComponent,
+      cssClass: 'category-modal',
+      animated: true,
+      backdropDismiss: true,
+      componentProps: {
+        selectedCategory: this.selectedCategory
+      }
+    });
+    modal.present();
 
+    const {data}: {data?: CategoryEntry} = await modal.onWillDismiss();
+    if (data) {
+      this.selectedCategory = data;
+    }
+  }
 }

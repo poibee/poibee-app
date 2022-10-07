@@ -24,19 +24,20 @@
         <ion-label>Kategorie</ion-label>
         <ion-button (click)="openCategoryModal()" class="categorySelection" data-cy="buttonCategory" fill="outline" shape="round" size="small">
           <ion-thumbnail slot="start">
-            <img src="{{ 'assets/category/' + selectedCategory.toLowerCase() + '.png'}}">
+            <img src="{{ selectedCategory.image() }}">
           </ion-thumbnail>
           <ion-label class="ion-hide-sm-down ion-text-capitalize">
-            {{ selectedCategory }}
+            {{ selectedCategory.label }}
           </ion-label>
+          <ion-icon slot="end" name="caret-down-outline"></ion-icon>
         </ion-button>
       </ion-item>
 
       <ion-item>
         <div slot="end">
-          <ion-button *ngFor="let category of categoryArray" (click)="selectCategory(category)" class="categorySelection" data-cy="buttonCategory" color="medium"  fill="outline" shape="round" size="small">
+          <ion-button *ngFor="let category of favoriteCategoryArray" (click)="selectCategory(category)" class="categorySelection" data-cy="buttonCategory" color="medium"  fill="outline" shape="round" size="small">
             <ion-thumbnail slot="start">
-              <img src="{{ 'assets/category/' + category.toLowerCase() + '.png'}}">
+              <img src="{{ category.image() }}">
             </ion-thumbnail>
           </ion-button>
         </div>

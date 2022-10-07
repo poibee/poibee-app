@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import {Component, Input} from "@angular/core";
 
 import { DiscoverSearchModalComponent } from './discover-search-modal.component';
 import {SearchAttributes} from "../../../../data/search-attributes";
 import {LatLon} from "../../../../data/lat-lon";
-import {Component, Input} from "@angular/core";
+import {CategoryEntry} from "../../../../data/category-entry";
 
 describe('DiscoverSearchModalComponent', () => {
   let component: DiscoverSearchModalComponent;
@@ -16,6 +17,7 @@ describe('DiscoverSearchModalComponent', () => {
   })
   class TestMyPositionMapComponent {
     @Input() myPosition: LatLon;
+    @Input() searchDistance;
   }
 
   beforeEach(waitForAsync(() => {
@@ -30,7 +32,7 @@ describe('DiscoverSearchModalComponent', () => {
     fixture = TestBed.createComponent(DiscoverSearchModalComponent);
     component = fixture.componentInstance;
 
-    component.searchAttributes = new SearchAttributes(new LatLon(1,2), 100, 'bench');
+    component.searchAttributes = new SearchAttributes(new LatLon(1,2), 100, new CategoryEntry('bench', 'bench', []));
 
     fixture.detectChanges();
   }));
