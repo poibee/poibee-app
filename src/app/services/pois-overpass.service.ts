@@ -8,6 +8,7 @@ import {environment} from "../../environments/environment";
 import {Contact} from "../data/contact";
 import {References} from "../data/references";
 import {Attributes} from "../data/attributes";
+import {GeoService} from "./geo.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ import {Attributes} from "../data/attributes";
 export class PoisOverpassService {
 
   constructor(
+    private geoService: GeoService,
     private http: HttpClient) {
   }
 
@@ -29,7 +31,7 @@ export class PoisOverpassService {
     return this.http.get<PoiJson[]>(url, {params})
       .pipe(
         map(poisJsons =>
-          poisJsons.map(poiJson => PoisOverpassService.jsonToPoi(poiJson))
+          poisJsons.map(poiJson => this.jsonToPoi(poiJson, position))
         )
       );
   }
@@ -39,7 +41,7 @@ export class PoisOverpassService {
     const url = this.baseUrl() + '/pois/' + poiId;
     return this.http.get<PoiJson>(url)
       .pipe(
-        map(poiJson => PoisOverpassService.jsonToPoi(poiJson))
+        map(poiJson => this.jsonToPoi(poiJson))
       );
   }
 
@@ -47,9 +49,11 @@ export class PoisOverpassService {
     return environment.backendUrlOverpass;
   }
 
-  private static jsonToPoi(p: PoiJson): Poi {
+  private jsonToPoi(p: PoiJson, position?: LatLon): Poi {
     const categories = p.categories.map(c => this.capitalizeString(c) );
+
     const coordinates = new LatLon(p.coordinates.lat, p.coordinates.lon);
+    const distance = this.geoService.distanceToPositionInKm(position, coordinates);
 
     const cuisine = this.capitalizeString(p.tags['cuisine']);
     const openingHours = p.tags['opening_hours'];
@@ -84,17 +88,17 @@ export class PoisOverpassService {
 
     const references = new References(osmDatasetUrl, osmLocationUrl, googleLocationUrl, wikipediaUrl, wikidataUrl);
 
-    return new Poi(p.id, p.name, categories, coordinates, attributes, contact, references, {});
+    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {});
   }
 
-  private static calculateAddress(p: PoiJson) {
+  private calculateAddress(p: PoiJson) {
     const streetString = [p.tags['addr:street'], p.tags['addr:housenumber']].filter(p => p).join(" ");
     const cityString = [p.tags['addr:postcode'], p.tags['addr:city']].filter(p => p).join(" ");
     const addressString = [streetString, cityString].filter(p => p).join(", ");
     return addressString;
   }
 
-  private static capitalizeString(value: string) {
+  private capitalizeString(value: string) {
     return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
   }
 }
