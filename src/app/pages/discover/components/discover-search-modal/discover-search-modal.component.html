@@ -14,7 +14,7 @@
       <ion-item>
         <ion-icon name="disc-outline" slot="start" color="primary"></ion-icon>
         <ion-label>Maximale Entfernung</ion-label>
-        <ion-select interface="popover" value="{{ selectedDistance }}" (ionChange)="updateSearchDistance($event)" data-cy="buttonDistance">
+        <ion-select interface="popover" value="{{ selectedDistance }}" (ionChange)="updateSearchDistance($event)" data-cy="selectDistance">
           <ion-select-option *ngFor="let distance of distanceArray" value="{{distance.asMeter()}}">{{ distance.asString() }}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -22,18 +22,16 @@
       <ion-item>
         <ion-icon name="bookmark-outline" slot="start" color="primary"></ion-icon>
         <ion-label>Kategorie</ion-label>
-        <ion-button (click)="openCategoryModal()" class="categorySelection" data-cy="buttonCategory" fill="outline" shape="round" size="small">
+        <ion-button (click)="openCategoryModal()" class="categorySelection" data-cy="buttonCategoryModal" fill="outline" shape="round" size="small">
           <ion-thumbnail slot="start">
             <img src="{{ selectedCategory.image() }}">
           </ion-thumbnail>
-          <ion-label class="ion-hide-sm-down ion-text-capitalize">
-            {{ selectedCategory.label }}
-          </ion-label>
+          <ion-label class="ion-hide-sm-down ion-text-capitalize">{{ selectedCategory.label }}</ion-label>
           <ion-icon slot="end" name="caret-down-outline"></ion-icon>
         </ion-button>
       </ion-item>
 
-      <ion-item>
+      <ion-item data-cy="itemFavoriteCategory">
         <div slot="end">
           <ion-button *ngFor="let category of favoriteCategoryArray" (click)="selectCategory(category)" class="categorySelection" data-cy="buttonCategory" color="medium"  fill="outline" shape="round" size="small">
             <ion-thumbnail slot="start">
@@ -55,13 +53,14 @@
   <app-my-position-map
     [searchDistance]="selectedDistance"
     [myPosition]="selectedPosition"
-    (onUpdateMyPosition)="updateSearchPosition($event)">
+    (onUpdateMyPosition)="updateSearchPosition($event)"
+    data-cy="componentMyPositionMap">
   </app-my-position-map>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="hide-label-md" slot="end" fill="outline" shape="round" color="primary" (click)="startSearch()">
+    <ion-button class="hide-label-md" slot="end" fill="outline" shape="round" color="primary" (click)="startSearch()" data-cy=buttonStartSearch>
       <ion-icon slot="start" name="search"></ion-icon>
       Suche ausführen
     </ion-button>
