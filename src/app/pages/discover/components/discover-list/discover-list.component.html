@@ -11,6 +11,9 @@
       <h3>{{poi.categories[0]}}</h3>
       <p>{{poi.name}}</p>
     </ion-label>
+    <ion-label slot="end">
+        <ion-badge color="medium" data-cy="badgeDistance">{{poi.distance}} km</ion-badge>
+    </ion-label>
   </ion-item>
 </ion-list>
 

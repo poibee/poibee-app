@@ -10,6 +10,7 @@ export class Poi {
     public readonly name: string,
     public readonly categories: string[],
     public readonly coordinates: LatLon,
+    public readonly distance: number,
     public readonly attributes: Attributes,
     public readonly contact: Contact,
     public readonly references: References,

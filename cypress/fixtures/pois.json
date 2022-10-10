@@ -6,10 +6,10 @@
     "categories": [
       "church"
     ],
-    "coordinates": [
-      52.9082584,
-      8.5886623
-    ],
+    "coordinates": {
+      "lat": 52.9082584,
+      "lon": 8.5886623
+    },
     "tags": {
       "addr:city": "Harpstedt",
       "addr:housenumber": "2",
@@ -34,10 +34,10 @@
       "hotel",
       "restaurant"
     ],
-    "coordinates": [
-      52.91009245,
-      8.59079985
-    ],
+    "coordinates": {
+      "lat": 52.91009245,
+      "lon": 8.59079985
+    },
     "id": "way/12345678",
     "name": "Akzent Hotel Zur Wasserburg",
     "website": "https://www.zur-wasserburg.de/",
@@ -58,10 +58,10 @@
     "categories": [
       "restaurant"
     ],
-    "coordinates": [
-      52.9085109,
-      8.5874905
-    ],
+    "coordinates": {
+      "lat": 52.9085109,
+      "lon": 8.5874905
+    },
     "id": "node/1628572328",
     "name": "Charisma",
     "website": "https://charisma-harpstedt.com/",
@@ -89,10 +89,10 @@
     "categories": [
       "amenity"
     ],
-    "coordinates": [
-      52.9075896,
-      8.5878592
-    ],
+    "coordinates": {
+      "lat": 52.9075896,
+      "lon": 8.5878592
+    },
     "tags": {
       "addr:city": "Harpstedt",
       "addr:country": "DE",
@@ -108,10 +108,10 @@
     "categories": [
       "information"
     ],
-    "coordinates": [
-      52.9080359,
-      8.5877197
-    ],
+    "coordinates": {
+      "lat": 52.9080359,
+      "lon": 8.5877197
+    },
     "tags": {
       "tourism": "information"
     }
@@ -123,10 +123,10 @@
     "categories": [
       "memorial"
     ],
-    "coordinates": [
-      52.9083502,
-      8.5881977
-    ],
+    "coordinates": {
+      "lat": 52.9083502,
+      "lon": 8.5881977
+    },
     "tags": {
       "historic": "memorial",
       "name": "Kriegerdenkmal 1870-71",
@@ -139,10 +139,10 @@
     "categories": [
       "parking"
     ],
-    "coordinates": [
-      52.90812595,
-      8.58785515
-    ],
+    "coordinates": {
+      "lat": 52.90812595,
+      "lon": 8.58785515
+    },
     "tags": {
       "amenity": "parking",
       "capacity": "35",

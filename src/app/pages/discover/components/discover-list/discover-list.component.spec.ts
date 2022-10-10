@@ -12,8 +12,8 @@ describe('DiscoverListComponent', () => {
   let fixture: ComponentFixture<DiscoverListComponent>;
 
   const pois = [
-    new Poi('myId', 'myName', ['myCategory'], null, null, null, null, {}),
-    new Poi('otherId', 'otherName', ['otherCategory'], null, null, null, null, {}),
+    new Poi('myId', 'myName', ['myCategory'], null, 1, null, null, null, {}),
+    new Poi('otherId', 'otherName', ['otherCategory'], null, 1, null, null, null, {}),
   ];
 
   beforeEach(waitForAsync(() => {

@@ -42,6 +42,7 @@ describe('Discover page', () => {
       cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
       cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
+      cy.get('@christuskircheItem').find('[data-cy=badgeDistance]').should('have.text', '0.05 km')
     });
 
     it('navigates to poi details after poi click', () => {
@@ -123,7 +124,7 @@ describe('Discover page', () => {
 
       cy.get('[data-cy=buttonStartSearch]').click()
 
-      // TODO - not working on GitHub-CI
+      // TODO #32 - not working on GitHub-CI
       cy.get('@search-pois')
         .its('request.url')
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=all&distance=5000')
@@ -140,7 +141,7 @@ describe('Discover page', () => {
 
       cy.get('[data-cy=buttonStartSearch]').click()
 
-      // TODO - not working on GitHub-CI
+      // TODO #32  - not working on GitHub-CI
       cy.get('@search-pois')
         .its('request.url')
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=playground&distance=250')
@@ -165,7 +166,7 @@ describe('Discover page', () => {
 
       cy.get('[data-cy=buttonStartSearch]').click()
 
-      // TODO - not working on GitHub-CI
+      // TODO #32  - not working on GitHub-CI
       cy.get('@search-pois')
         .its('request.url')
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=hotel&distance=250')

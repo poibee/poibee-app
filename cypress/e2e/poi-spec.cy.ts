@@ -94,7 +94,7 @@ describe('POI detail page', () => {
       cy.get('[data-cy=chipWikidata]').should('not.exist')
     });
 
-    // TODO - not working on GitHub-CI
+    // TODO #32 - not working on GitHub-CI
     // AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-cy=divPoiMap] ion-spinner`, but never found it.
     xit('with spinner and poi markers on map', () => {
       cy.visit('/poi/way-12345678')
