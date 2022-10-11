@@ -6,6 +6,7 @@ import {of} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
 
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {LatLon} from "../../data/lat-lon";
 
 
 describe('PoiPage', () => {
@@ -16,19 +17,15 @@ describe('PoiPage', () => {
 
   beforeEach(waitForAsync(() => {
     poisOverpassServiceMock = {
-      searchPoi: (poiId: string) => of(
-        {
-          id: 'myId/12345',
-          name: 'myName',
-          categories: ['myCategory'],
-          coordinates: {
-            lat: 1.1,
-            lon: 2.2
-          },
-          attributes: {},
-          contact: {},
-          references: {}
-        })
+      searchPoi: (poiId: string) => of({
+        id: 'myId/12345',
+        name: 'myName',
+        categories: ['myCategory'],
+        coordinates: new LatLon(1.1, 2.2),
+        attributes: {},
+        contact: {},
+        references: {}
+      })
     };
     spyOn(poisOverpassServiceMock, 'searchPoi').and.callThrough();
 
