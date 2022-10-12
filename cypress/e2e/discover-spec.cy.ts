@@ -1,16 +1,13 @@
 describe('Discover page', () => {
 
-  const discoverPage = {
-    visit: () => {
-      cy.visit('/discover')
-    }
-  }
-
   beforeEach(() => {
     cy.viewport('iphone-x')
     cy.intercept('GET', '/pois/way12345678', { fixture: 'poi-wasserburg.json' }).as('poi-wasserburg');
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
-    discoverPage.visit()
+
+    cy.visit('/discover')
+    cy.get('[data-cy=buttonSearchModal]').click()
+    cy.get('[data-cy=buttonStartSearch]').click()
   });
 
   describe('with list view', () => {
@@ -105,6 +102,23 @@ describe('Discover page', () => {
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(0).find('ion-radio').click()
       cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Akzent Hotel Zur Wasserburg')
+      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Hotel')
+    });
+
+    it('restores state after poi selection and back', () => {
+      cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 7 mit Filter, 7 insgesamt')
+      cy.get('[data-cy=searchbarFilter]').type('er');
+      cy.get('app-discover-list ion-list ion-item').should('have.length', 3)
+      cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').click()
+
+      cy.url().should('include', '/poi/way-12345678')
+      cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
+      cy.get('[data-cy=buttonNavigateBack]').click()
+
+      cy.get('app-discover-list ion-list ion-item').should('have.length', 3)
+      cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 3 mit Filter, 7 insgesamt')
       cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Hotel')
     });
   });

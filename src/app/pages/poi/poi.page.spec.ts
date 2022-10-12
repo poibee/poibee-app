@@ -7,6 +7,8 @@ import {PoisOverpassService} from "../../services/pois-overpass.service";
 
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {LatLon} from "../../data/lat-lon";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {RouterTestingModule} from "@angular/router/testing";
 
 
 describe('PoiPage', () => {
@@ -30,8 +32,9 @@ describe('PoiPage', () => {
     spyOn(poisOverpassServiceMock, 'searchPoi').and.callThrough();
 
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PoiPage],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
         {provide: PoisOverpassService, useValue: poisOverpassServiceMock},
         {

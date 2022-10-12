@@ -14,6 +14,7 @@ export class DiscoverFilterToolbarComponent implements OnInit {
 
   selectedSort: string = sortTypesAsArray()[0][0];
   @Input() searchActive: boolean = false;
+  @Input() filterValue: string = '';
 
   @Output() selectedSortUpdated = new EventEmitter<string>();
   @Output() filterValueUpdated = new EventEmitter<string>();

@@ -4,10 +4,12 @@
     [numberOfSearchResults]="allPois.length"
     [searchAttributes]="searchAttributes"
     [searchActive]="searchActive"
-    (searchUpdated)="executeSearch($event)">
+    (searchUpdated)="executeSearch($event)"
+    data-cy="componentDiscoverSearchToolbar">
   </app-discover-search-toolbar>
 
   <app-discover-filter-toolbar
+    [filterValue]="filterValue"
     [searchActive]="searchActive"
     (selectedSortUpdated)="updateSelectedSort($event)"
     (filterValueUpdated)="updateFilterValue($event)">

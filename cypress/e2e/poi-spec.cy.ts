@@ -27,6 +27,7 @@ describe('POI detail page', () => {
       cy.get('[data-cy=buttonSelectNextPoi]').should('not.exist')
       cy.get('[data-cy=detailPoiNavigatorText]').should('not.exist')
       cy.get('[data-cy=buttonSelectPreviousPoi]').should('not.exist')
+      cy.get('[data-cy=buttonNavigateBack]').should('not.exist')
     })
   })
 
@@ -34,12 +35,16 @@ describe('POI detail page', () => {
 
     it('shows navigation buttons', () => {
       cy.visit('/discover')
+      cy.get('[data-cy=buttonSearchModal]').click()
+      cy.get('[data-cy=buttonStartSearch]').click()
+
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
       cy.get('app-discover-list ion-list ion-item').eq(2).as('christuskircheItem')
       cy.get('@christuskircheItem').find('ion-label h3').click()
 
       cy.url().should('include', '/poi/way-45666704')
       cy.get('ion-content').contains('Christuskirche')
+      cy.get('[data-cy=buttonNavigateBack]').should('exist')
 
       cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '3 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
