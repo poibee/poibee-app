@@ -2,18 +2,99 @@ describe('POI detail page', () => {
 
   beforeEach(() => {
     cy.viewport('iphone-x')
+    cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
     cy.intercept('GET', '/pois/way12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
     cy.intercept('GET', '/pois/node1628573037', {fixture: 'poi-information.json'}).as('poi-information');
     cy.intercept('GET', '/pois/way45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
   });
 
-  describe('shows poi details of a poi', () => {
+  describe('visited directly by URL', () => {
 
-    it('with every attribute', () => {
+    it('loads poi by querying data from external PoiOverpassService', () => {
       cy.visit('/poi/way-12345678')
       cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
+
+      cy.get('@poi-wasserburg')
+        .its('request.url')
+        .should('deep.equal','http://localhost:3000/pois/way12345678')
     });
+
+    it('shows no navigation buttons', () => {
+      cy.visit('/poi/way-12345678')
+      cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').should('not.exist')
+      cy.get('[data-cy=detailPoiNavigatorText]').should('not.exist')
+      cy.get('[data-cy=buttonSelectPreviousPoi]').should('not.exist')
+    })
+  })
+
+  describe('visited from discover page', () => {
+
+    it('shows navigation buttons', () => {
+      cy.visit('/discover')
+      cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
+      cy.get('app-discover-list ion-list ion-item').eq(2).as('christuskircheItem')
+      cy.get('@christuskircheItem').find('ion-label h3').click()
+
+      cy.url().should('include', '/poi/way-45666704')
+      cy.get('ion-content').contains('Christuskirche')
+
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '3 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Memorial')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Parking')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Parking')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Memorial')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '3 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '2 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
+    })
+  })
+
+  describe('shows poi details of a poi', () => {
 
     it('with categories', () => {
       cy.visit('/poi/way-12345678')
