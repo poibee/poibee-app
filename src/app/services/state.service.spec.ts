@@ -3,6 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { StateService } from './state.service';
 import {Poi} from "../data/poi";
 import {SortTypes} from "../data/sort-types";
+import {LatLon} from "../data/lat-lon";
+import {CategoryEntry} from "../data/category-entry";
+import {SearchAttributes} from "../data/search-attributes";
 
 describe('StateService', () => {
   let service: StateService;
@@ -21,7 +24,7 @@ describe('StateService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(StateService);
 
-    service.updatePois(pois);
+    service.updatePois(pois, new SearchAttributes(null, 0, null));
     service.updateSelectedSort('name');
   });
 

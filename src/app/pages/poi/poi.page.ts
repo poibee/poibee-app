@@ -7,6 +7,7 @@ import {LatLon} from "../../data/lat-lon";
 import {Subscription} from "rxjs";
 import {LatLng, LatLngExpression, LayerGroup, TileLayer, Marker, Circle, Map, Control, control} from 'leaflet';
 import {StateService} from "../../services/state.service";
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-poi',
@@ -32,6 +33,7 @@ export class PoiPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private navCtrl: NavController,
     private stateService: StateService,
     private imageService: ImageService,
     private poisOverpassService: PoisOverpassService
@@ -73,6 +75,10 @@ export class PoiPage implements OnInit {
   selectPreviousPoi() {
     this.poi = this.stateService.selectPreviousPoi();
     this.updateNavigatorElements();
+  }
+
+  navigateBack() {
+    this.navCtrl.navigateRoot("/discover")
   }
 
   private constructMap(coordinates: LatLon) {

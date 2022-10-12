@@ -17,6 +17,7 @@ export class StateService {
   private allPois: Poi[] = [];
   private selectedSort: string = sortTypesAsArray()[0][0];
   private filterValue: string = '';
+  private searchAttributes: SearchAttributes;
 
   constructor(
     private poisFilterService: PoisFilterService,
@@ -35,8 +36,9 @@ export class StateService {
     return this.resultPois;
   }
 
-  updatePois(pois: Poi[]): Poi[] {
+  updatePois(pois: Poi[], searchAttributes: SearchAttributes): Poi[] {
     this.allPois = pois;
+    this.searchAttributes = searchAttributes;
     this.resultPois = this.calculateResultPois();
     return this.resultPois;
   }
@@ -45,8 +47,28 @@ export class StateService {
     this.selectedPoi = poi;
   }
 
+  hasResults(): boolean {
+    return this.resultPois.length > 0;
+  }
+
+  getPois(): Poi[] {
+    return this.resultPois;
+  }
+
+  getAllPois(): Poi[] {
+    return this.allPois;
+  }
+
   getSelectPoi(): Poi {
     return this.selectedPoi;
+  }
+
+  getSearchAttributes(): SearchAttributes {
+    return this.searchAttributes;
+  }
+
+  getFilterValue(): string {
+    return this.filterValue;
   }
 
   hasNextPoi(): boolean {

@@ -16,6 +16,9 @@ import {DiscoverSearchToolbarComponent} from "./components/discover-search-toolb
 import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
 import {DiscoverPageModule} from "./discover.module";
 import {AppModule} from "../../app.module";
+import {PoiPage} from "../poi/poi.page";
+import {ActivatedRoute, convertToParamMap} from "@angular/router";
+import {INITIAL_SEARCH_ATTRIBUTES} from "../../data/search-attributes";
 
 describe('DiscoverPage', () => {
   let component: DiscoverPage;
@@ -45,6 +48,7 @@ describe('DiscoverPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    component.executeSearch(INITIAL_SEARCH_ATTRIBUTES);
 
     expect(component.filteredPois.length).toBe(2);
 

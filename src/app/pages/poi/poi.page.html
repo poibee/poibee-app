@@ -1,5 +1,10 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="showNavigationButtons">
+      <ion-button fill="outline" shape="round" (click)="navigateBack()" data-cy="buttonNavigateBack">
+        <ion-icon name="arrow-up"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title color="primary">POI :-)</ion-title>
     <ion-buttons slot="end" *ngIf="showNavigationButtons">
       <ion-button fill="outline" shape="round" (click)="selectPreviousPoi()" data-cy="buttonSelectPreviousPoi">
@@ -60,6 +65,12 @@
         </ion-row>
       </ion-grid>
     </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <div #poiMapDiv class="map" data-cy="divPoiMap">
+      <ion-spinner color="primary" name="lines" *ngIf="showProgress"></ion-spinner>
+    </div>
   </ion-card>
 
   <ion-card>
@@ -154,12 +165,6 @@
         </ion-label>
       </ion-chip>
     </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <div #poiMapDiv class="map" data-cy="divPoiMap">
-      <ion-spinner color="primary" name="lines" *ngIf="showProgress"></ion-spinner>
-    </div>
   </ion-card>
 
 </ion-content>

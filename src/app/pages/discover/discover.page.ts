@@ -22,17 +22,22 @@ export class DiscoverPage implements OnInit {
 
   searchActive = false;
   searchAttributes: SearchAttributes = INITIAL_SEARCH_ATTRIBUTES;
+  filterValue: string = '';
 
   allPois: Poi[] = [];
   filteredPois: Poi[] = [];
 
   private selectedSort: string = sortTypesAsArray()[0][0];
-  private filterValue: string = '';
 
   private subscription: Subscription;
 
   ngOnInit() {
-    this.reloadPois(this.searchAttributes);
+    if (this.stateService.hasResults()) {
+      this.filteredPois = this.stateService.getPois();
+      this.allPois = this.stateService.getAllPois();
+      this.searchAttributes = this.stateService.getSearchAttributes();
+      this.filterValue = this.stateService.getFilterValue();
+    }
   }
 
   ngOnDestroy(): void {
@@ -64,7 +69,8 @@ export class DiscoverPage implements OnInit {
     }
 
     this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category.key).subscribe(pois => {
-      this.filteredPois = this.stateService.updatePois(pois);
+      this.filteredPois = this.stateService.updatePois(pois, attr);
+      this.allPois = this.stateService.getAllPois();
       this.searchActive = false;
     });
   }
