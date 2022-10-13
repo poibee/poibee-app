@@ -11,9 +11,9 @@ describe('StateService', () => {
   let service: StateService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, 1, null, null, null, {}),
-    new Poi('2', 'Christuskirche', ['church'], null, 1, null, null, null, {}),
-    new Poi('3', 'Marktkieker', ['community_centre'], null, 1, null, null, null, {}),
+    new Poi('1', 'Charisma', ['restaurant'], null, 1, null, null, null, {}, 1),
+    new Poi('2', 'Christuskirche', ['church'], null, 1, null, null, null, {}, 1),
+    new Poi('3', 'Marktkieker', ['community_centre'], null, 1, null, null, null, {}, 1),
   ];
 
   const poiCharisma = pois[0];

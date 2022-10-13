@@ -88,7 +88,9 @@ export class PoisOverpassService {
 
     const references = new References(osmDatasetUrl, osmLocationUrl, googleLocationUrl, wikipediaUrl, wikidataUrl);
 
-    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {});
+    const relevance = p.tags.length;
+
+    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {}, relevance);
   }
 
   private calculateAddress(p: PoiJson) {

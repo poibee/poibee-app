@@ -12,13 +12,17 @@ export class PoisSorterService {
     const compareCategory = (p1: Poi, p2: Poi) => ('' + p1.categories[0]).localeCompare(p2.categories[0]);
     const compareName = (p1: Poi, p2: Poi) => ('' + p1.name).localeCompare(p2.name);
     const compareDistance = (p1: Poi, p2: Poi) => p1.distance - p2.distance;
-    let compareMethod = compareCategory || compareName || compareDistance;
+    const compareRelevance = (p1: Poi, p2: Poi) => p1.relevance - p2.relevance;
+
+    let compareMethod = compareCategory || compareDistance || compareName || compareRelevance;
     if (selectedSort === 'category') {
-      compareMethod = compareCategory || compareName || compareDistance;
+      compareMethod = compareCategory || compareDistance || compareName || compareRelevance;
     } else if (selectedSort === 'name') {
-      compareMethod = compareName || compareCategory || compareDistance;
+      compareMethod = compareName || compareDistance || compareCategory || compareRelevance;
     } else if (selectedSort === 'distance') {
-      compareMethod = compareDistance || compareName || compareCategory;
+      compareMethod = compareDistance || compareName || compareCategory || compareRelevance;
+    } else if (selectedSort === 'relevance') {
+      compareMethod = compareRelevance || compareDistance || compareName || compareCategory;
     }
 
     const copiedPois: Poi[] = [];
