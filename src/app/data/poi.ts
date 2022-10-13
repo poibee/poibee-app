@@ -14,8 +14,8 @@ export class Poi {
     public readonly attributes: Attributes,
     public readonly contact: Contact,
     public readonly references: References,
-    public readonly tags: Record<string, string>
-  ) {
+    public readonly tags: Record<string, string>,
+    public readonly relevance: number) {
   }
 
 }
