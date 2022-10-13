@@ -11,11 +11,14 @@ export class PoisSorterService {
   sortPois(pois: Poi[], selectedSort: string): Poi[] {
     const compareCategory = (p1: Poi, p2: Poi) => ('' + p1.categories[0]).localeCompare(p2.categories[0]);
     const compareName = (p1: Poi, p2: Poi) => ('' + p1.name).localeCompare(p2.name);
-    let compareMethod = compareCategory || compareName;
+    const compareDistance = (p1: Poi, p2: Poi) => p1.distance - p2.distance;
+    let compareMethod = compareCategory || compareName || compareDistance;
     if (selectedSort === 'category') {
-      compareMethod = compareCategory || compareName;
+      compareMethod = compareCategory || compareName || compareDistance;
     } else if (selectedSort === 'name') {
-      compareMethod = compareName || compareCategory;
+      compareMethod = compareName || compareCategory || compareDistance;
+    } else if (selectedSort === 'distance') {
+      compareMethod = compareDistance || compareName || compareCategory;
     }
 
     const copiedPois: Poi[] = [];

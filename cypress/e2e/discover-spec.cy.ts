@@ -71,6 +71,7 @@ describe('Discover page', () => {
     });
 
     it('sorts items by name and category', () => {
+      // default: sort by name
       cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Akzent Hotel Zur Wasserburg')
       cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label p').should('have.text', 'Charisma')
       cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label p').should('have.text', 'Christuskirche')
@@ -80,16 +81,26 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').last().find('ion-label p').should('have.text', '')
 
       cy.get('[data-cy=buttonSort]').click()
-      cy.get('ion-select-popover ion-item').should('have.length', 2)
+      cy.get('ion-select-popover ion-item').should('have.length', 3)
       cy.get('ion-select-popover ion-item.item-radio-checked').should('have.text', 'Name')
+
+      // sort by distance
+      pressEscape();
+      cy.get('[data-cy=buttonSort]').click()
+      cy.get('ion-select-popover ion-item').eq(1).find('ion-radio').click()
+      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Memorial')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Church')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Amenity')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
 
       // sort by category
       pressEscape();
       cy.get('[data-cy=buttonSort]').click()
-      cy.get('ion-select-popover ion-item').eq(1).find('ion-radio').click()
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Marktkieker')
+      cy.get('ion-select-popover ion-item').eq(2).find('ion-radio').click()
       cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Amenity')
-
       cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Church')
       cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Hotel')
       cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Information')

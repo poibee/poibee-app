@@ -9,9 +9,9 @@ describe('PoisSorterService', () => {
   let service: PoisSorterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, 1, null, null, null, {}),
+    new Poi('1', 'Charisma', ['restaurant'], null, 3, null, null, null, {}),
     new Poi('2', 'Marktkieker', ['community_centre'], null, 1, null, null, null, {}),
-    new Poi('3', 'Christuskirche', ['church'], null, 1, null, null, null, {})
+    new Poi('3', 'Christuskirche', ['church'], null, 2, null, null, null, {})
   ];
 
   beforeEach(() => {
@@ -33,5 +33,13 @@ describe('PoisSorterService', () => {
     expect(resultPois[0].name).toBe('Charisma');
     expect(resultPois[1].name).toBe('Christuskirche');
     expect(resultPois[2].name).toBe('Marktkieker');
+  });
+
+  it('should sort by distance', () => {
+    const resultPois = service.sortPois(pois, 'distance');
+
+    expect(resultPois[0].name).toBe('Marktkieker');
+    expect(resultPois[1].name).toBe('Christuskirche');
+    expect(resultPois[2].name).toBe('Charisma');
   });
 });
