@@ -1,7 +1,8 @@
 export enum SortTypes {
 
-  name = 'Name',
   distance = 'Entfernung',
+  name = 'Name',
+  relevance = 'Relevanz',
   category = 'Kategorie',
 }
 
