@@ -90,7 +90,9 @@ export class PoisOverpassService {
 
     const relevance = p.tags.length;
 
-    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {}, relevance);
+    const rawData = JSON.stringify(p, null, 2);
+
+    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {}, relevance, rawData);
   }
 
   private calculateAddress(p: PoiJson) {
