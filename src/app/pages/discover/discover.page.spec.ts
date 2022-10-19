@@ -28,8 +28,8 @@ describe('DiscoverPage', () => {
 
     const poisOverpassServiceMock = {
       searchPois: (position: LatLon, distance: number, category: string) => of([
-        new Poi('myId', 'myName', ['myCategory'], new LatLon(1.1, 2.2), 1, null, null, null, {}, 1),
-        new Poi('otherId', 'otherName', ['otherCategory'], null, 1, null, null, null, {}, 1)
+        new Poi('myId', 'myName', ['myCategory'], new LatLon(1.1, 2.2), 1, null, null, null, {}, 1, '{}'),
+        new Poi('otherId', 'otherName', ['otherCategory'], null, 1, null, null, null, {}, 1, '{}')
       ])
     };
     spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();

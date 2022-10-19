@@ -192,6 +192,15 @@ describe('POI detail page', () => {
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.class', 'leaflet-marker-icon')
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/marker/marker-icon.png')
     });
+
+    it('with raw data as JSON', () => {
+      cy.visit('/poi/way-12345678')
+      cy.url().should('include', '/poi/way-12345678')
+
+      cy.get('[data-cy=cardRawData]').should('exist')
+      cy.get('[data-cy=cardRawData] ion-card-title').should('have.text', 'Rohdaten')
+      cy.get('[data-cy=cardRawData] pre').should('contain', '"id": "way/12345678",\n  "name": "Akzent Hotel Zur Wasserburg"')
+    });
   });
 
 });
