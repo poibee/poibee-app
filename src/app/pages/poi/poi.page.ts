@@ -51,6 +51,7 @@ export class PoiPage implements OnInit {
       this.updateLoadedPoi(poi);
       this.sleep(500).then(() => {
         this.constructMap(poi.coordinates, searchCenter);
+        this.updatePoiOfMap(poi);
         this.showProgress = false;
       });
     });
@@ -93,7 +94,7 @@ export class PoiPage implements OnInit {
     this.navCtrl.navigateRoot("/discover")
   }
 
-  private constructMap(coordinates: LatLon, searchCenter: LatLon) {
+  private constructMap(mapCenter: LatLon, searchCenter: LatLon) {
     const osmTileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19
     });
@@ -107,15 +108,10 @@ export class PoiPage implements OnInit {
     }
 
     this.poiPositionLayer = new LayerGroup();
-    this.poiPositionLayer.addLayer(new Marker(coordinates.asLatLng(), {
-      draggable: false,
-      icon: this.imageService.loadMarkerIcon()
-    }));
-
     this.poiMap = new Map(this.poiMapContainer.nativeElement, {
       doubleClickZoom: false,
       scrollWheelZoom: false,
-      center: coordinates.asLatLng(),
+      center: mapCenter.asLatLng(),
       zoom: 17,
       layers: [osmTileLayer, searchCenterLayer, this.poiPositionLayer]
     });
@@ -129,7 +125,7 @@ export class PoiPage implements OnInit {
       this.poiPositionLayer.clearLayers();
       this.poiPositionLayer.addLayer(new Marker(poi.coordinates.asLatLng(), {
         draggable: false,
-        icon: this.imageService.loadMarkerIcon()
+        icon: this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase())
       }));
       this.poiMap.flyTo(poi.coordinates.asLatLng(), this.poiMap.getZoom());
     }

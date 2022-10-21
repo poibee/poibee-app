@@ -18,4 +18,17 @@ export class ImageService {
       popupAnchor: [0, -33]   // point from which the popup should open relative to the iconAnchor
     })
   }
+
+  loadCategoryIcon(category: string) {
+    return new Icon({
+      iconUrl: 'assets/category/' + category + '.png',
+      shadowUrl: 'assets/pois-shadow.png',
+      iconSize: [32, 37],     // size of the icon
+      shadowSize: [51, 37],   // size of the shadow
+      iconAnchor: [16, 37],   // point of the icon which will correspond to markers location
+      shadowAnchor: [24, 37], // the same for the shadow
+      popupAnchor: [32, 20]   // point from which the popup should open relative to the iconAnchor
+    });
+  }
+
 }
