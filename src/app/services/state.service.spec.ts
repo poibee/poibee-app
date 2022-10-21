@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StateService } from './state.service';
 import {Poi} from "../data/poi";
+import {OwnPosition} from "../data/own-position";
 import {SortTypes} from "../data/sort-types";
 import {LatLon} from "../data/lat-lon";
 import {CategoryEntry} from "../data/category-entry";
@@ -11,9 +12,9 @@ describe('StateService', () => {
   let service: StateService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, 1, null, null, null, {}, 1, '{}'),
-    new Poi('2', 'Christuskirche', ['church'], null, 1, null, null, null, {}, 1, '{}'),
-    new Poi('3', 'Marktkieker', ['community_centre'], null, 1, null, null, null, {}, 1, '{}'),
+    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}'),
+    new Poi('2', 'Christuskirche', ['church'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}'),
+    new Poi('3', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}'),
   ];
 
   const poiCharisma = pois[0];

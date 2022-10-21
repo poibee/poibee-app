@@ -9,6 +9,7 @@ import {Contact} from "../data/contact";
 import {References} from "../data/references";
 import {Attributes} from "../data/attributes";
 import {GeoService} from "./geo.service";
+import {OwnPosition} from "../data/own-position";
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,12 @@ export class PoisOverpassService {
     const categories = p.categories.map(c => this.capitalizeString(c) );
 
     const coordinates = new LatLon(p.coordinates.lat, p.coordinates.lon);
-    const distance = this.geoService.distanceToPositionInKm(position, coordinates);
+
+    let ownPosition: OwnPosition = null;
+    if (position) {
+      const distance = this.geoService.distanceToPositionInKm(position, coordinates);
+      ownPosition = new OwnPosition(position, distance)
+    }
 
     const cuisine = this.capitalizeString(p.tags['cuisine']);
     const openingHours = p.tags['opening_hours'];
@@ -92,7 +98,7 @@ export class PoisOverpassService {
 
     const rawData = JSON.stringify(p, null, 2);
 
-    return new Poi(p.id, p.name, categories, coordinates, distance, attributes, contact, references, {}, relevance, rawData);
+    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, {}, relevance, rawData);
   }
 
   private calculateAddress(p: PoiJson) {

@@ -11,7 +11,7 @@ export class PoisSorterService {
   sortPois(pois: Poi[], selectedSort: string): Poi[] {
     const compareCategory = (p1: Poi, p2: Poi) => ('' + p1.categories[0]).localeCompare(p2.categories[0]);
     const compareName = (p1: Poi, p2: Poi) => ('' + p1.name).localeCompare(p2.name);
-    const compareDistance = (p1: Poi, p2: Poi) => p1.distance - p2.distance;
+    const compareDistance = (p1: Poi, p2: Poi) => p1.ownPosition.distance - p2.ownPosition.distance;
     const compareRelevance = (p1: Poi, p2: Poi) => p1.relevance - p2.relevance;
 
     let compareMethod = compareCategory || compareDistance || compareName || compareRelevance;

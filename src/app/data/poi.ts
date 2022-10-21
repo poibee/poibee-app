@@ -2,6 +2,7 @@ import {LatLon} from "./lat-lon";
 import {Contact} from "./contact";
 import {References} from "./references";
 import {Attributes} from "./attributes";
+import {OwnPosition} from "./own-position";
 
 export class Poi {
 
@@ -10,7 +11,7 @@ export class Poi {
     public readonly name: string,
     public readonly categories: string[],
     public readonly coordinates: LatLon,
-    public readonly distance: number,
+    public readonly ownPosition: OwnPosition,
     public readonly attributes: Attributes,
     public readonly contact: Contact,
     public readonly references: References,
