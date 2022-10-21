@@ -11,13 +11,13 @@ import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../data/search-attrib
 })
 export class StateService {
 
-  public resultPois: Poi[] = [];
+  resultPois: Poi[] = [];
+  searchAttributes: SearchAttributes;
 
   private selectedPoi: Poi;
   private allPois: Poi[] = [];
   private selectedSort: string = sortTypesAsArray()[0][0];
   private filterValue: string = '';
-  private searchAttributes: SearchAttributes;
 
   constructor(
     private poisFilterService: PoisFilterService,
@@ -61,10 +61,6 @@ export class StateService {
 
   getSelectPoi(): Poi {
     return this.selectedPoi;
-  }
-
-  getSearchAttributes(): SearchAttributes {
-    return this.searchAttributes;
   }
 
   getFilterValue(): string {

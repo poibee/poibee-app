@@ -36,9 +36,9 @@
           </ion-col>
           <ion-col data-cy="columnAttributes">
             <div class="ion-text-end">
-              <ion-chip data-cy="chipDistance">
+              <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
                 <ion-icon name="enter-outline" color="primary"></ion-icon>
-                <ion-label>? km</ion-label>
+                <ion-label>{{poi.ownPosition.distance}} km</ion-label>
               </ion-chip>
               <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
                 <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
