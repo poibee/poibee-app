@@ -4,14 +4,15 @@ import { PoisSorterService } from './pois-sorter.service';
 import {LatLon} from "../data/lat-lon";
 import {of} from "rxjs";
 import {Poi} from "../data/poi";
+import {OwnPosition} from "../data/own-position";
 
 describe('PoisSorterService', () => {
   let service: PoisSorterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, 3, null, null, null, {}, 2, '{}'),
-    new Poi('2', 'Marktkieker', ['community_centre'], null, 1, null, null, null, {}, 3, '{}'),
-    new Poi('3', 'Christuskirche', ['church'], null, 2, null, null, null, {}, 1, '{}')
+    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 3), null, null, null, {}, 2, '{}'),
+    new Poi('2', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 1), null, null, null, {}, 3, '{}'),
+    new Poi('3', 'Christuskirche', ['church'], null, new OwnPosition(null, 2), null, null, null, {}, 1, '{}')
   ];
 
   beforeEach(() => {

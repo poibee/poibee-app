@@ -9,9 +9,6 @@ import {LatLon} from "../data/lat-lon";
 export class GeoService {
 
   distanceToPositionInKm(thisPosition: LatLon, otherPosition: LatLon): number {
-    if (!thisPosition) {
-      return null;
-    }
     let latLngThisPosition = new LatLng(thisPosition.lat, thisPosition.lon);
     let latLngOtherPosition = new LatLng(otherPosition.lat, otherPosition.lon);
     let distanceInKm = latLngThisPosition.distanceTo(latLngOtherPosition) / 1000;
