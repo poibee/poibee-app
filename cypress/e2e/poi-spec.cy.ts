@@ -10,30 +10,33 @@ describe('POI detail page', () => {
 
   describe('visited directly by URL', () => {
 
-    it('loads poi by querying data from external PoiOverpassService', () => {
+    beforeEach(() => {
       cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
+    });
 
+    it('loads poi by querying data from external PoiOverpassService', () => {
+      cy.url().should('include', '/poi/way-12345678')
       cy.get('@poi-wasserburg')
         .its('request.url')
         .should('deep.equal','http://localhost:3000/pois/way12345678')
     });
 
     it('shows no navigation buttons', () => {
-      cy.visit('/poi/way-12345678')
-      cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
-
       cy.get('[data-cy=buttonSelectNextPoi]').should('not.exist')
       cy.get('[data-cy=detailPoiNavigatorText]').should('not.exist')
       cy.get('[data-cy=buttonSelectPreviousPoi]').should('not.exist')
       cy.get('[data-cy=buttonNavigateBack]').should('not.exist')
     })
+
+    it('shows no distance chip', () => {
+      cy.get('[data-cy=chipDistance]').should('not.exist')
+    })
   })
 
   describe('visited from discover page', () => {
 
-    it('shows navigation buttons', () => {
+    beforeEach(() => {
       cy.visit('/discover')
       cy.get('[data-cy=buttonSearchModal]').click()
       cy.get('[data-cy=buttonStartSearch]').click()
@@ -44,6 +47,9 @@ describe('POI detail page', () => {
 
       cy.url().should('include', '/poi/way-45666704')
       cy.get('ion-content').contains('Christuskirche')
+    });
+
+    it('shows navigation buttons', () => {
       cy.get('[data-cy=buttonNavigateBack]').should('exist')
 
       cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '4 / 7')
@@ -93,6 +99,10 @@ describe('POI detail page', () => {
       cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '1 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
     })
+
+    it('shows distance chip', () => {
+      cy.get('[data-cy=chipDistance]').should('have.text', '0.05 km')
+    })
   })
 
   describe('shows poi details of a poi', () => {
@@ -113,7 +123,7 @@ describe('POI detail page', () => {
       cy.url().should('include', '/poi/way-12345678')
       cy.get('[data-cy=chipCuisine]').should('have.text', 'German')
       cy.get('[data-cy=chipOpeningHours]').should('have.text', '17:00+')
-      cy.get('[data-cy=chipDistance]').should('have.text', '? km')
+      cy.get('[data-cy=chipDistance]').should('not.exist')
       cy.get('[data-cy=chipIsBuilding]').should('have.text', 'Gebäude')
       cy.get('[data-cy=chipIsBar]').should('have.text', 'Bar')
       cy.get('[data-cy=chipIsCafe]').should('have.text', 'Cafe')
@@ -124,7 +134,7 @@ describe('POI detail page', () => {
       cy.url().should('include', '/poi/node-1628573037')
       cy.get('[data-cy=chipCuisine]').should('not.exist')
       cy.get('[data-cy=chipOpeningHours]').should('not.exist')
-      cy.get('[data-cy=chipDistance]').should('have.text', '? km')
+      cy.get('[data-cy=chipDistance]').should('not.exist')
       cy.get('[data-cy=chipIsBar]').should('not.exist')
       cy.get('[data-cy=chipIsCafe]').should('not.exist')
       cy.get('[data-cy=chipIsBuilding]').should('not.exist')

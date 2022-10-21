@@ -35,7 +35,7 @@ export class DiscoverPage implements OnInit {
     if (this.stateService.hasResults()) {
       this.filteredPois = this.stateService.getPois();
       this.allPois = this.stateService.getAllPois();
-      this.searchAttributes = this.stateService.getSearchAttributes();
+      this.searchAttributes = this.stateService.searchAttributes;
       this.filterValue = this.stateService.getFilterValue();
     }
   }

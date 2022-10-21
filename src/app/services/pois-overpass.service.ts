@@ -38,11 +38,11 @@ export class PoisOverpassService {
   }
 
   // GET /pois/way45401909
-  searchPoi(poiId: string): Observable<Poi> {
+  searchPoi(poiId: string, position: LatLon): Observable<Poi> {
     const url = this.baseUrl() + '/pois/' + poiId;
     return this.http.get<PoiJson>(url)
       .pipe(
-        map(poiJson => this.jsonToPoi(poiJson))
+        map(poiJson => this.jsonToPoi(poiJson, position))
       );
   }
 

@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {LatLng, LatLngExpression, LayerGroup, TileLayer, Marker, Circle, Map, Control, control} from 'leaflet';
 import {StateService} from "../../services/state.service";
 import {NavController} from "@ionic/angular";
+import {SearchDistance} from "../../data/search-distance";
 
 @Component({
   selector: 'app-poi',
@@ -44,16 +45,27 @@ export class PoiPage implements OnInit {
     this.showProgress = true;
     const poiIdEncoded = this.route.snapshot.paramMap.get('id');
     const localPoiIdDecoded = poiIdEncoded.replace("-", "").replace("/", "");
-    this.poiSubscription$ = this.poisOverpassService.searchPoi(localPoiIdDecoded).subscribe(poi => {
+    const searchCenter: LatLon = this.extractSearchCenter();
+
+    this.poiSubscription$ = this.poisOverpassService.searchPoi(localPoiIdDecoded, searchCenter).subscribe(poi => {
       this.updateLoadedPoi(poi);
       this.sleep(500).then(() => {
-        this.constructMap(poi.coordinates);
+        this.constructMap(poi.coordinates, searchCenter);
         this.showProgress = false;
       });
     });
   }
 
-  private updateLoadedPoi(poi) {
+  private extractSearchCenter(): LatLon {
+    let searchCenter: LatLon = null;
+    const searchAttributes = this.stateService.searchAttributes;
+    if (searchAttributes) {
+      searchCenter = searchAttributes.position;
+    }
+    return searchCenter;
+  }
+
+  private updateLoadedPoi(poi: Poi) {
     this.poi = poi;
     this.stateService.selectPoi(poi);
     this.updateNavigatorElements();
@@ -81,10 +93,18 @@ export class PoiPage implements OnInit {
     this.navCtrl.navigateRoot("/discover")
   }
 
-  private constructMap(coordinates: LatLon) {
+  private constructMap(coordinates: LatLon, searchCenter: LatLon) {
     const osmTileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19
     });
+
+    const searchCenterLayer = new LayerGroup();
+    if (searchCenter) {
+      searchCenterLayer.addLayer(new Marker(searchCenter.asLatLng(), {
+        draggable: false,
+        icon: this.imageService.loadMarkerIcon()
+      }));
+    }
 
     this.poiPositionLayer = new LayerGroup();
     this.poiPositionLayer.addLayer(new Marker(coordinates.asLatLng(), {
@@ -97,8 +117,9 @@ export class PoiPage implements OnInit {
       scrollWheelZoom: false,
       center: coordinates.asLatLng(),
       zoom: 17,
-      layers: [osmTileLayer, this.poiPositionLayer]
+      layers: [osmTileLayer, searchCenterLayer, this.poiPositionLayer]
     });
+
     const osmAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
     this.poiMap.attributionControl.addAttribution(osmAttribution);
   }
