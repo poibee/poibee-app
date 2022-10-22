@@ -1,0 +1,35 @@
+<ion-card-header>
+  <ion-card-title color="primary">Verweise</ion-card-title>
+</ion-card-header>
+<ion-card-content>
+  <ion-chip>
+    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-label data-cy="chipOsmDataset">
+      <a href="{{poi.references.osmDatasetUrl}}" target="_blank">OSM-Datensatz</a>
+    </ion-label>
+  </ion-chip>
+  <ion-chip>
+    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-label data-cy="chipOsmLocation">
+      <a href="{{poi.references.osmLocationUrl}}" target="_blank">OSM-Karte</a>
+    </ion-label>
+  </ion-chip>
+  <ion-chip>
+    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-label data-cy="chipGoogleLocation">
+      <a href="{{poi.references.googleLocationUrl}}" target="_blank">Google-Maps</a>
+    </ion-label>
+  </ion-chip>
+  <ion-chip *ngIf="poi.references.wikidataUrl">
+    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-label data-cy="chipWikidata">
+      <a href="{{poi.references.wikidataUrl}}" target="_blank">Wikidata</a>
+    </ion-label>
+  </ion-chip>
+  <ion-chip *ngIf="poi.references.wikipediaUrl">
+    <ion-icon name="pin" color="primary"></ion-icon>
+    <ion-label data-cy="chipWikipedia">
+      <a href="{{poi.references.wikipediaUrl}}" target="_blank">Wikipedia</a>
+    </ion-label>
+  </ion-chip>
+</ion-card-content>

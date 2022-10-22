@@ -1,0 +1,53 @@
+<ion-card-header>
+  <ion-card-title color="primary">Kontakt</ion-card-title>
+</ion-card-header>
+<ion-card-content>
+  <ion-list>
+    <ion-item *ngIf="poi.contact.name">
+      <ion-icon name="chatbox-ellipses-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">Name</ion-label></h3>
+        <p data-cy="itemName">{{poi.contact.name}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="poi.contact.address">
+      <ion-icon name="home-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">Adresse</ion-label></h3>
+        <p data-cy="itemAddress">{{poi.contact.address}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="poi.contact.phone">
+      <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">Telefon</ion-label></h3>
+        <p data-cy="itemPhone">{{poi.contact.phone}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="poi.contact.fax">
+      <ion-icon name="print-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">Fax</ion-label></h3>
+        <p data-cy="itemFax">{{poi.contact.fax}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="poi.contact.email">
+      <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">E-Mail</ion-label></h3>
+        <p data-cy="itemEmail">
+          <a href="mailto:{{poi.contact.email}}" target="_blank">{{poi.contact.email}}</a>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="poi.contact.website">
+      <ion-icon name="globe-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h3><ion-label color="primary">Webseite</ion-label></h3>
+        <p data-cy="itemWebsite">
+          <a href="{{poi.contact.website}}" target="_blank">{{poi.contact.website}}</a>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-card-content>

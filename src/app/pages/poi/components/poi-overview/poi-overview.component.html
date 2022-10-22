@@ -1,0 +1,44 @@
+<ion-card-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col data-cy="columnCategories">
+        <div class="ion-text-start">
+          <ion-item *ngFor="let category of poi.categories">
+            <ion-thumbnail>
+              <img src="{{ 'assets/category/' + category.toLowerCase() + '.png'}}" alt="{{ category }}">
+            </ion-thumbnail>
+            <ion-label>{{ category }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-col>
+      <ion-col data-cy="columnAttributes">
+        <div class="ion-text-end">
+          <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
+            <ion-icon name="enter-outline" color="primary"></ion-icon>
+            <ion-label>{{poi.ownPosition.distance}} km</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
+            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+            <ion-label>{{poi.attributes.cuisine}}</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours">
+            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+            <ion-label>{{poi.attributes.openingHours}}</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipIsBar" *ngIf="poi.attributes.isBar">
+            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+            <ion-label>Bar</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipIsCafe" *ngIf="poi.attributes.isCafe">
+            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+            <ion-label>Cafe</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipIsBuilding" *ngIf="poi.attributes.isBuilding">
+            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+            <ion-label>Gebäude</ion-label>
+          </ion-chip>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card-content>
