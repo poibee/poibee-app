@@ -1,183 +1,44 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start" *ngIf="showNavigationButtons">
-      <ion-button fill="outline" shape="round" (click)="navigateBack()" data-cy="buttonNavigateBack">
-        <ion-icon name="arrow-up"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title color="primary">POI :-)</ion-title>
-    <ion-buttons slot="end" *ngIf="showNavigationButtons">
-      <ion-button fill="outline" shape="round" (click)="selectPreviousPoi()" data-cy="buttonSelectPreviousPoi">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-      <ion-label data-cy="detailPoiNavigatorText">{{navigatorLabel}}</ion-label>
-      <ion-button fill="outline" shape="round" (click)="selectNextPoi()" data-cy="buttonSelectNextPoi">
-        <ion-icon name="arrow-forward"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <app-poi-navigation-toolbar
+    [poi]="poi"
+    (navigateBack)="navigateBack()"
+    (selectPreviousPoi)="selectPreviousPoi()"
+    (selectNextPoi)="selectNextPoi()">
+  </app-poi-navigation-toolbar>
 </ion-header>
 
 <ion-content padding *ngIf="poi">
 
   <ion-card>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col data-cy="columnCategories">
-            <div class="ion-text-start">
-              <ion-item *ngFor="let category of poi.categories">
-                <ion-thumbnail>
-                  <img src="{{ 'assets/category/' + category.toLowerCase() + '.png'}}" alt="{{ category }}">
-                </ion-thumbnail>
-                <ion-label>{{ category }}</ion-label>
-              </ion-item>
-            </div>
-          </ion-col>
-          <ion-col data-cy="columnAttributes">
-            <div class="ion-text-end">
-              <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
-                <ion-icon name="enter-outline" color="primary"></ion-icon>
-                <ion-label>{{poi.ownPosition.distance}} km</ion-label>
-              </ion-chip>
-              <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
-                <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                <ion-label>{{poi.attributes.cuisine}}</ion-label>
-              </ion-chip>
-              <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours">
-                <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                <ion-label>{{poi.attributes.openingHours}}</ion-label>
-              </ion-chip>
-              <ion-chip data-cy="chipIsBar" *ngIf="poi.attributes.isBar">
-                <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                <ion-label>Bar</ion-label>
-              </ion-chip>
-              <ion-chip data-cy="chipIsCafe" *ngIf="poi.attributes.isCafe">
-                <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                <ion-label>Cafe</ion-label>
-              </ion-chip>
-              <ion-chip data-cy="chipIsBuilding" *ngIf="poi.attributes.isBuilding">
-                <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
-                <ion-label>Gebäude</ion-label>
-              </ion-chip>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
+    <app-poi-overview
+      [poi]="poi">
+    </app-poi-overview>
   </ion-card>
 
   <ion-card>
-    <div #poiMapDiv class="map" data-cy="divPoiMap">
-      <ion-spinner color="primary" name="lines" *ngIf="showProgress"></ion-spinner>
-    </div>
+    <app-poi-map
+      [poi]="poi"
+      [searchCenter]="searchCenter"
+      [showProgress]="showProgress">
+    </app-poi-map>
   </ion-card>
 
   <ion-card>
-    <ion-card-header>
-      <ion-card-title color="primary">Kontakt</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngIf="poi.contact.name">
-          <ion-icon name="chatbox-ellipses-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">Name</ion-label></h3>
-            <p data-cy="itemName">{{poi.contact.name}}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="poi.contact.address">
-          <ion-icon name="home-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">Adresse</ion-label></h3>
-            <p data-cy="itemAddress">{{poi.contact.address}}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="poi.contact.phone">
-          <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">Telefon</ion-label></h3>
-            <p data-cy="itemPhone">{{poi.contact.phone}}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="poi.contact.fax">
-          <ion-icon name="print-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">Fax</ion-label></h3>
-            <p data-cy="itemFax">{{poi.contact.fax}}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="poi.contact.email">
-          <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">E-Mail</ion-label></h3>
-            <p data-cy="itemEmail">
-              <a href="mailto:{{poi.contact.email}}" target="_blank">{{poi.contact.email}}</a>
-            </p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="poi.contact.website">
-          <ion-icon name="globe-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h3><ion-label color="primary">Webseite</ion-label></h3>
-            <p data-cy="itemWebsite">
-              <a href="{{poi.contact.website}}" target="_blank">{{poi.contact.website}}</a>
-            </p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
+    <app-poi-contact
+      [poi]="poi">
+    </app-poi-contact>
   </ion-card>
 
   <ion-card>
-    <ion-card-header>
-      <ion-card-title color="primary">Verweise</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-chip>
-        <ion-icon name="pin" color="primary"></ion-icon>
-        <ion-label data-cy="chipOsmDataset">
-          <a href="{{poi.references.osmDatasetUrl}}" target="_blank">OSM-Datensatz</a>
-        </ion-label>
-      </ion-chip>
-      <ion-chip>
-        <ion-icon name="pin" color="primary"></ion-icon>
-        <ion-label data-cy="chipOsmLocation">
-          <a href="{{poi.references.osmLocationUrl}}" target="_blank">OSM-Karte</a>
-        </ion-label>
-      </ion-chip>
-      <ion-chip>
-        <ion-icon name="pin" color="primary"></ion-icon>
-        <ion-label data-cy="chipGoogleLocation">
-          <a href="{{poi.references.googleLocationUrl}}" target="_blank">Google-Maps</a>
-        </ion-label>
-      </ion-chip>
-      <ion-chip *ngIf="poi.references.wikidataUrl">
-        <ion-icon name="pin" color="primary"></ion-icon>
-        <ion-label data-cy="chipWikidata">
-          <a href="{{poi.references.wikidataUrl}}" target="_blank">Wikidata</a>
-        </ion-label>
-      </ion-chip>
-      <ion-chip *ngIf="poi.references.wikipediaUrl">
-        <ion-icon name="pin" color="primary"></ion-icon>
-        <ion-label data-cy="chipWikipedia">
-          <a href="{{poi.references.wikipediaUrl}}" target="_blank">Wikipedia</a>
-        </ion-label>
-      </ion-chip>
-    </ion-card-content>
+    <app-poi-references
+      [poi]="poi">
+    </app-poi-references>
   </ion-card>
 
   <ion-card data-cy="cardRawData">
-    <ion-accordion-group>
-      <ion-accordion value="first">
-        <ion-item slot="header" color="light">
-          <ion-card-title color="primary">Rohdaten</ion-card-title>
-        </ion-item>
-        <div class="ion-padding" slot="content">
-          <pre>{{ poi.rawData }}</pre>
-        </div>
-      </ion-accordion>
-    </ion-accordion-group>
+    <app-poi-raw-data
+      [poi]="poi">
+    </app-poi-raw-data>
   </ion-card>
 
 </ion-content>
