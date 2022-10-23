@@ -4,12 +4,12 @@
       <ion-icon name="arrow-up"></ion-icon>
     </ion-button>
   </ion-buttons>
-  <ion-title>{{ poiTitle() }}</ion-title>
+  <ion-title data-cy="titlePoiLabel">{{ poi?.label() }}</ion-title>
   <ion-buttons slot="end" *ngIf="showNavigationButtons">
     <ion-button fill="outline" shape="round" (click)="selectPreviousPoiClicked()" data-cy="buttonSelectPreviousPoi">
       <ion-icon name="arrow-back"></ion-icon>
     </ion-button>
-    <ion-label data-cy="detailPoiNavigatorText">{{navigatorLabel}}</ion-label>
+    <ion-label data-cy="labelPoiNavigatorText">{{navigatorLabel}}</ion-label>
     <ion-button fill="outline" shape="round" (click)="selectNextPoiClicked()" data-cy="buttonSelectNextPoi">
       <ion-icon name="arrow-forward"></ion-icon>
     </ion-button>

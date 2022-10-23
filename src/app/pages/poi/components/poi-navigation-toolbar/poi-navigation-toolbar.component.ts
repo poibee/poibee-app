@@ -44,13 +44,6 @@ export class PoiNavigationToolbarComponent implements OnInit, OnChanges {
     this.selectNextPoi.emit();
   }
 
-  poiTitle(): string {
-    if (this.poi) {
-      return this.poi.id;
-    }
-    return 'POI :-)'
-  }
-
   private updateNavigatorElements() {
     this.hasPreviousPoi = this.stateService.hasPreviousPoi();
     this.hasNextPoi = this.stateService.hasNextPoi();

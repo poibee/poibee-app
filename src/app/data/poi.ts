@@ -20,4 +20,7 @@ export class Poi {
     public readonly rawData: string) {
   }
 
+  public label() {
+    return this.name ? this.name : this.categories[0];
+  }
 }
