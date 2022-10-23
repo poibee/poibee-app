@@ -24,7 +24,7 @@ describe('POI detail page', () => {
 
     it('shows no navigation buttons', () => {
       cy.get('[data-cy=buttonSelectNextPoi]').should('not.exist')
-      cy.get('[data-cy=detailPoiNavigatorText]').should('not.exist')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('not.exist')
       cy.get('[data-cy=buttonSelectPreviousPoi]').should('not.exist')
       cy.get('[data-cy=buttonNavigateBack]').should('not.exist')
     })
@@ -52,51 +52,51 @@ describe('POI detail page', () => {
     it('shows navigation buttons', () => {
       cy.get('[data-cy=buttonNavigateBack]').should('exist')
 
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
 
       cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
 
       cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
 
       cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
 
       cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '3 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '3 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Memorial')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '2 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '2 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Parking')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '1 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
 
       cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=detailPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '1 / 7')
       cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
     })
 
@@ -143,6 +143,9 @@ describe('POI detail page', () => {
     it('with every contact attribute', () => {
       cy.visit('/poi/way-12345678')
       cy.url().should('include', '/poi/way-12345678')
+
+      cy.get('[data-cy=titlePoiLabel]').should('have.text', 'Akzent Hotel Zur Wasserburg')
+
       cy.get('[data-cy=itemName]').should('have.text', 'Akzent Hotel Zur Wasserburg')
       cy.get('[data-cy=itemAddress]').should('have.text', 'Amtsfreiheit 4, 27243 Harpstedt')
       cy.get('[data-cy=itemPhone]').should('have.text', '+49 4244 1008')
@@ -158,6 +161,9 @@ describe('POI detail page', () => {
     it('without every contact attribute', () => {
       cy.visit('/poi/node-1628573037')
       cy.url().should('include', '/poi/node-1628573037')
+
+      cy.get('[data-cy=titlePoiLabel]').should('have.text', 'Information')
+
       cy.get('[data-cy=itemName]').should('not.exist')
       cy.get('[data-cy=itemAddress]').should('not.exist')
       cy.get('[data-cy=itemPhone]').should('not.exist')
