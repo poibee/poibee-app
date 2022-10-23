@@ -19,7 +19,7 @@ describe('PoiRawDataComponent', () => {
     fixture = TestBed.createComponent(PoiRawDataComponent);
     component = fixture.componentInstance;
 
-    component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}');
+    component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, null), null, null, null, {}, 1, '{}');
 
     fixture.detectChanges();
   }));

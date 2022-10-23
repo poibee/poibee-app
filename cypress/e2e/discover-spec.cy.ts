@@ -40,6 +40,7 @@ describe('Discover page', () => {
       cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
       cy.get('@christuskircheItem').find('[data-cy=badgeDistance]').should('have.text', '0.05 km')
+      cy.get('@christuskircheItem').find('[data-cy=badgeDirection]').should('have.class', 'rotate-northeast')
     });
 
     it('navigates to poi details after poi click', () => {

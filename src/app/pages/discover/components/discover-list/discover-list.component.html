@@ -12,7 +12,8 @@
       <p>{{poi.name}}</p>
     </ion-label>
     <ion-label slot="end">
-        <ion-badge color="medium" data-cy="badgeDistance">{{poi.ownPosition.distance}} km</ion-badge>
+      <ion-icon name="navigate-circle-outline" color="medium" class="rotate-{{poi.ownPosition.direction.toString()}}" data-cy="badgeDirection"></ion-icon>
+      <ion-badge color="medium" data-cy="badgeDistance">{{poi.ownPosition.distance}} km</ion-badge>
     </ion-label>
   </ion-item>
 </ion-list>

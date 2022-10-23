@@ -10,6 +10,7 @@ import {References} from "../data/references";
 import {Attributes} from "../data/attributes";
 import {GeoService} from "./geo.service";
 import {OwnPosition} from "../data/own-position";
+import {directionToPoi, DirectionTypes} from "../data/direction";
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,8 @@ export class PoisOverpassService {
     let ownPosition: OwnPosition = null;
     if (position) {
       const distance = this.geoService.distanceToPositionInKm(position, coordinates);
-      ownPosition = new OwnPosition(position, distance)
+      const direction = directionToPoi(position, coordinates);
+      ownPosition = new OwnPosition(position, distance, direction);
     }
 
     const cuisine = this.capitalizeString(p.tags['cuisine']);
