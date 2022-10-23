@@ -2,19 +2,17 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule, NavController} from '@ionic/angular';
 
 import {DiscoverListComponent} from './discover-list.component';
-import {of} from "rxjs";
-import {PoisOverpassService} from "../../../../services/pois-overpass.service";
-import {LatLon} from "../../../../data/lat-lon";
 import {Poi} from "../../../../data/poi";
 import {OwnPosition} from "../../../../data/own-position";
+import {DirectionTypes} from "../../../../data/direction";
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
   let fixture: ComponentFixture<DiscoverListComponent>;
 
   const pois = [
-    new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}'),
-    new Poi('otherId', 'otherName', ['otherCategory'], null, new OwnPosition(null, 0), null, null, null, {}, 1, '{}'),
+    new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), null, null, null, {}, 1, '{}'),
+    new Poi('otherId', 'otherName', ['otherCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), null, null, null, {}, 1, '{}'),
   ];
 
   beforeEach(waitForAsync(() => {

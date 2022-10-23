@@ -14,7 +14,7 @@
       <ion-col data-cy="columnAttributes">
         <div class="ion-text-end">
           <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
-            <ion-icon name="enter-outline" color="primary"></ion-icon>
+            <ion-icon name="navigate-circle-outline" color="primary" class="rotate-{{poi.ownPosition.direction.toString()}}"></ion-icon>
             <ion-label>{{poi.ownPosition.distance}} km</ion-label>
           </ion-chip>
           <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">

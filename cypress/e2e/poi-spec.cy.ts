@@ -102,6 +102,7 @@ describe('POI detail page', () => {
 
     it('shows distance chip', () => {
       cy.get('[data-cy=chipDistance]').should('have.text', '0.05 km')
+      cy.get('[data-cy=chipDistance] ion-icon').should('have.class', 'rotate-northeast')
     })
   })
 

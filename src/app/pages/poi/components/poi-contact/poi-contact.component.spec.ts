@@ -20,7 +20,7 @@ describe('PoiContactComponent', () => {
     component = fixture.componentInstance;
 
     const contact = new Contact('a', 'b', 'c', 'd', 'e', 'f');
-    component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0), null, contact, null, {}, 1, '{}');
+    component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, null), null, contact, null, {}, 1, '{}');
 
     fixture.detectChanges();
   }));
