@@ -5,14 +5,21 @@ import {DiscoverListComponent} from './discover-list.component';
 import {Poi} from "../../../../data/poi";
 import {OwnPosition} from "../../../../data/own-position";
 import {DirectionTypes} from "../../../../data/direction";
+import {Attributes} from "../../../../data/attributes";
+import {Contact} from "../../../../data/contact";
+import {References} from "../../../../data/references";
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
   let fixture: ComponentFixture<DiscoverListComponent>;
 
+  const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
+  const attributes = new Attributes(null, null, false, false, false);
+  const contact = new Contact(null, null, null, null, null, null);
+  const references = new References(null, null, null, null, null);
   const pois = [
-    new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), null, null, null, {}, 1, '{}'),
-    new Poi('otherId', 'otherName', ['otherCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), null, null, null, {}, 1, '{}'),
+    new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}'),
+    new Poi('otherId', 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}'),
   ];
 
   beforeEach(waitForAsync(() => {

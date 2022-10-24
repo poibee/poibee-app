@@ -91,12 +91,12 @@ export class PoisOverpassService {
       }
     }
 
-    const wikidataEntity =  p.tags['wikidata'];
+    const wikidataEntity = p.tags['wikidata'];
     const wikidataUrl = wikidataEntity != null ? `https://www.wikidata.org/wiki/${wikidataEntity}` : null;
 
     const references = new References(osmDatasetUrl, osmLocationUrl, googleLocationUrl, wikipediaUrl, wikidataUrl);
 
-    const relevance = p.tags.length;
+    const relevance = Object.keys(p.tags).length;
 
     const rawData = JSON.stringify(p, null, 2);
 

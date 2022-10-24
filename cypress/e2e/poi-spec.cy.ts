@@ -43,7 +43,7 @@ describe('POI detail page', () => {
 
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-label h3').click()
+      cy.get('@christuskircheItem').find('[data-cy=badgeDistance]').click()
 
       cy.url().should('include', '/poi/way-45666704')
       cy.get('ion-content').contains('Christuskirche')
@@ -100,9 +100,11 @@ describe('POI detail page', () => {
       cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
     })
 
-    it('shows distance chip', () => {
-      cy.get('[data-cy=chipDistance]').should('have.text', '0.05 km')
-      cy.get('[data-cy=chipDistance] ion-icon').should('have.class', 'rotate-northeast')
+    it('shows distance and relevance chip ', () => {
+      cy.get('[data-cy=chipOverviewDistance]').should('have.text', '0.05 km')
+      cy.get('[data-cy=chipOverviewDistance] ion-icon').should('have.class', 'rotate-northeast')
+
+      cy.get('[data-cy=chipOverviewRelevance]').should('have.text', '17')
     })
   })
 
@@ -122,23 +124,23 @@ describe('POI detail page', () => {
     it('with specific attributes', () => {
       cy.visit('/poi/way-12345678')
       cy.url().should('include', '/poi/way-12345678')
-      cy.get('[data-cy=chipCuisine]').should('have.text', 'German')
-      cy.get('[data-cy=chipOpeningHours]').should('have.text', '17:00+')
-      cy.get('[data-cy=chipDistance]').should('not.exist')
-      cy.get('[data-cy=chipIsBuilding]').should('have.text', 'Gebäude')
-      cy.get('[data-cy=chipIsBar]').should('have.text', 'Bar')
-      cy.get('[data-cy=chipIsCafe]').should('have.text', 'Cafe')
+      cy.get('[data-cy=chipOverviewCuisine]').should('have.text', 'German')
+      cy.get('[data-cy=chipOverviewOpeningHours]').should('have.text', '17:00+')
+      cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
+      cy.get('[data-cy=chipOverviewIsBuilding]').should('have.text', 'Gebäude')
+      cy.get('[data-cy=chipOverviewIsBar]').should('have.text', 'Bar')
+      cy.get('[data-cy=chipOverviewIsCafe]').should('have.text', 'Cafe')
     });
 
     it('without specific attributes', () => {
       cy.visit('/poi/node-1628573037')
       cy.url().should('include', '/poi/node-1628573037')
-      cy.get('[data-cy=chipCuisine]').should('not.exist')
-      cy.get('[data-cy=chipOpeningHours]').should('not.exist')
-      cy.get('[data-cy=chipDistance]').should('not.exist')
-      cy.get('[data-cy=chipIsBar]').should('not.exist')
-      cy.get('[data-cy=chipIsCafe]').should('not.exist')
-      cy.get('[data-cy=chipIsBuilding]').should('not.exist')
+      cy.get('[data-cy=chipOverviewCuisine]').should('not.exist')
+      cy.get('[data-cy=chipOverviewOpeningHours]').should('not.exist')
+      cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
+      cy.get('[data-cy=chipOverviewIsBar]').should('not.exist')
+      cy.get('[data-cy=chipOverviewIsCafe]').should('not.exist')
+      cy.get('[data-cy=chipOverviewIsBuilding]').should('not.exist')
     });
 
     it('with every contact attribute', () => {

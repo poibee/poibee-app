@@ -12,6 +12,17 @@
       <p>{{poi.name}}</p>
     </ion-label>
     <ion-label slot="end">
+      <ion-badge color="warning" *ngIf="poi.attributes.openingHours" data-cy="badgeOpeningHours">Zeiten</ion-badge>
+      <ion-badge color="secondary" *ngIf="poi.attributes.cuisine" data-cy="badgeCuisine">{{poi.attributes.cuisine}}</ion-badge>
+      <ion-badge color="danger" *ngIf="poi.contact.website" data-cy="badgeWebsite">
+        <a href="{{poi.contact.website}}" target="_blank">Webseite</a>
+      </ion-badge>
+      <ion-badge color="success" *ngIf="poi.references.wikidataUrl" data-cy="badgeWikidata">
+        <a href="{{poi.references.wikidataUrl}}" target="_blank">Wikidata</a>
+      </ion-badge>
+      <ion-badge color="warning" *ngIf="poi.references.wikipediaUrl" data-cy="badgeWikipedia">
+        <a href="{{poi.references.wikipediaUrl}}" target="_blank">Wikipedia</a>
+      </ion-badge>
       <ion-icon name="navigate-circle-outline" color="medium" class="rotate-{{poi.ownPosition.direction.toString()}}" data-cy="badgeDirection"></ion-icon>
       <ion-badge color="medium" data-cy="badgeDistance">{{poi.ownPosition.distance}} km</ion-badge>
     </ion-label>
