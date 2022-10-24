@@ -12,19 +12,30 @@
       <p>{{poi.name}}</p>
     </ion-label>
     <ion-label slot="end">
-      <ion-badge color="warning" *ngIf="poi.attributes.openingHours" data-cy="badgeOpeningHours">Zeiten</ion-badge>
-      <ion-badge color="secondary" *ngIf="poi.attributes.cuisine" data-cy="badgeCuisine">{{poi.attributes.cuisine}}</ion-badge>
-      <ion-badge color="danger" *ngIf="poi.contact.website" data-cy="badgeWebsite">
-        <a href="{{poi.contact.website}}" target="_blank">Webseite</a>
-      </ion-badge>
-      <ion-badge color="success" *ngIf="poi.references.wikidataUrl" data-cy="badgeWikidata">
-        <a href="{{poi.references.wikidataUrl}}" target="_blank">Wikidata</a>
-      </ion-badge>
-      <ion-badge color="warning" *ngIf="poi.references.wikipediaUrl" data-cy="badgeWikipedia">
-        <a href="{{poi.references.wikipediaUrl}}" target="_blank">Wikipedia</a>
-      </ion-badge>
-      <ion-icon name="navigate-circle-outline" color="medium" class="rotate-{{poi.ownPosition.direction.toString()}}" data-cy="badgeDirection"></ion-icon>
-      <ion-badge color="medium" data-cy="badgeDistance">{{poi.ownPosition.distance}} km</ion-badge>
+      <ion-chip data-cy="chipWebsite" *ngIf="poi.contact.website">
+        <ion-icon name="home-outline" color="primary"></ion-icon>
+        <ion-label>Webseite</ion-label>
+      </ion-chip>
+      <ion-chip data-cy="chipWikipedia" *ngIf="poi.references.wikipediaUrl">
+        <ion-icon name="library-outline" color="primary"></ion-icon>
+        <ion-label>Wikipedia</ion-label>
+      </ion-chip>
+      <ion-chip data-cy="chipWikidata" *ngIf="poi.references.wikidataUrl">
+        <ion-icon name="library-outline" color="primary"></ion-icon>
+        <ion-label>Wikidata</ion-label>
+      </ion-chip>
+      <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
+        <ion-icon name="restaurant-outline" color="primary"></ion-icon>
+        <ion-label>{{poi.attributes.cuisine}}</ion-label>
+      </ion-chip>
+      <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours">
+        <ion-icon name="time-outline" color="primary"></ion-icon>
+        <ion-label>Zeiten</ion-label>
+      </ion-chip>
+      <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
+        <ion-icon name="navigate-circle-outline" color="primary" class="rotate-{{poi.ownPosition.direction.toString()}}" data-cy="chipDirection"></ion-icon>
+        <ion-label>{{poi.ownPosition.distance}} km</ion-label>
+      </ion-chip>
     </ion-label>
   </ion-item>
 </ion-list>
