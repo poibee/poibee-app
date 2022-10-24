@@ -13,29 +13,33 @@
       </ion-col>
       <ion-col data-cy="columnAttributes">
         <div class="ion-text-end">
-          <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
-            <ion-icon name="navigate-circle-outline" color="primary" class="rotate-{{poi.ownPosition.direction.toString()}}"></ion-icon>
-            <ion-label>{{poi.ownPosition.distance}} km</ion-label>
-          </ion-chip>
-          <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
-            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+          <ion-chip data-cy="chipOverviewCuisine" *ngIf="poi.attributes.cuisine">
+            <ion-icon name="restaurant-outline" color="primary"></ion-icon>
             <ion-label>{{poi.attributes.cuisine}}</ion-label>
           </ion-chip>
-          <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours">
-            <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
+          <ion-chip data-cy="chipOverviewOpeningHours" *ngIf="poi.attributes.openingHours">
+            <ion-icon name="time-outline" color="primary"></ion-icon>
             <ion-label>{{poi.attributes.openingHours}}</ion-label>
           </ion-chip>
-          <ion-chip data-cy="chipIsBar" *ngIf="poi.attributes.isBar">
+          <ion-chip data-cy="chipOverviewIsBar" *ngIf="poi.attributes.isBar">
             <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
             <ion-label>Bar</ion-label>
           </ion-chip>
-          <ion-chip data-cy="chipIsCafe" *ngIf="poi.attributes.isCafe">
+          <ion-chip data-cy="chipOverviewIsCafe" *ngIf="poi.attributes.isCafe">
             <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
             <ion-label>Cafe</ion-label>
           </ion-chip>
-          <ion-chip data-cy="chipIsBuilding" *ngIf="poi.attributes.isBuilding">
+          <ion-chip data-cy="chipOverviewIsBuilding" *ngIf="poi.attributes.isBuilding">
             <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
             <ion-label>Gebäude</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipOverviewDistance" *ngIf="poi.ownPosition">
+            <ion-icon name="navigate-circle-outline" color="primary" class="rotate-{{poi.ownPosition.direction.toString()}}"></ion-icon>
+            <ion-label>{{poi.ownPosition.distance}} km</ion-label>
+          </ion-chip>
+          <ion-chip data-cy="chipOverviewRelevance">
+            <ion-icon name="cellular-outline" color="primary"></ion-icon>
+            <ion-label>{{poi.relevance}}</ion-label>
           </ion-chip>
         </div>
       </ion-col>

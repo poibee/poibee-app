@@ -17,6 +17,7 @@
       "addr:street": "1. Kirchstraße",
       "amenity": "place_of_worship",
       "building": "church",
+      "cuisine": "german",
       "denomination": "lutheran",
       "email": "buero@kirche-harpstedt.de",
       "fax": "+49 4244 9653059",
@@ -26,7 +27,8 @@
       "religion": "christian",
       "service_times": "Su 10:00-11:00",
       "website": "https://www.kirche-harpstedt.de/",
-      "wikidata": "Q1087325"
+      "wikidata": "Q1087325",
+      "wikipedia": "de:Christuskirche (Harpstedt)"
     }
   },
   {

@@ -35,12 +35,32 @@ describe('Discover page', () => {
     it('shows poi details as line item', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
 
+      cy.get('app-discover-list ion-list ion-item').first().as('informationItem')
+      cy.get('@informationItem').find('ion-label h3').should('have.text', 'Information')
+      cy.get('@informationItem').find('ion-label p').should('have.text', '')
+      cy.get('@informationItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/information.png')
+      cy.get('@informationItem').find('[data-cy=badgeCuisine]').should('not.exist')
+      cy.get('@informationItem').find('[data-cy=badgeDistance]').should('have.text', '0.02 km')
+      cy.get('@informationItem').find('[data-cy=badgeDirection]').should('have.class', 'rotate-west')
+      cy.get('@informationItem').find('[data-cy=badgeOpeningHours]').should('not.exist')
+      cy.get('@informationItem').find('[data-cy=badgeWebsite]').should('not.exist')
+      cy.get('@informationItem').find('[data-cy=badgeWikidata]').should('not.exist')
+      cy.get('@informationItem').find('[data-cy=badgeWikipedia]').should('not.exist')
+
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
       cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
       cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
+      cy.get('@christuskircheItem').find('[data-cy=badgeCuisine]').should('have.text', 'German')
       cy.get('@christuskircheItem').find('[data-cy=badgeDistance]').should('have.text', '0.05 km')
       cy.get('@christuskircheItem').find('[data-cy=badgeDirection]').should('have.class', 'rotate-northeast')
+      cy.get('@christuskircheItem').find('[data-cy=badgeOpeningHours]').should('have.text', 'Zeiten')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWebsite]').should('have.text', 'Webseite')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWebsite] a').should('have.attr', 'href', 'https://www.kirche-harpstedt.de/')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWikidata]').should('have.text', 'Wikidata')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWikidata] a').should('have.attr', 'href', 'https://www.wikidata.org/wiki/Q1087325')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWikipedia]').should('have.text', 'Wikipedia')
+      cy.get('@christuskircheItem').find('[data-cy=badgeWikipedia] a').should('have.attr', 'href', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
     });
 
     it('navigates to poi details after poi click', () => {
@@ -103,12 +123,12 @@ describe('Discover page', () => {
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(2).find('ion-radio').click()
       cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Church')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Hotel')
       cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Amenity')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Parking')
       cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Memorial')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Information')
 
       // sort by category
       pressEscape();
