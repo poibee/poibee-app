@@ -43,7 +43,7 @@ describe('POI detail page', () => {
 
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('[data-cy=chipDistance]').click()
+      cy.get('@christuskircheItem').find('ion-label h3').click()
 
       cy.url().should('include', '/poi/way-45666704')
       cy.get('ion-content').contains('Christuskirche')

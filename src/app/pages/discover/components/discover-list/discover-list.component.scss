@@ -1,3 +1,34 @@
+ion-item > ion-label {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+ion-thumbnail {
+  width: 40px;
+  height: 40px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-right: 8px;
+}
+
+.poibee-chip-section {
+  margin-left: 0;
+
+  ion-label {
+    font-size: smaller;
+  }
+
+  ion-chip {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    height: 18px;
+  }
+
+  ion-icon {
+    font-size: 15px;
+  }
+}
+
 ion-icon.rotate-northeast {
   transform: rotate(0deg);
 }
