@@ -65,7 +65,7 @@ describe('Discover page', () => {
 
     it('navigates to poi details after poi click', () => {
       cy.get('app-discover-list ion-list ion-item').last().as('wasserburgItem')
-      cy.get('@wasserburgItem').find('[data-cy=chipDistance]').click()
+      cy.get('@wasserburgItem').find('ion-label h3').click()
 
       cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
@@ -161,7 +161,7 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 3)
       cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 3 mit Filter, 7 insgesamt')
       cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=chipDistance]').click()
+      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').click()
 
       cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
