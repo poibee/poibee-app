@@ -21,6 +21,10 @@
             <ion-icon name="time-outline" color="primary"></ion-icon>
             <ion-label>{{poi.attributes.openingHours}}</ion-label>
           </ion-chip>
+          <ion-chip data-cy="chipOverviewVending" *ngIf="poi.attributes.vending">
+            <ion-icon name="scale-outline" color="primary"></ion-icon>
+            <ion-label>{{poi.attributes.vending}}</ion-label>
+          </ion-chip>
           <ion-chip data-cy="chipOverviewIsBar" *ngIf="poi.attributes.isBar">
             <ion-icon name="checkmark-circle-outline" color="primary"></ion-icon>
             <ion-label>Bar</ion-label>

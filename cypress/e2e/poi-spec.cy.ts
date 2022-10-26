@@ -43,7 +43,7 @@ describe('POI detail page', () => {
 
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-label h3').click()
+      cy.get('@christuskircheItem').find('ion-thumbnail').click({ multiple: true })
 
       cy.url().should('include', '/poi/way-45666704')
       cy.get('ion-content').contains('Christuskirche')
@@ -126,6 +126,7 @@ describe('POI detail page', () => {
       cy.url().should('include', '/poi/way-12345678')
       cy.get('[data-cy=chipOverviewCuisine]').should('have.text', 'German')
       cy.get('[data-cy=chipOverviewOpeningHours]').should('have.text', '17:00+')
+      cy.get('[data-cy=chipOverviewVending]').should('have.text', 'wine')
       cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
       cy.get('[data-cy=chipOverviewIsBuilding]').should('have.text', 'Gebäude')
       cy.get('[data-cy=chipOverviewIsBar]').should('have.text', 'Bar')
@@ -137,6 +138,7 @@ describe('POI detail page', () => {
       cy.url().should('include', '/poi/node-1628573037')
       cy.get('[data-cy=chipOverviewCuisine]').should('not.exist')
       cy.get('[data-cy=chipOverviewOpeningHours]').should('not.exist')
+      cy.get('[data-cy=chipOverviewVending]').should('not.exist')
       cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
       cy.get('[data-cy=chipOverviewIsBar]').should('not.exist')
       cy.get('[data-cy=chipOverviewIsCafe]').should('not.exist')
