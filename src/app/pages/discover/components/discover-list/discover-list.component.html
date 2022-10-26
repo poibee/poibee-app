@@ -4,7 +4,7 @@
 
 <ion-list>
   <ion-item *ngFor="let poi of pois; index as i" detail="false">
-    <ion-thumbnail>
+    <ion-thumbnail (click)='navigateTo(poi)'>
       <img src="{{ 'assets/category/' + poi.categories[0].toLowerCase() + '.png'}}">
     </ion-thumbnail>
     <ion-label (click)='navigateTo(poi)'>
@@ -84,6 +84,20 @@
                 <ion-chip data-cy="popoverChipOpeningHours">
                   <ion-icon name="time-outline" color="primary"></ion-icon>
                   <ion-label>{{poi.attributes.openingHours}}</ion-label>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
+        </ion-chip>
+        <ion-chip data-cy="chipVending" *ngIf="poi.attributes.vending" id="click-trigger-vending-{{i}}">
+          <ion-icon name="scale-outline" color="primary"></ion-icon>
+          <ion-label class="ion-hide-sm-down">Verkauf</ion-label>
+          <ion-popover trigger="click-trigger-vending-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip data-cy="popoverChipVending">
+                  <ion-icon name="scale-outline" color="primary"></ion-icon>
+                  <ion-label>{{poi.attributes.vending}}</ion-label>
                 </ion-chip>
               </ion-content>
             </ng-template>

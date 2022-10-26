@@ -76,6 +76,11 @@ describe('Discover page', () => {
       cy.get('[data-cy=popoverChipOpeningHours]').should('have.text', 'Th 12:00-12:00; Su 13:30-17:00')
       pressEscape()
 
+      cy.get('@christuskircheItem').find('[data-cy=chipVending]').should('have.text', 'Verkauf')
+      cy.get('@christuskircheItem').find('[data-cy=chipVending]').click()
+      cy.get('[data-cy=popoverChipVending]').should('have.text', 'wine')
+      pressEscape()
+
       cy.get('@christuskircheItem').find('[data-cy=chipWebsite]').should('have.text', 'Webseite')
       cy.get('@christuskircheItem').find('[data-cy=chipWebsite]').click()
       cy.get('[data-cy=popoverChipWebsite]').should('have.text', 'https://www.kirche-harpstedt.de/')

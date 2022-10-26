@@ -65,10 +65,11 @@ export class PoisOverpassService {
 
     const cuisine = this.capitalizeString(p.tags['cuisine']);
     const openingHours = p.tags['opening_hours'];
+    const vending = p.tags['vending'];
     const isBar = p.tags['bar'];
     const isCafe = p.tags['cafe'];
     const isBuilding = p.tags['building'];
-    const attributes = new Attributes(cuisine, openingHours, isBar, isCafe, isBuilding);
+    const attributes = new Attributes(cuisine, openingHours, vending, isBar, isCafe, isBuilding);
 
     const name = p.tags['name'];
     const address = this.calculateAddress(p);

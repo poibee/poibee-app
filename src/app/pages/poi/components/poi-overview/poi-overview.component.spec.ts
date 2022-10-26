@@ -20,7 +20,7 @@ describe('PoiOverviewComponent', () => {
     fixture = TestBed.createComponent(PoiOverviewComponent);
     component = fixture.componentInstance;
 
-    const attributes = new Attributes('a', 'b', false, false, false);
+    const attributes = new Attributes('a', 'b', null, false, false, false);
     component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), attributes, null, null, {}, 1, '{}');
 
     fixture.detectChanges();

@@ -14,7 +14,7 @@ describe('DiscoverListComponent', () => {
   let fixture: ComponentFixture<DiscoverListComponent>;
 
   const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
-  const attributes = new Attributes(null, null, false, false, false);
+  const attributes = new Attributes(null, null, null, false, false, false);
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
   const pois = [
