@@ -3,7 +3,7 @@
 </p>
 
 <ion-list>
-  <ion-item *ngFor="let poi of pois" detail="false">
+  <ion-item *ngFor="let poi of pois; index as i" detail="false">
     <ion-thumbnail>
       <img src="{{ 'assets/category/' + poi.categories[0].toLowerCase() + '.png'}}">
     </ion-thumbnail>
@@ -13,31 +13,81 @@
     </ion-label>
     <ion-label slot="end" class="poibee-chip-section">
       <div class="ion-text-end">
-        <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition">
+        <ion-chip data-cy="chipDistance" *ngIf="poi.ownPosition" class="poibee-chip-distance">
           <ion-icon name="navigate-circle-outline" color="primary" class="rotate-{{poi.ownPosition.direction.toString()}}" data-cy="chipDirection"></ion-icon>
           <ion-label>{{poi.ownPosition.distance}}&nbsp;km</ion-label>
         </ion-chip>
       </div>
       <div class="ion-text-end">
-        <ion-chip data-cy="chipWebsite" *ngIf="poi.contact.website">
+        <ion-chip data-cy="chipWebsite" *ngIf="poi.contact.website" id="click-trigger-website-{{i}}">
           <ion-icon name="home-outline" color="primary"></ion-icon>
           <ion-label class="ion-hide-sm-down">Webseite</ion-label>
+          <ion-popover data-cy="popoverChipWebsite" trigger="click-trigger-website-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip>
+                  <ion-icon name="home-outline" color="primary"></ion-icon>
+                  <a href="{{poi.contact.website}}" target="_blank">{{poi.contact.website}}</a>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
         </ion-chip>
-        <ion-chip data-cy="chipWikipedia" *ngIf="poi.references.wikipediaUrl">
+        <ion-chip data-cy="chipWikipedia" *ngIf="poi.references.wikipediaUrl" id="click-trigger-wikipedia-{{i}}">
           <ion-icon name="library-outline" color="primary"></ion-icon>
           <ion-label class="ion-hide-sm-down">Wikipedia</ion-label>
+          <ion-popover data-cy="popoverChipWikipedia" trigger="click-trigger-wikipedia-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip>
+                  <ion-icon name="library-outline" color="primary"></ion-icon>
+                  <a href="{{poi.references.wikipediaUrl}}" target="_blank">{{poi.references.wikipediaUrl}}</a>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
         </ion-chip>
-        <ion-chip data-cy="chipWikidata" *ngIf="poi.references.wikidataUrl">
+        <ion-chip data-cy="chipWikidata" *ngIf="poi.references.wikidataUrl" id="click-trigger-wikidata-{{i}}">
           <ion-icon name="library-outline" color="primary"></ion-icon>
           <ion-label class="ion-hide-sm-down">Wikidata</ion-label>
+          <ion-popover data-cy="popoverChipWikidata" trigger="click-trigger-wikidata-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip>
+                  <ion-icon name="library-outline" color="primary"></ion-icon>
+                  <a href="{{poi.references.wikidataUrl}}" target="_blank">{{poi.references.wikidataUrl}}</a>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
         </ion-chip>
-        <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine">
+        <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine" id="click-trigger-cuisine-{{i}}">
           <ion-icon name="restaurant-outline" color="primary"></ion-icon>
-          <ion-label class="ion-hide-sm-down">{{poi.attributes.cuisine}}</ion-label>
+          <ion-label class="ion-hide-sm-down">Küche</ion-label>
+          <ion-popover trigger="click-trigger-cuisine-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip data-cy="popoverChipCuisine">
+                  <ion-icon name="restaurant-outline" color="primary"></ion-icon>
+                  <ion-label>{{poi.attributes.cuisine}}</ion-label>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
         </ion-chip>
-        <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours">
+        <ion-chip data-cy="chipOpeningHours" *ngIf="poi.attributes.openingHours" id="click-trigger-openingHours-{{i}}">
           <ion-icon name="time-outline" color="primary"></ion-icon>
           <ion-label class="ion-hide-sm-down">Zeiten</ion-label>
+          <ion-popover trigger="click-trigger-openingHours-{{i}}" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-chip data-cy="popoverChipOpeningHours">
+                  <ion-icon name="time-outline" color="primary"></ion-icon>
+                  <ion-label>{{poi.attributes.openingHours}}</ion-label>
+                </ion-chip>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
         </ion-chip>
       </div>
     </ion-label>
