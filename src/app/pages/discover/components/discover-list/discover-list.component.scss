@@ -1,3 +1,8 @@
+ion-header ion-label {
+  --background: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.12);
+  --color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.87);
+}
+
 ion-item > ion-label {
   margin-top: 2px;
   margin-bottom: 2px;
@@ -26,6 +31,10 @@ ion-thumbnail {
 
   ion-icon {
     font-size: 15px;
+  }
+
+  .poibee-chip-distance:hover {
+    cursor: default;
   }
 }
 

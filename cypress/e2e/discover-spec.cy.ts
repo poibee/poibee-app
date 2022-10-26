@@ -32,7 +32,7 @@ describe('Discover page', () => {
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=all&distance=250')
     });
 
-    it('shows poi details as line item', () => {
+    it('shows poi details as chips in line item', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
 
       cy.get('app-discover-list ion-list ion-item').first().as('informationItem')
@@ -51,16 +51,47 @@ describe('Discover page', () => {
       cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
       cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
-      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'German')
+      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
       cy.get('@christuskircheItem').find('[data-cy=chipDistance]').should('have.text', '0.05\u00a0km')
       cy.get('@christuskircheItem').find('[data-cy=chipDirection]').should('have.class', 'rotate-northeast')
       cy.get('@christuskircheItem').find('[data-cy=chipOpeningHours]').should('have.text', 'Zeiten')
       cy.get('@christuskircheItem').find('[data-cy=chipWebsite]').should('have.text', 'Webseite')
-// TODO - inlude? cy.get('@christuskircheItem').find('[data-cy=chipWebsite] a').should('have.attr', 'href', 'https://www.kirche-harpstedt.de/')
       cy.get('@christuskircheItem').find('[data-cy=chipWikidata]').should('have.text', 'Wikidata')
-// TODO - inlude? cy.get('@christuskircheItem').find('[data-cy=chipWikidata] a').should('have.attr', 'href', 'https://www.wikidata.org/wiki/Q1087325')
       cy.get('@christuskircheItem').find('[data-cy=chipWikipedia]').should('have.text', 'Wikipedia')
-// TODO - inlude? cy.get('@christuskircheItem').find('[data-cy=chipWikipedia] a').should('have.attr', 'href', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
+    });
+
+    it('shows poi details as chips with popup for further informations', () => {
+      cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
+
+      cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
+      cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
+
+      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
+      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').click()
+      cy.get('[data-cy=popoverChipCuisine]').should('have.text', 'German')
+      pressEscape()
+
+      cy.get('@christuskircheItem').find('[data-cy=chipOpeningHours]').should('have.text', 'Zeiten')
+      cy.get('@christuskircheItem').find('[data-cy=chipOpeningHours]').click()
+      cy.get('[data-cy=popoverChipOpeningHours]').should('have.text', 'Th 12:00-12:00; Su 13:30-17:00')
+      pressEscape()
+
+      cy.get('@christuskircheItem').find('[data-cy=chipWebsite]').should('have.text', 'Webseite')
+      cy.get('@christuskircheItem').find('[data-cy=chipWebsite]').click()
+      cy.get('[data-cy=popoverChipWebsite]').should('have.text', 'https://www.kirche-harpstedt.de/')
+      cy.get('[data-cy=popoverChipWebsite] a').should('have.attr', 'href', 'https://www.kirche-harpstedt.de/')
+      pressEscape()
+
+      cy.get('@christuskircheItem').find('[data-cy=chipWikidata]').should('have.text', 'Wikidata')
+      cy.get('@christuskircheItem').find('[data-cy=chipWikidata]').click()
+      cy.get('[data-cy=popoverChipWikidata]').should('have.text', 'https://www.wikidata.org/wiki/Q1087325')
+      cy.get('[data-cy=popoverChipWikidata] a').should('have.attr', 'href', 'https://www.wikidata.org/wiki/Q1087325')
+      pressEscape()
+
+      cy.get('@christuskircheItem').find('[data-cy=chipWikipedia]').should('have.text', 'Wikipedia')
+      cy.get('@christuskircheItem').find('[data-cy=chipWikipedia]').click()
+      cy.get('[data-cy=popoverChipWikipedia]').should('have.text', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
+      cy.get('[data-cy=popoverChipWikipedia] a').should('have.attr', 'href', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
     });
 
     it('navigates to poi details after poi click', () => {
