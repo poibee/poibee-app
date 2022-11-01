@@ -5,6 +5,7 @@
     [searchAttributes]="searchAttributes"
     [searchActive]="searchActive"
     (searchUpdated)="executeSearch($event)"
+    (resultViewTypeUpdated)="changeView($event)"
     data-cy="componentDiscoverSearchToolbar">
   </app-discover-search-toolbar>
 
@@ -17,8 +18,22 @@
 </ion-header>
 
 <ion-content>
+  <app-discover-map
+    *ngIf="resultViewType === 'MAP'"
+    [pois]="filteredPois"
+    [searchAttributes]="searchAttributes"
+    data-cy="componentDiscoverMap">
+  </app-discover-map>
   <app-discover-list
+    *ngIf="resultViewType === 'LIST'"
     [pois]="filteredPois"
     data-cy="componentDiscoverList">
   </app-discover-list>
 </ion-content>
+
+<ion-footer
+  *ngIf="resultViewType === 'MAP'">
+  <app-discover-poi-detail-toolbar
+    data-cy="componentDiscoverPoiDetailToolbar">
+  </app-discover-poi-detail-toolbar>
+</ion-footer>

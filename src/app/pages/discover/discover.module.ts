@@ -14,6 +14,8 @@ import {DiscoverSearchModalComponent} from "./components/discover-search-modal/d
 import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
 import {CategoryModalMainItemComponent} from "./components/category-modal-main-item/category-modal-main-item.component";
 import {CategoryModalComponent} from "./components/category-modal/category-modal.component";
+import {DiscoverMapComponent} from "./components/discover-map/discover-map.component";
+import {DiscoverPoiDetailToolbarComponent} from "./components/discover-poi-detail-toolbar/discover-poi-detail-toolbar.component";
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import {CategoryModalComponent} from "./components/category-modal/category-modal
   declarations: [
     DiscoverFilterToolbarComponent,
     DiscoverListComponent,
+    DiscoverMapComponent,
+    DiscoverPoiDetailToolbarComponent,
     DiscoverSearchModalComponent,
     DiscoverSearchToolbarComponent,
     MyPositionMapComponent,
