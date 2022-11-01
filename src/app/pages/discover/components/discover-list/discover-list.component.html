@@ -7,7 +7,7 @@
     <ion-thumbnail (click)='navigateTo(poi)'>
       <img src="{{ 'assets/category/' + poi.categories[0].toLowerCase() + '.png'}}">
     </ion-thumbnail>
-    <ion-label (click)='navigateTo(poi)'>
+    <ion-label (click)='navigateTo(poi)'>  <!-- TODO routerLink ausprobieren wie im Buch -->
       <h3>{{poi.categories[0]}}</h3>
       <p>{{poi.name}}</p>
     </ion-label>

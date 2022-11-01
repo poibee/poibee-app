@@ -1,24 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {SortTypes, sortTypesAsArray} from "../../data/sort-types";
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {sortTypesAsArray} from "../../data/sort-types";
 import {Poi} from "../../data/poi";
 import {Subscription} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {PoisFilterService} from "../../services/pois-filter.service";
-import {PoisSorterService} from "../../services/pois-sorter.service";
 import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
 import {StateService} from "../../services/state.service";
+import {ResultViewType} from "../../data/result-view-type";
 
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss'],
 })
-export class DiscoverPage implements OnInit {
+export class DiscoverPage implements OnInit, OnChanges {
 
   constructor(
     private stateService: StateService,
     private poisOverpassService: PoisOverpassService) {
   }
+
+  resultViewType: ResultViewType = 'MAP';
 
   searchActive = false;
   searchAttributes: SearchAttributes = INITIAL_SEARCH_ATTRIBUTES;
@@ -40,6 +41,10 @@ export class DiscoverPage implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // do nothing
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -59,6 +64,10 @@ export class DiscoverPage implements OnInit {
   executeSearch(value: SearchAttributes) {
     this.searchAttributes = value;
     this.reloadPois(value);
+  }
+
+  changeView(value: ResultViewType) {
+    this.resultViewType = value;
   }
 
   private reloadPois(attr: SearchAttributes) {

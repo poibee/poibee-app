@@ -1,0 +1,9 @@
+ion-toggle {
+  opacity: 1;
+  padding-left: 3px;
+  padding-right: 3px;
+  --background: var(--ion-color-primary);
+  --background-checked: var(--ion-color-primary);
+  --handle-background: url(/assets/widget/map-icon.png) no-repeat center / contain;
+  --handle-background-checked: url(/assets/widget/list-icon.png) no-repeat center / contain;
+}
