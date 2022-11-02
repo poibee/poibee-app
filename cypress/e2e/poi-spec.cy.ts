@@ -1,6 +1,8 @@
 describe('POI detail page', () => {
 
   beforeEach(() => {
+    Cypress.config('defaultCommandTimeout', 60000);
+
     cy.viewport('iphone-x')
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
     cy.intercept('GET', '/pois/way12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
@@ -38,6 +40,7 @@ describe('POI detail page', () => {
 
     beforeEach(() => {
       cy.visit('/discover')
+      cy.get('[data-cy=buttonToggleView]').click()
       cy.get('[data-cy=buttonSearchModal]').click()
       cy.get('[data-cy=buttonStartSearch]').click()
 
@@ -211,7 +214,7 @@ describe('POI detail page', () => {
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').should('exist')
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').should('have.length', 1)
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.class', 'leaflet-marker-icon')
-      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/marker/marker-icon.png')
+      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/category/hotel.png')
     });
 
     it('with raw data as JSON', () => {
