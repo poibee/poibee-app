@@ -23,17 +23,9 @@ describe('DiscoverListComponent', () => {
   ];
 
   beforeEach(waitForAsync(() => {
-    const navCtrlMock = {
-      navigateRoot: (url: string) => {}
-    };
-    spyOn(navCtrlMock, 'navigateRoot').and.callThrough();
-
     TestBed.configureTestingModule({
       declarations: [DiscoverListComponent],
-      imports: [IonicModule.forRoot()],
-      providers: [
-        {provide: NavController, useValue: navCtrlMock},
-      ]
+      imports: [IonicModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DiscoverListComponent);
