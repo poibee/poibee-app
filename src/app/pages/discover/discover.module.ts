@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import {DiscoverPageRoutingModule} from './discover-routing.module';
 
 import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
+import {DiscoverListItemComponent} from "./components/discover-list-item/discover-list-item.component";
 import {DiscoverPage} from './discover.page';
 import {DiscoverFilterToolbarComponent} from "./components/discover-filter-toolbar/discover-filter-toolbar.component";
 import {DiscoverSearchToolbarComponent} from "./components/discover-search-toolbar/discover-search-toolbar.component";
@@ -16,7 +17,6 @@ import {CategoryModalMainItemComponent} from "./components/category-modal-main-i
 import {CategoryModalComponent} from "./components/category-modal/category-modal.component";
 import {DiscoverMapComponent} from "./components/discover-map/discover-map.component";
 import {DiscoverPoiDetailToolbarComponent} from "./components/discover-poi-detail-toolbar/discover-poi-detail-toolbar.component";
-
 
 @NgModule({
   imports: [
@@ -28,6 +28,7 @@ import {DiscoverPoiDetailToolbarComponent} from "./components/discover-poi-detai
   declarations: [
     DiscoverFilterToolbarComponent,
     DiscoverListComponent,
+    DiscoverListItemComponent,
     DiscoverMapComponent,
     DiscoverPoiDetailToolbarComponent,
     DiscoverSearchModalComponent,
