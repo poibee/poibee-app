@@ -19,6 +19,15 @@ export class ImageService {
     })
   }
 
+  loadSelectedMarkerIcon() {
+    return new Icon({
+      iconUrl: 'assets/marker/poi-selection-mask.png',
+      iconSize: [32, 37],     // size of the icon
+      iconAnchor: [16, 37],   // point of the icon which will correspond to markers location
+      popupAnchor: [32, 20]   // point from which the popup should open relative to the iconAnchor
+    })
+  }
+
   loadCategoryIcon(category: string) {
     return new Icon({
       iconUrl: 'assets/category/' + category + '.png',
