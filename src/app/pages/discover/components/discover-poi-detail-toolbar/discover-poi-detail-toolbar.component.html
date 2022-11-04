@@ -1,3 +1,10 @@
-<p>
-  discover-poi-detail-toolbar works!
-</p>
+<ion-list>
+  <app-discover-list-item *ngIf="poi"
+    [poi]="poi"
+    [index]="0">
+  </app-discover-list-item>
+
+  <ion-item *ngIf="! poi">
+    <p>Kein POI ausgewählt</p>
+  </ion-item>
+</ion-list>

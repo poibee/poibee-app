@@ -18,6 +18,7 @@ import {LatLon} from "../../../../data/lat-lon";
 import {SearchDistance} from "../../../../data/search-distance";
 import {Poi} from "../../../../data/poi";
 import {SearchAttributes} from "../../../../data/search-attributes";
+import {PoiNavigatorControl} from "./poi-navigator.control";
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -37,9 +38,14 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private searchCenterMarker: Marker;
   private searchDistanceCircle: Circle;
   private poisLayer: LayerGroup;
+  private poiNavigatorControl: PoiNavigatorControl;
 
   @Input() pois: Poi[] = [];
   @Input() searchAttributes: SearchAttributes;
+  @Input() selectedPoiText: string;
+
+  @Output() selectNextPoiOutput = new EventEmitter<void>();
+  @Output() selectPreviousPoiOutput = new EventEmitter<void>();
 
   constructor(
     private imageService: ImageService
@@ -59,6 +65,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const poisChange: SimpleChange = changes['pois'];
     const searchAttributesChange: SimpleChange = changes['searchAttributes'];
+    const selectedPoiTextChange: SimpleChange = changes['selectedPoiText'];
 
     if (poisChange && !poisChange.firstChange) {
       this.updatePois(this.pois);
@@ -66,6 +73,10 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
     if (searchAttributesChange && !searchAttributesChange.firstChange) {
       this.updateSearchAttributes(this.searchAttributes);
+    }
+
+    if (this.poiNavigatorControl && selectedPoiTextChange && !selectedPoiTextChange.firstChange) {
+      this.poiNavigatorControl.updateLabel(this.selectedPoiText)
     }
   }
 
@@ -124,6 +135,8 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       color: '#ff7777',
       weight: 1
     }).addTo(searchLayer);
+
+    this.poiNavigatorControl = new PoiNavigatorControl(this.discoverMap, this.selectPreviousPoiOutput, this.selectNextPoiOutput, {position: 'bottomright'});
   }
 
   private sleep(time) {

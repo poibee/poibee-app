@@ -52,16 +52,16 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
 
       cy.get('app-discover-list ion-list ion-item').first().as('informationItem')
-      cy.get('@informationItem').find('ion-label h3').should('have.text', 'Information')
-      cy.get('@informationItem').find('ion-label p').should('have.text', '')
+      cy.get('@informationItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('@informationItem').find('[data-cy=detailToolbarLabelName]').should('have.text', '')
 
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
-      cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
+      cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelName]').should('have.text', 'Christuskirche')
 
       cy.get('app-discover-list ion-list ion-item').last().as('wasserburgItem')
-      cy.get('@wasserburgItem').find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('@wasserburgItem').find('ion-label p').should('have.text', 'Akzent Hotel Zur Wasserburg')
+      cy.get('@wasserburgItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+      cy.get('@wasserburgItem').find('[data-cy=detailToolbarLabelName]').should('have.text', 'Akzent Hotel Zur Wasserburg')
 
       cy.get('@search-pois')
         .its('request.url')
@@ -72,8 +72,8 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
 
       cy.get('app-discover-list ion-list ion-item').first().as('informationItem')
-      cy.get('@informationItem').find('ion-label h3').should('have.text', 'Information')
-      cy.get('@informationItem').find('ion-label p').should('have.text', '')
+      cy.get('@informationItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('@informationItem').find('[data-cy=detailToolbarLabelName]').should('have.text', '')
       cy.get('@informationItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/information.png')
       cy.get('@informationItem').find('[data-cy=chipCuisine]').should('not.exist')
       cy.get('@informationItem').find('[data-cy=chipDistance]').should('have.text', '0.02\u00a0km')
@@ -84,8 +84,8 @@ describe('Discover page', () => {
       cy.get('@informationItem').find('[data-cy=chipWikipedia]').should('not.exist')
 
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
-      cy.get('@christuskircheItem').find('ion-label p').should('have.text', 'Christuskirche')
+      cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelName]').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
       cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
       cy.get('@christuskircheItem').find('[data-cy=chipDistance]').should('have.text', '0.05\u00a0km')
@@ -100,7 +100,7 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
 
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-label h3').should('have.text', 'Church')
+      cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
 
       cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
       cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').click()
@@ -137,7 +137,7 @@ describe('Discover page', () => {
 
     it('navigates to poi details after poi click', () => {
       cy.get('app-discover-list ion-list ion-item').last().as('wasserburgItem')
-      cy.get('@wasserburgItem').find('ion-label h3').click()
+      cy.get('@wasserburgItem').find('[data-cy=detailToolbarLabelCategory]').click()
 
       cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
@@ -145,12 +145,12 @@ describe('Discover page', () => {
 
     it('filters pois by ignoring uppercase and lowercase', () => {
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', '')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelName]').should('have.text', '')
 
       cy.get('[data-cy=searchbarFilter]').type('markt');
       cy.get('app-discover-list ion-list ion-item').should('have.length', 2)
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Marktplatz')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label p').should('have.text', 'Marktkieker')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelName]').should('have.text', 'Marktplatz')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Marktkieker')
 
       cy.get('[data-cy=searchbarFilter]').type('X');
       cy.get('app-discover-list ion-list ion-item').should('have.length', 0)
@@ -160,18 +160,18 @@ describe('Discover page', () => {
 
       cy.get('[data-cy=searchbarFilter]').type('DENKMAL');
       cy.get('app-discover-list ion-list ion-item').should('have.length', 1)
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Kriegerdenkmal 1870-71')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelName]').should('have.text', 'Kriegerdenkmal 1870-71')
     });
 
     it('sorts items by distance, name, relevance and category', () => {
       // default: sort by distance
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Information')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Parking')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Memorial')
-      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Church')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Amenity')
-      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Restaurant')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Memorial')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
 
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').should('have.length', 4)
@@ -182,49 +182,49 @@ describe('Discover page', () => {
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(1).find('ion-radio').click()
 
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label p').should('have.text', 'Akzent Hotel Zur Wasserburg')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label p').should('have.text', 'Charisma')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label p').should('have.text', 'Christuskirche')
-      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label p').should('have.text', 'Kriegerdenkmal 1870-71')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label p').should('have.text', 'Marktkieker')
-      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label p').should('have.text', 'Marktplatz')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label p').should('have.text', '')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelName]').should('have.text', 'Akzent Hotel Zur Wasserburg')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Charisma')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Christuskirche')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Kriegerdenkmal 1870-71')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Marktkieker')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('[data-cy=detailToolbarLabelName]').should('have.text', 'Marktplatz')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelName]').should('have.text', '')
 
       // sort by relevance
       pressEscape();
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(2).find('ion-radio').click()
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Church')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Restaurant')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Amenity')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Parking')
-      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Memorial')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Memorial')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
 
       // sort by category
       pressEscape();
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(3).find('ion-radio').click()
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Amenity')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Church')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Information')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Memorial')
-      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Parking')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Memorial')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
 
       // sort by distance
       pressEscape();
       cy.get('[data-cy=buttonSort]').click()
       cy.get('ion-select-popover ion-item').eq(0).find('ion-radio').click()
-      cy.get('app-discover-list ion-list ion-item').first().find('ion-label h3').should('have.text', 'Information')
-      cy.get('app-discover-list ion-list ion-item').eq(1).find('ion-label h3').should('have.text', 'Parking')
-      cy.get('app-discover-list ion-list ion-item').eq(2).find('ion-label h3').should('have.text', 'Memorial')
-      cy.get('app-discover-list ion-list ion-item').eq(3).find('ion-label h3').should('have.text', 'Church')
-      cy.get('app-discover-list ion-list ion-item').eq(4).find('ion-label h3').should('have.text', 'Amenity')
-      cy.get('app-discover-list ion-list ion-item').eq(5).find('ion-label h3').should('have.text', 'Restaurant')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').first().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('app-discover-list ion-list ion-item').eq(1).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+      cy.get('app-discover-list ion-list ion-item').eq(2).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Memorial')
+      cy.get('app-discover-list ion-list ion-item').eq(3).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+      cy.get('app-discover-list ion-list ion-item').eq(4).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+      cy.get('app-discover-list ion-list ion-item').eq(5).find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
     });
 
     it('restores state after poi selection and back', () => {
@@ -232,8 +232,8 @@ describe('Discover page', () => {
       cy.get('[data-cy=searchbarFilter]').type('er');
       cy.get('app-discover-list ion-list ion-item').should('have.length', 3)
       cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 3 mit Filter, 7 insgesamt')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').click()
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').click()
 
       cy.url().should('include', '/poi/way-12345678')
       cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
@@ -244,7 +244,7 @@ describe('Discover page', () => {
 
       cy.get('app-discover-list ion-list ion-item').should('have.length', 3)
       cy.get('[data-cy=componentDiscoverSearchToolbar] ion-title').should('have.text', 'Gefundene POIs: 3 mit Filter, 7 insgesamt')
-      cy.get('app-discover-list ion-list ion-item').last().find('ion-label h3').should('have.text', 'Hotel')
+      cy.get('app-discover-list ion-list ion-item').last().find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
     });
   });
 
@@ -265,7 +265,7 @@ describe('Discover page', () => {
       cy.get('app-discover-map .map svg').should('exist')
       cy.get('app-discover-map .map svg').find('path.leaflet-interactive').should('have.length', 1)
       cy.get('app-discover-map .map svg').find('path.leaflet-interactive').should('have.attr', 'fill', '#ff7777')
-      cy.get('app-discover-map .map svg').find('path.leaflet-interactive').should('have.attr', 'd', 'M13.808355554938316,324.7005926258862a174,174 0 1,0 348,0 a174,174 0 1,0 -348,0 ');
+      cy.get('app-discover-map .map svg').find('path.leaflet-interactive').should("have.attr", 'd').and("match", /174 0 1,0 348,0 a174,174 0 1,0 -348,0 /);
     })
 
     it('shows poi markers on map', () => {
@@ -318,6 +318,110 @@ describe('Discover page', () => {
       cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/marker/marker-icon.png')
       cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').eq(1).should('have.attr', 'src', 'assets/category/memorial.png')
     });
+
+    it('shows poi details toolbar under map', () => {
+      cy.get('app-discover-poi-detail-toolbar').contains('Kein POI ausgewählt')
+
+      cy.get('[data-cy=buttonSearchModal]').click()
+      cy.get('[data-cy=buttonStartSearch]').click()
+
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('[data-cy=detailToolbarLabelName]').should('have.text', '')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '2 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+      cy.get('[data-cy=detailToolbarLabelName]').should('have.text', 'Marktplatz')
+    })
+
+    it('shows poi navigator on map with navigation buttons', () => {
+      cy.get('app-discover-poi-detail-toolbar').contains('Kein POI ausgewählt')
+
+      cy.get('[data-cy=buttonSearchModal]').click()
+      cy.get('[data-cy=buttonStartSearch]').click()
+
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '2 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Parking')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '3 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Memorial')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '7 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '6 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '5 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '4 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '3 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '2 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+    })
+
+    it('updates selected poi after sort selection', () => {
+      cy.get('app-discover-poi-detail-toolbar').contains('Kein POI ausgewählt')
+
+      cy.get('[data-cy=buttonSearchModal]').click()
+      cy.get('[data-cy=buttonStartSearch]').click()
+
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+
+      // sort by name
+      cy.get('[data-cy=buttonSort]').click()
+      cy.get('ion-select-popover ion-item').eq(1).find('ion-radio').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Hotel')
+
+      // sort by category
+      pressEscape();
+      cy.get('[data-cy=buttonSort]').click()
+      cy.get('ion-select-popover ion-item').eq(2).find('ion-radio').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+
+      // sort by relevance
+      pressEscape();
+      cy.get('[data-cy=buttonSort]').click()
+      cy.get('ion-select-popover ion-item').last().find('ion-radio').click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Amenity')
+    })
   });
 
   describe('with search dialog', () => {
