@@ -9,7 +9,20 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Circle, Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, MarkerOptions, TileLayer} from "leaflet";
+import {
+  Circle,
+  Control,
+  control,
+  ErrorEvent,
+  LatLng,
+  Layer,
+  LayerGroup,
+  LocationEvent,
+  Map,
+  Marker,
+  MarkerOptions,
+  TileLayer
+} from "leaflet";
 import {Geocoder} from "leaflet-control-geocoder";
 
 import {ImageService} from "../../../../services/image.service";
@@ -38,10 +51,12 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private searchCenterMarker: Marker;
   private searchDistanceCircle: Circle;
   private poisLayer: LayerGroup;
+  private selectedPoiMaskLayer: LayerGroup;
   private poiNavigatorControl: PoiNavigatorControl;
 
   @Input() pois: Poi[] = [];
   @Input() searchAttributes: SearchAttributes;
+  @Input() selectedPoi: Poi;
   @Input() selectedPoiText: string;
 
   @Output() selectNextPoiOutput = new EventEmitter<void>();
@@ -65,6 +80,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const poisChange: SimpleChange = changes['pois'];
     const searchAttributesChange: SimpleChange = changes['searchAttributes'];
+    const selectedPoiChange: SimpleChange = changes['selectedPoi'];
     const selectedPoiTextChange: SimpleChange = changes['selectedPoiText'];
 
     if (poisChange && !poisChange.firstChange) {
@@ -77,6 +93,24 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
     if (this.poiNavigatorControl && selectedPoiTextChange && !selectedPoiTextChange.firstChange) {
       this.poiNavigatorControl.updateLabel(this.selectedPoiText)
+    }
+
+    if (selectedPoiChange && !selectedPoiChange.firstChange) {
+      this.poisLayer.eachLayer((layer: Layer) => {
+        const poiMarker = layer as PoiMarker;
+        const zIndex = (this.selectedPoi === (poiMarker).poi) ? 1000 : 0;
+        poiMarker.setZIndexOffset(zIndex)
+      });
+
+      this.selectedPoiMaskLayer.clearLayers();
+      if (this.selectedPoi) {
+        const markerOptions = {
+          icon: this.imageService.loadSelectedMarkerIcon(),
+          zIndexOffset: 2000
+        };
+        const marker = new Marker(this.selectedPoi.coordinates.asLatLng(), markerOptions);
+        marker.addTo(this.selectedPoiMaskLayer);
+      }
     }
   }
 
@@ -106,6 +140,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     const mapCenterAsLeaflet = this.searchAttributes.position.asLatLng();
 
     this.poisLayer = new LayerGroup();
+    this.selectedPoiMaskLayer = new LayerGroup();
     const searchLayer = new LayerGroup();
     const osmTileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19
@@ -117,7 +152,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       doubleClickZoom: false,
       center: mapCenterAsLeaflet,
       zoom: MAP_ZOOM,
-      layers: [osmTileLayer, searchLayer, this.poisLayer]
+      layers: [osmTileLayer, searchLayer, this.poisLayer, this.selectedPoiMaskLayer]
     });
     new Control.Zoom({position: 'topleft'}).addTo(this.discoverMap);
     new Control.Attribution({position: 'bottomleft'}).addTo(this.discoverMap);
