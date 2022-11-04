@@ -27,15 +27,18 @@ export class DiscoverPage implements OnInit, OnChanges {
 
   allPois: Poi[] = [];
   filteredPois: Poi[] = [];
+  selectedPoi: Poi;
+  selectedPoiText: string = '';
 
   private selectedSort: string = sortTypesAsArray()[0][0];
-
   private subscription: Subscription;
+  private selectedPoiIndex = 0;
 
   ngOnInit() {
     if (this.stateService.hasResults()) {
       this.filteredPois = this.stateService.getPois();
       this.allPois = this.stateService.getAllPois();
+      this.resetSelectedPoi();
       this.searchAttributes = this.stateService.searchAttributes;
       this.filterValue = this.stateService.getFilterValue();
     }
@@ -54,11 +57,13 @@ export class DiscoverPage implements OnInit, OnChanges {
   updateSelectedSort(value: string) {
     this.selectedSort = value;
     this.filteredPois = this.stateService.updateSelectedSort(this.selectedSort);
+    this.resetSelectedPoi();
   }
 
   updateFilterValue(value: string) {
     this.filterValue = value;
     this.filteredPois = this.stateService.updateFilterValue(this.filterValue);
+    this.resetSelectedPoi();
   }
 
   executeSearch(value: SearchAttributes) {
@@ -68,6 +73,34 @@ export class DiscoverPage implements OnInit, OnChanges {
 
   changeView(value: ResultViewType) {
     this.resultViewType = value;
+  }
+
+  selectNextPoi(): void {
+    if (this.selectedPoiIndex < this.filteredPois.length - 1) {
+      this.selectedPoiIndex = this.selectedPoiIndex + 1;
+    }
+    this.recalculateSelectedPoi();
+  }
+
+  selectPreviousPoi(): void {
+    if (this.selectedPoiIndex > 0) {
+      this.selectedPoiIndex = this.selectedPoiIndex - 1;
+    }
+    this.recalculateSelectedPoi();
+  }
+
+  private resetSelectedPoi() {
+    this.selectedPoiIndex = 0;
+    this.recalculateSelectedPoi();
+  }
+
+  private recalculateSelectedPoi() {
+    this.selectedPoi = this.filteredPois.length > 0 ? this.filteredPois[this.selectedPoiIndex] : null;
+    if (this.filteredPois.length > 0) {
+      this.selectedPoiText = (this.selectedPoiIndex + 1) + ' / ' + this.filteredPois.length;
+    } else {
+      this.selectedPoiText = '0 / 0';
+    }
   }
 
   private reloadPois(attr: SearchAttributes) {
@@ -80,6 +113,7 @@ export class DiscoverPage implements OnInit, OnChanges {
     this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category.key).subscribe(pois => {
       this.filteredPois = this.stateService.updatePois(pois, attr);
       this.allPois = this.stateService.getAllPois();
+      this.resetSelectedPoi();
       this.searchActive = false;
     });
   }

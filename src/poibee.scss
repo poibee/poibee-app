@@ -6,3 +6,20 @@
     }
   }
 }
+
+.poiNavigatorLeafletControl {
+  display: inline-block !important;
+  float: none !important;
+
+  &.noMarginRight {
+    margin-right: -2px;
+  }
+
+  &.adjustMarginBottom {
+    margin-bottom: -12.5px;
+  }
+
+  .labelControl {
+    width: 70px !important;
+  }
+}

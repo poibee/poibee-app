@@ -22,6 +22,9 @@
     *ngIf="resultViewType === 'MAP'"
     [pois]="filteredPois"
     [searchAttributes]="searchAttributes"
+    [selectedPoiText]="selectedPoiText"
+    (selectPreviousPoiOutput)="selectPreviousPoi()"
+    (selectNextPoiOutput)="selectNextPoi()"
     data-cy="componentDiscoverMap">
   </app-discover-map>
   <app-discover-list
@@ -34,6 +37,7 @@
 <ion-footer
   *ngIf="resultViewType === 'MAP'">
   <app-discover-poi-detail-toolbar
+    [poi]="selectedPoi"
     data-cy="componentDiscoverPoiDetailToolbar">
   </app-discover-poi-detail-toolbar>
 </ion-footer>
