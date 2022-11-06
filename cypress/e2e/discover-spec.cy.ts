@@ -398,6 +398,30 @@ describe('Discover page', () => {
       cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
     })
 
+
+    it('offers selection of poi on map', () => {
+      cy.get('app-discover-poi-detail-toolbar').contains('Kein POI ausgewählt')
+
+      cy.get('[data-cy=buttonSearchModal]').click()
+      cy.get('[data-cy=buttonStartSearch]').click()
+
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '1 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Information')
+      cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').should('have.length', 9)
+
+      // click on church marker
+      cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').eq(4).should('have.attr', 'src', 'assets/category/church.png')
+      cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').eq(4).click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
+
+      // click on restaurant marker
+      cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').eq(6).should('have.attr', 'src', 'assets/category/restaurant.png')
+      cy.get('.leaflet-pane.leaflet-marker-pane').first().find('img').eq(6).click()
+      cy.get('[data-cy=mapPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Restaurant')
+    })
+
     it('updates selected poi after sort selection', () => {
       cy.get('app-discover-poi-detail-toolbar').contains('Kein POI ausgewählt')
 

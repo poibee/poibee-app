@@ -24,6 +24,7 @@
     [searchAttributes]="searchAttributes"
     [selectedPoi]="selectedPoi"
     [selectedPoiText]="selectedPoiText"
+    (selectPoiOutput)="selectPoi($event)"
     (selectPreviousPoiOutput)="selectPreviousPoi()"
     (selectNextPoiOutput)="selectNextPoi()"
     data-cy="componentDiscoverMap">
