@@ -75,6 +75,11 @@ export class DiscoverPage implements OnInit, OnChanges {
     this.resultViewType = value;
   }
 
+  selectPoi(selectedPoi: Poi): void {
+    this.selectedPoiIndex = this.filteredPois.indexOf(selectedPoi);
+    this.recalculateSelectedPoi();
+  }
+
   selectNextPoi(): void {
     if (this.selectedPoiIndex < this.filteredPois.length - 1) {
       this.selectedPoiIndex = this.selectedPoiIndex + 1;

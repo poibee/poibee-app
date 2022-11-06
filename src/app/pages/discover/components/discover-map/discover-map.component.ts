@@ -59,6 +59,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   @Input() selectedPoi: Poi;
   @Input() selectedPoiText: string;
 
+  @Output() selectPoiOutput = new EventEmitter<Poi>();
   @Output() selectNextPoiOutput = new EventEmitter<void>();
   @Output() selectPreviousPoiOutput = new EventEmitter<void>();
 
@@ -129,7 +130,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       const markerIcon = this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase());
       const marker: any = new PoiMarker(poi, {icon: markerIcon});
       marker.on('click', async () => {
-        console.log(poi.categories[0]);
+        this.selectPoiOutput.emit(poi);
       });
       this.poisLayer.addLayer(marker);
     }
