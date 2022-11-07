@@ -1,0 +1,37 @@
+<ion-accordion-group>
+  <ion-accordion value="first">
+    <ion-item slot="header" color="light">
+      <ion-card-title color="primary">OSM-Tags</ion-card-title>
+    </ion-item>
+    <div class="ion-padding" slot="content">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="1"></ion-col>
+          <ion-col size="4"><ion-label>Key (Wiki, TagInfo)</ion-label></ion-col>
+          <ion-col size="7"><ion-label>Tag (Wiki, TagInfo)</ion-label></ion-col>
+        </ion-row>
+        <ion-row *ngFor="let osmTag of osmTags; index as i">
+          <ion-col size="1" class="ion-text-right">{{ i + 1 }}.</ion-col>
+          <ion-col size="4" data-cy="columnKey">
+            <a href="{{ osmTag.wikiKeyHref }}" target="_blank">
+              <img src="assets/icon/osm-wiki.png" alt="Wiki">
+            </a>
+            <a href="{{ osmTag.tagInfoKeyHref }}" target="_blank">
+              <img src="assets/icon/osm-taginfo.png" alt="TagInfo">
+            </a>
+            <ion-label>{{ osmTag.key }}</ion-label>
+          </ion-col>
+          <ion-col size="7" data-cy="columnTag">
+            <a href="{{ osmTag.wikiTagHref }}" target="_blank">
+              <img src="assets/icon/osm-wiki.png" alt="Wiki">
+            </a>
+            <a href="{{ osmTag.tagInfoTagHref }}" target="_blank">
+              <img src="assets/icon/osm-taginfo.png" alt="TagInfo">
+            </a>
+            <ion-label>{{ osmTag.tag }}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-accordion>
+</ion-accordion-group>
