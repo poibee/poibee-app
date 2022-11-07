@@ -13,6 +13,7 @@ import {PoiReferencesComponent} from "./components/poi-references/poi-references
 import {PoiContactComponent} from "./components/poi-contact/poi-contact.component";
 import {PoiOverviewComponent} from "./components/poi-overview/poi-overview.component";
 import {PoiNavigationToolbarComponent} from "./components/poi-navigation-toolbar/poi-navigation-toolbar.component";
+import {PoiOsmTagsComponent} from "./components/poi-osm-tags/poi-osm-tags.component";
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import {PoiNavigationToolbarComponent} from "./components/poi-navigation-toolbar
     PoiOverviewComponent,
     PoiMapComponent,
     PoiNavigationToolbarComponent,
+    PoiOsmTagsComponent,
     PoiRawDataComponent,
     PoiReferencesComponent,
     PoiPage,

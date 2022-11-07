@@ -217,6 +217,25 @@ describe('POI detail page', () => {
       cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/category/hotel.png')
     });
 
+    it('with OSM key and tag links to OSM-Wiki and TagInfo', () => {
+      cy.visit('/poi/way-12345678')
+      cy.url().should('include', '/poi/way-12345678')
+
+      cy.get('[data-cy=cardOsmTags]').should('exist')
+      cy.get('[data-cy=cardOsmTags] ion-card-title').should('have.text', 'OSM-Tags')
+      cy.get('[data-cy=cardOsmTags] ion-row').should('have.length', 18)
+
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey]').should('have.text', 'addr:city')
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey] a').first().should('have.attr', 'href', 'https://wiki.openstreetmap.org/wiki/Key:addr:city')
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey] a').last().should('have.attr', 'href', 'https://taginfo.openstreetmap.org/keys/addr:city')
+
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag]').should('have.text', 'Harpstedt')
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag] a').first().should('have.attr', 'href', 'https://wiki.openstreetmap.org/wiki/Tag:addr:city=Harpstedt')
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag] a').last().should('have.attr', 'href', 'https://taginfo.openstreetmap.org/tags/addr:city=Harpstedt')
+
+      cy.get('[data-cy=cardOsmTags] ion-row').eq(2).find('[data-cy=columnKey]').should('have.text', 'addr:housenumber')
+    });
+
     it('with raw data as JSON', () => {
       cy.visit('/poi/way-12345678')
       cy.url().should('include', '/poi/way-12345678')
