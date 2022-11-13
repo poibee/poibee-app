@@ -56,15 +56,15 @@
           </ng-template>
         </ion-popover>
       </ion-chip>
-      <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine" id="click-trigger-cuisine-{{index}}">
+      <ion-chip data-cy="chipCuisine" *ngIf="poi.attributes.cuisine.isPresent()" id="click-trigger-cuisine-{{index}}">
         <ion-icon name="restaurant-outline" color="primary"></ion-icon>
-        <ion-label class="ion-hide-sm-down">Küche</ion-label>
+        <ion-label class="ion-hide-sm-down">{{poi.attributes.cuisine.previewValue()}}</ion-label>
         <ion-popover trigger="click-trigger-cuisine-{{index}}" triggerAction="click">
           <ng-template>
             <ion-content>
               <ion-chip data-cy="popoverChipCuisine">
                 <ion-icon name="restaurant-outline" color="primary"></ion-icon>
-                <ion-label>{{poi.attributes.cuisine}}</ion-label>
+                <ion-label>{{poi.attributes.cuisine.completeValue()}}</ion-label>
               </ion-chip>
             </ion-content>
           </ng-template>

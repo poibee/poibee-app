@@ -89,7 +89,7 @@ describe('Discover page', () => {
       cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
       cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelName]').should('have.text', 'Christuskirche')
       cy.get('@christuskircheItem').find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/church.png')
-      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
+      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'German, ...')
       cy.get('@christuskircheItem').find('[data-cy=chipDistance]').should('have.text', '0.05\u00a0km')
       cy.get('@christuskircheItem').find('[data-cy=chipDirection]').should('have.class', 'rotate-northeast')
       cy.get('@christuskircheItem').find('[data-cy=chipOpeningHours]').should('have.text', 'Zeiten')
@@ -104,9 +104,9 @@ describe('Discover page', () => {
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
       cy.get('@christuskircheItem').find('[data-cy=detailToolbarLabelCategory]').should('have.text', 'Church')
 
-      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'Küche')
+      cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').should('have.text', 'German, ...')
       cy.get('@christuskircheItem').find('[data-cy=chipCuisine]').click()
-      cy.get('[data-cy=popoverChipCuisine]').should('have.text', 'German')
+      cy.get('[data-cy=popoverChipCuisine]').should('have.text', 'German, Latin')
       pressEscape()
 
       cy.get('@christuskircheItem').find('[data-cy=chipOpeningHours]').should('have.text', 'Zeiten')

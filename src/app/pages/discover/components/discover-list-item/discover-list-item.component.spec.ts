@@ -6,13 +6,14 @@ import {OwnPosition} from "../../../../data/own-position";
 import {DirectionTypes} from "../../../../data/direction";
 import {Attributes} from "../../../../data/attributes";
 import {Contact} from "../../../../data/contact";
+import {Cuisine} from "../../../../data/cuisine";
 import {References} from "../../../../data/references";
 import {Poi} from "../../../../data/poi";
 
 describe('DiscoverListItemComponent', () => {
 
   const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
-  const attributes = new Attributes(null, null, null, false, false, false);
+  const attributes = new Attributes(Cuisine.of('German'), null, null, false, false, false);
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
   const poi = new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}');

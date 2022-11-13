@@ -11,6 +11,7 @@ import {Attributes} from "../data/attributes";
 import {GeoService} from "./geo.service";
 import {OwnPosition} from "../data/own-position";
 import {directionToPoi, DirectionTypes} from "../data/direction";
+import {Cuisine} from "../data/cuisine";
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,7 @@ export class PoisOverpassService {
       ownPosition = new OwnPosition(position, distance, direction);
     }
 
-    const cuisine = this.capitalizeString(p.tags['cuisine']);
+    const cuisine = Cuisine.of(p.tags['cuisine']);
     const openingHours = p.tags['opening_hours'];
     const vending = p.tags['vending'];
     const isBar = p.tags['bar'];

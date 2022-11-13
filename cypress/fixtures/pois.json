@@ -17,7 +17,7 @@
       "addr:street": "1. Kirchstraße",
       "amenity": "place_of_worship",
       "building": "church",
-      "cuisine": "german",
+      "cuisine": "german;latin",
       "denomination": "lutheran",
       "email": "buero@kirche-harpstedt.de",
       "fax": "+49 4244 9653059",

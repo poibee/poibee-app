@@ -13,9 +13,9 @@
       </ion-col>
       <ion-col data-cy="columnAttributes">
         <div class="ion-text-end">
-          <ion-chip data-cy="chipOverviewCuisine" *ngIf="poi.attributes.cuisine">
+          <ion-chip data-cy="chipOverviewCuisine" *ngFor="let cuisine of poi.attributes.cuisine.values; let i = index">
             <ion-icon name="restaurant-outline" color="primary"></ion-icon>
-            <ion-label>{{poi.attributes.cuisine}}</ion-label>
+            <ion-label>{{cuisine}}</ion-label>
           </ion-chip>
           <ion-chip data-cy="chipOverviewOpeningHours" *ngIf="poi.attributes.openingHours">
             <ion-icon name="time-outline" color="primary"></ion-icon>
