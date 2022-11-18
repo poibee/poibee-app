@@ -8,9 +8,9 @@ describe('PoisFilterService', () => {
   let service: PoisFilterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, null, null, null, null, {}, 1, '{}'),
-    new Poi('2', 'Marktkieker', ['community_centre'], null, null, null, null, null, {}, 1, '{}'),
-    new Poi('3', 'Christuskirche', ['church'], null, null, null, null, null, {}, 1, '{}')
+    new Poi('1', 'Charisma', ['restaurant'], null, null, null, null, null, {}, 1, '{}', null),
+    new Poi('2', 'Marktkieker', ['community_centre'], null, null, null, null, null, {}, 1, '{}', null),
+    new Poi('3', 'Christuskirche', ['church'], null, null, null, null, null, {}, 1, '{}', null)
   ];
 
   beforeEach(() => {

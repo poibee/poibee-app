@@ -12,6 +12,7 @@ import {GeoService} from "./geo.service";
 import {OwnPosition} from "../data/own-position";
 import {directionToPoi, DirectionTypes} from "../data/direction";
 import {Cuisine} from "../data/cuisine";
+import {Feature, Geometry} from "geojson";
 
 @Injectable({
   providedIn: 'root'
@@ -102,7 +103,9 @@ export class PoisOverpassService {
 
     const rawData = JSON.stringify(p, null, 2);
 
-    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, {}, relevance, rawData);
+    const originalOsmData = p.original;
+
+    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, {}, relevance, rawData, originalOsmData);
   }
 
   private calculateAddress(p: PoiJson) {
@@ -123,4 +126,5 @@ export interface PoiJson {
   categories: string[];
   coordinates: { lat: number, lon: number };
   tags: { key: string, value: string } [];
+  original: Feature<Geometry, { [p: string]: string }>;
 }
