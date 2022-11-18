@@ -7,14 +7,15 @@ import {SortTypes} from "../data/sort-types";
 import {LatLon} from "../data/lat-lon";
 import {CategoryEntry} from "../data/category-entry";
 import {SearchAttributes} from "../data/search-attributes";
+import {PoiId} from "../data/poi-id";
 
 describe('StateService', () => {
   let service: StateService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
-    new Poi('2', 'Christuskirche', ['church'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
-    new Poi('3', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-2'), 'Christuskirche', ['church'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-3'), 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
   ];
 
   const poiCharisma = pois[0];
@@ -50,6 +51,15 @@ describe('StateService', () => {
     expect(service.hasPreviousPoi()).toBeTruthy();
     expect(service.hasNextPoi()).toBeTruthy();
     expect(service.navigatorLabel()).toBe('2 / 3');
+  });
+
+  it('should compare pois by PoiId', () => {
+    const poiCharismaClone = new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null);
+
+    service.selectPoi(poiCharismaClone);
+    expect(service.hasPreviousPoi()).toBeFalsy();
+    expect(service.hasNextPoi()).toBeTruthy();
+    expect(service.navigatorLabel()).toBe('1 / 3');
   });
 
 });

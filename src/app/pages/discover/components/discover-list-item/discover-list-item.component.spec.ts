@@ -9,6 +9,7 @@ import {Contact} from "../../../../data/contact";
 import {Cuisine} from "../../../../data/cuisine";
 import {References} from "../../../../data/references";
 import {Poi} from "../../../../data/poi";
+import {PoiId} from "../../../../data/poi-id";
 
 describe('DiscoverListItemComponent', () => {
 
@@ -16,7 +17,7 @@ describe('DiscoverListItemComponent', () => {
   const attributes = new Attributes(Cuisine.of('German'), null, null, false, false, false);
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
-  const poi = new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null);
+  const poi = new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null);
 
   let component: DiscoverListItemComponent;
   let fixture: ComponentFixture<DiscoverListItemComponent>;
@@ -46,7 +47,7 @@ describe('DiscoverListItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
 
-    expect(component.poi.id).toBe('myId');
+    expect(component.poi.id).toEqual(PoiId.of('node-1'));
     expect(component.poi.name).toBe('myName');
   });
 

@@ -1,14 +1,12 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {ImageService} from "../../services/image.service";
 import {Poi} from "../../data/poi";
 import {LatLon} from "../../data/lat-lon";
 import {Subscription} from "rxjs";
-import {LatLng, LatLngExpression, LayerGroup, TileLayer, Marker, Circle, Map, Control, control} from 'leaflet';
 import {StateService} from "../../services/state.service";
 import {NavController} from "@ionic/angular";
-import {SearchDistance} from "../../data/search-distance";
+import {PoiId} from "../../data/poi-id";
 
 @Component({
   selector: 'app-poi',
@@ -33,10 +31,10 @@ export class PoiPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchCenter = this.determineSearchCenter();
-    const localPoiIdDecoded = this.determinePoiIdDecoded();
+    const poiId = PoiId.of(this.route.snapshot.paramMap.get('id'));
 
     this.showProgress = true;
-    this.poiSubscription$ = this.poisOverpassService.searchPoi(localPoiIdDecoded, this.searchCenter).subscribe(poi => {
+    this.poiSubscription$ = this.poisOverpassService.searchPoi(poiId, this.searchCenter).subscribe(poi => {
       this.stateService.selectPoi(poi);
       this.poi = poi;
       this.sleep(500).then(() => {
@@ -74,19 +72,11 @@ export class PoiPage implements OnInit, OnDestroy {
     return result;
   }
 
-  private determinePoiIdDecoded() {
-    const poiIdEncoded = this.route.snapshot.paramMap.get('id');
-    const localPoiIdDecoded = poiIdEncoded.replace("-", "").replace("/", "");
-    return localPoiIdDecoded;
-  }
-
-  // TODO ID einführen
+  // TODO
   // E2E-Test ergänzen
-  // POI-Tag-Parameter entfernen
   // reload only not Nodes
   private reloadPoiWithOriginalOsmData() {
-    const localPoiIdDecoded = this.poi.id.replace("-", "").replace("/", "");
-    this.poiSubscription$ = this.poisOverpassService.searchPoi(localPoiIdDecoded, this.searchCenter).subscribe(poi => {
+    this.poiSubscription$ = this.poisOverpassService.searchPoi(this.poi.id, this.searchCenter).subscribe(poi => {
       this.poi = poi;
     });
   }

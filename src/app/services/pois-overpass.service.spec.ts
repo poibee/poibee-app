@@ -6,6 +6,7 @@ import {of} from "rxjs";
 import {Poi} from "../data/poi";
 import {LatLon} from "../data/lat-lon";
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
+import {PoiId} from "../data/poi-id";
 
 describe('PoisOverpassService', () => {
 
@@ -15,7 +16,7 @@ describe('PoisOverpassService', () => {
     httpMock = {
       get: () => of([
         {
-          id: 'myId',
+          id: 'node/11',
           name: 'myName',
           categories: ['myCategory'],
           coordinates: {
@@ -24,7 +25,7 @@ describe('PoisOverpassService', () => {
           },
           tags: {}
         }, {
-          id: 'otherId',
+          id: 'node/22',
           name: 'otherName',
           categories: ['otherCategory'],
           coordinates: {
@@ -54,12 +55,12 @@ describe('PoisOverpassService', () => {
 
       expect(receivedPois.length).toBe(2);
 
-      expect(receivedPois[0].id).toBe('myId');
+      expect(receivedPois[0].id).toEqual(PoiId.of('node-11'));
       expect(receivedPois[0].name).toBe('myName');
       expect(receivedPois[0].categories).toEqual(['MyCategory']);
       expect(receivedPois[0].coordinates).toEqual(new LatLon(1.1, 2.2));
 
-      expect(receivedPois[1].id).toBe('otherId');
+      expect(receivedPois[1].id).toEqual(PoiId.of('node-22'));
 
       expect(httpMock.get).toHaveBeenCalledTimes(1);
       expect(httpMock.get).toHaveBeenCalledWith('http://localhost:3000/pois', httpParamsMatcher("lat=1&lon=2&category=restaurant&distance=10"));

@@ -5,9 +5,9 @@ describe('POI detail page', () => {
 
     cy.viewport('iphone-x')
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
-    cy.intercept('GET', '/pois/way12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
-    cy.intercept('GET', '/pois/node1628573037', {fixture: 'poi-information.json'}).as('poi-information');
-    cy.intercept('GET', '/pois/way45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
+    cy.intercept('GET', '/pois/way-12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
+    cy.intercept('GET', '/pois/node-1628573037', {fixture: 'poi-information.json'}).as('poi-information');
+    cy.intercept('GET', '/pois/way-45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
   });
 
   describe('visited directly by URL', () => {
@@ -21,7 +21,7 @@ describe('POI detail page', () => {
       cy.url().should('include', '/poi/way-12345678')
       cy.get('@poi-wasserburg')
         .its('request.url')
-        .should('deep.equal','http://localhost:3000/pois/way12345678')
+        .should('deep.equal','http://localhost:3000/pois/way-12345678')
     });
 
     it('shows no navigation buttons', () => {

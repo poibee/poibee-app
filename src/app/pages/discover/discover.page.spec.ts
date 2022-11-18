@@ -20,6 +20,7 @@ import {AppModule} from "../../app.module";
 import {PoiPage} from "../poi/poi.page";
 import {ActivatedRoute, convertToParamMap} from "@angular/router";
 import {INITIAL_SEARCH_ATTRIBUTES} from "../../data/search-attributes";
+import {PoiId} from "../../data/poi-id";
 
 describe('DiscoverPage', () => {
   let component: DiscoverPage;
@@ -29,8 +30,8 @@ describe('DiscoverPage', () => {
 
     const poisOverpassServiceMock = {
       searchPois: (position: LatLon, distance: number, category: string) => of([
-        new Poi('myId', 'myName', ['myCategory'], new LatLon(1.1, 2.2), new OwnPosition(null, 1, null), null, null, null, 1, '{}', null),
-        new Poi('otherId', 'otherName', ['otherCategory'], null, new OwnPosition(null, 2, null), null, null, null, 1, '{}', null)
+        new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], new LatLon(1.1, 2.2), new OwnPosition(null, 1, null), null, null, null, 1, '{}', null),
+        new Poi(PoiId.of('node-2'), 'otherName', ['otherCategory'], null, new OwnPosition(null, 2, null), null, null, null, 1, '{}', null)
       ])
     };
     spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
@@ -53,11 +54,11 @@ describe('DiscoverPage', () => {
 
     expect(component.filteredPois.length).toBe(2);
 
-    expect(component.filteredPois[0].id).toBe('myId');
+    expect(component.filteredPois[0].id).toEqual(PoiId.of('node-1'));
     expect(component.filteredPois[0].name).toBe('myName');
     expect(component.filteredPois[0].categories).toEqual(['myCategory']);
     expect(component.filteredPois[0].coordinates).toEqual(new LatLon(1.1, 2.2));
 
-    expect(component.filteredPois[1].id).toBe('otherId');
+    expect(component.filteredPois[1].id).toEqual(PoiId.of('node-2'));
   });
 });

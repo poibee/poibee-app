@@ -8,6 +8,7 @@ import {DirectionTypes} from "../../../../data/direction";
 import {Attributes} from "../../../../data/attributes";
 import {Contact} from "../../../../data/contact";
 import {References} from "../../../../data/references";
+import {PoiId} from "../../../../data/poi-id";
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
@@ -18,8 +19,8 @@ describe('DiscoverListComponent', () => {
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
   const pois = [
-    new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
-    new Poi('otherId', 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
+    new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
+    new Poi(PoiId.of('node-2'), 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
   ];
 
   beforeEach(waitForAsync(() => {
@@ -41,9 +42,9 @@ describe('DiscoverListComponent', () => {
 
     expect(component.pois.length).toBe(2);
 
-    expect(component.pois[0].id).toBe('myId');
+    expect(component.pois[0].id).toEqual(PoiId.of('node-1'));
     expect(component.pois[0].name).toBe('myName');
 
-    expect(component.pois[1].id).toBe('otherId');
+    expect(component.pois[1].id).toEqual(PoiId.of('node-2'));
   });
 });
