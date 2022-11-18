@@ -57,10 +57,12 @@ export class PoiPage implements OnInit, OnDestroy {
 
   selectNextPoi() {
     this.poi = this.stateService.selectNextPoi();
+    this.reloadPoiWithOriginalOsmData();
   }
 
   selectPreviousPoi() {
     this.poi = this.stateService.selectPreviousPoi();
+    this.reloadPoiWithOriginalOsmData();
   }
 
   private determineSearchCenter(): LatLon {
@@ -76,6 +78,17 @@ export class PoiPage implements OnInit, OnDestroy {
     const poiIdEncoded = this.route.snapshot.paramMap.get('id');
     const localPoiIdDecoded = poiIdEncoded.replace("-", "").replace("/", "");
     return localPoiIdDecoded;
+  }
+
+  // TODO ID einführen
+  // E2E-Test ergänzen
+  // POI-Tag-Parameter entfernen
+  // reload only not Nodes
+  private reloadPoiWithOriginalOsmData() {
+    const localPoiIdDecoded = this.poi.id.replace("-", "").replace("/", "");
+    this.poiSubscription$ = this.poisOverpassService.searchPoi(localPoiIdDecoded, this.searchCenter).subscribe(poi => {
+      this.poi = poi;
+    });
   }
 
   private sleep(time) {

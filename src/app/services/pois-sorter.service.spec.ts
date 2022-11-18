@@ -10,9 +10,9 @@ describe('PoisSorterService', () => {
   let service: PoisSorterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 3, null), null, null, null, {}, 2, '{}'),
-    new Poi('2', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 1, null), null, null, null, {}, 1, '{}'),
-    new Poi('3', 'Christuskirche', ['church'], null, new OwnPosition(null, 2, null), null, null, null, {}, 3, '{}')
+    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 3, null), null, null, null, {}, 2, '{}', null),
+    new Poi('2', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 1, null), null, null, null, {}, 1, '{}', null),
+    new Poi('3', 'Christuskirche', ['church'], null, new OwnPosition(null, 2, null), null, null, null, {}, 3, '{}', null)
   ];
 
   beforeEach(() => {

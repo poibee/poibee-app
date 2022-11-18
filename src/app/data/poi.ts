@@ -4,6 +4,7 @@ import {References} from "./references";
 import {Attributes} from "./attributes";
 import {OwnPosition} from "./own-position";
 import {DirectionTypes} from "./direction";
+import {Feature, Geometry} from "geojson";
 
 export class Poi {
 
@@ -18,7 +19,8 @@ export class Poi {
     public readonly references: References,
     public readonly tags: Record<string, string>,
     public readonly relevance: number,
-    public readonly rawData: string) {
+    public readonly rawData: string,
+    public readonly original: Feature<Geometry, { [p: string]: string }>) {
   }
 
   public label() {

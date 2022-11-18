@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@an
 import {Poi} from "../../../../data/poi";
 import {LatLon} from "../../../../data/lat-lon";
 import {ImageService} from "../../../../services/image.service";
-import {LayerGroup, Map, Marker, TileLayer} from "leaflet";
+import {GeoJSON, LayerGroup, Map, Marker, TileLayer, CircleMarker} from "leaflet";
 
 @Component({
   selector: 'app-poi-map',
@@ -77,5 +77,12 @@ export class PoiMapComponent implements OnInit, OnChanges {
       icon: this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase())
     }));
     this.poiMap.flyTo(poi.coordinates.asLatLng(), this.poiMap.getZoom());
+
+    const styleOptions = { radius: 2, color: "#0000FF", weight: 2, opacity: 1 };
+    const geoJSON = new GeoJSON(poi.original as any, {
+      style: styleOptions,
+      pointToLayer: (feature, latlng) => { return new CircleMarker(latlng, styleOptions); }
+    });
+    this.poiPositionLayer.addLayer(geoJSON);
   }
 }

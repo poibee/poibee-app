@@ -16,7 +16,7 @@ describe('DiscoverListItemComponent', () => {
   const attributes = new Attributes(Cuisine.of('German'), null, null, false, false, false);
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
-  const poi = new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}');
+  const poi = new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}', null);
 
   let component: DiscoverListItemComponent;
   let fixture: ComponentFixture<DiscoverListItemComponent>;
