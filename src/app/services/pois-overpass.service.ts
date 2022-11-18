@@ -105,7 +105,7 @@ export class PoisOverpassService {
 
     const originalOsmData = p.original;
 
-    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, {}, relevance, rawData, originalOsmData);
+    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, relevance, rawData, originalOsmData);
   }
 
   private calculateAddress(p: PoiJson) {
