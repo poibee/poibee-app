@@ -9,6 +9,7 @@ import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {LatLon} from "../../data/lat-lon";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {RouterTestingModule} from "@angular/router/testing";
+import {PoiId} from "../../data/poi-id";
 
 
 describe('PoiPage', () => {
@@ -19,8 +20,8 @@ describe('PoiPage', () => {
 
   beforeEach(waitForAsync(() => {
     poisOverpassServiceMock = {
-      searchPoi: (poiId: string) => of({
-        id: 'myId/12345',
+      searchPoi: (poiId: PoiId) => of({
+        id: PoiId.ofOsm('node/12345'),
         name: 'myName',
         categories: ['myCategory'],
         coordinates: new LatLon(1.1, 2.2),
@@ -39,7 +40,7 @@ describe('PoiPage', () => {
         {provide: PoisOverpassService, useValue: poisOverpassServiceMock},
         {
           provide: ActivatedRoute, useValue:
-            {snapshot: {paramMap: convertToParamMap({'id': 'myId-12345'})}}
+            {snapshot: {paramMap: convertToParamMap({'id': 'node-12345'})}}
         }
       ]
     }).compileComponents();
@@ -52,7 +53,7 @@ describe('PoiPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
 
-    expect(component.poi.id).toBe('myId/12345');
+    expect(component.poi.id).toEqual(PoiId.of('node-12345'));
     expect(component.poi.name).toBe('myName');
   });
 });

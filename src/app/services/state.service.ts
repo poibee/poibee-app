@@ -101,7 +101,7 @@ export class StateService {
   private calculateSelectedPoiIndex() {
     let result = -1;
     for (let i = 0; i < this.resultPois.length; i++) {
-      if (this.selectedPoi && this.resultPois[i].id === this.selectedPoi.id) {
+      if (this.selectedPoi && this.resultPois[i].id.equals(this.selectedPoi.id)) {
         result = i;
         break;
       }

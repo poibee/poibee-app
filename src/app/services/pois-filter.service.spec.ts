@@ -3,14 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { PoisFilterService } from './pois-filter.service';
 import {PoisSorterService} from "./pois-sorter.service";
 import {Poi} from "../data/poi";
+import {PoiId} from "../data/poi-id";
 
 describe('PoisFilterService', () => {
   let service: PoisFilterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, null, null, null, null, 1, '{}', null),
-    new Poi('2', 'Marktkieker', ['community_centre'], null, null, null, null, null, 1, '{}', null),
-    new Poi('3', 'Christuskirche', ['church'], null, null, null, null, null, 1, '{}', null)
+    new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, null, null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-2'), 'Marktkieker', ['community_centre'], null, null, null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-3'), 'Christuskirche', ['church'], null, null, null, null, null, 1, '{}', null)
   ];
 
   beforeEach(() => {

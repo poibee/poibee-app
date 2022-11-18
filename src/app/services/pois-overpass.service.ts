@@ -13,6 +13,7 @@ import {OwnPosition} from "../data/own-position";
 import {directionToPoi, DirectionTypes} from "../data/direction";
 import {Cuisine} from "../data/cuisine";
 import {Feature, Geometry} from "geojson";
+import {PoiId} from "../data/poi-id";
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class PoisOverpassService {
   }
 
   // GET /pois/way45401909
-  searchPoi(poiId: string, position: LatLon): Observable<Poi> {
-    const url = this.baseUrl() + '/pois/' + poiId;
+  searchPoi(poiId: PoiId, position: LatLon): Observable<Poi> {
+    const url = this.baseUrl() + '/pois/' + poiId.toString();
     return this.http.get<PoiJson>(url)
       .pipe(
         map(poiJson => this.jsonToPoi(poiJson, position))
@@ -81,7 +82,8 @@ export class PoisOverpassService {
     const website = p.tags['website'];
     const contact = new Contact(name, address, phone, fax, email, website);
 
-    const osmDatasetUrl = `https://www.openstreetmap.org/${p.id}`;
+    const poiId = PoiId.ofOsm(p.id);
+    const osmDatasetUrl = `https://www.openstreetmap.org/${poiId.toOsm()}`;
     const osmLocationUrl = `https://www.openstreetmap.org/#map=19/${coordinates.lat}/${coordinates.lon}`;
     const googleLocationUrl = `https://www.google.de/maps/@${coordinates.lat},${coordinates.lon},18z`;
 
@@ -105,7 +107,7 @@ export class PoisOverpassService {
 
     const originalOsmData = p.original;
 
-    return new Poi(p.id, p.name, categories, coordinates, ownPosition, attributes, contact, references, relevance, rawData, originalOsmData);
+    return new Poi(poiId, p.name, categories, coordinates, ownPosition, attributes, contact, references, relevance, rawData, originalOsmData);
   }
 
   private calculateAddress(p: PoiJson) {

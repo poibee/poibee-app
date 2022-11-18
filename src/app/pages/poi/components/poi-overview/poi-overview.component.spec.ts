@@ -7,6 +7,7 @@ import {OwnPosition} from "../../../../data/own-position";
 import {Attributes} from "../../../../data/attributes";
 import {Cuisine} from "../../../../data/cuisine";
 import {DirectionTypes} from "../../../../data/direction";
+import {PoiId} from "../../../../data/poi-id";
 
 describe('PoiOverviewComponent', () => {
   let component: PoiOverviewComponent;
@@ -22,7 +23,7 @@ describe('PoiOverviewComponent', () => {
     component = fixture.componentInstance;
 
     const attributes = new Attributes(Cuisine.of('a'), 'b', null, false, false, false);
-    component.poi = new Poi('myId', 'myName', ['myCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), attributes, null, null, 1, '{}', null);
+    component.poi = new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, new OwnPosition(null, 0, DirectionTypes.NE), attributes, null, null, 1, '{}', null);
 
     fixture.detectChanges();
   }));

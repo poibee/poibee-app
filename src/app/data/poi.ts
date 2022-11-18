@@ -5,11 +5,12 @@ import {Attributes} from "./attributes";
 import {OwnPosition} from "./own-position";
 import {DirectionTypes} from "./direction";
 import {Feature, Geometry} from "geojson";
+import {PoiId} from "./poi-id";
 
 export class Poi {
 
   constructor(
-    public readonly id: string,
+    public readonly id: PoiId,
     public readonly name: string,
     public readonly categories: string[],
     public readonly coordinates: LatLon,

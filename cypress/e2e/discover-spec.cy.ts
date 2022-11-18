@@ -4,7 +4,7 @@ describe('Discover page', () => {
     Cypress.config('defaultCommandTimeout', 60000);
 
     cy.viewport('iphone-x')
-    cy.intercept('GET', '/pois/way12345678', { fixture: 'poi-wasserburg.json' }).as('poi-wasserburg');
+    cy.intercept('GET', '/pois/way-12345678', { fixture: 'poi-wasserburg.json' }).as('poi-wasserburg');
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
 
     cy.visit('/discover')

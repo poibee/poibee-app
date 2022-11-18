@@ -5,14 +5,15 @@ import {LatLon} from "../data/lat-lon";
 import {of} from "rxjs";
 import {Poi} from "../data/poi";
 import {OwnPosition} from "../data/own-position";
+import {PoiId} from "../data/poi-id";
 
 describe('PoisSorterService', () => {
   let service: PoisSorterService;
 
   const pois = [
-    new Poi('1', 'Charisma', ['restaurant'], null, new OwnPosition(null, 3, null), null, null, null, 2, '{}', null),
-    new Poi('2', 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 1, null), null, null, null, 1, '{}', null),
-    new Poi('3', 'Christuskirche', ['church'], null, new OwnPosition(null, 2, null), null, null, null, 3, '{}', null)
+    new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, new OwnPosition(null, 3, null), null, null, null, 2, '{}', null),
+    new Poi(PoiId.of('node-2'), 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 1, null), null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-3'), 'Christuskirche', ['church'], null, new OwnPosition(null, 2, null), null, null, null, 3, '{}', null)
   ];
 
   beforeEach(() => {

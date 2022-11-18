@@ -17,8 +17,7 @@ export class DiscoverListItemComponent {
   }
 
   navigateTo(poi: Poi) {
-    const poiId = poi.id.replace("/", "-");
-    this.navCtrl.navigateRoot("/poi/" + poiId)
+    this.navCtrl.navigateRoot("/poi/" + poi.id.toString())
     // TODO: redirectTo einsetzen (siehe Buch, Seite 168)
   }
 
