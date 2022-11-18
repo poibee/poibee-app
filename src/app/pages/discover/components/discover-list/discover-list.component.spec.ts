@@ -18,8 +18,8 @@ describe('DiscoverListComponent', () => {
   const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
   const pois = [
-    new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}', null),
-    new Poi('otherId', 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, {}, 1, '{}', null),
+    new Poi('myId', 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
+    new Poi('otherId', 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
   ];
 
   beforeEach(waitForAsync(() => {
