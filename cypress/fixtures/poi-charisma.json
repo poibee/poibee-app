@@ -1,0 +1,29 @@
+{
+  "categories": [
+    "restaurant"
+  ],
+  "coordinates": {
+    "lat": 52.9085109,
+    "lon": 8.5874905
+  },
+  "id": "node/1628572328",
+  "name": "Charisma",
+  "website": "https://charisma-harpstedt.com/",
+  "tags": {
+    "addr:city": "Harpstedt",
+    "addr:country": "DE",
+    "addr:housenumber": "10",
+    "addr:postcode": "27243",
+    "addr:street": "Lange Straße",
+    "amenity": "restaurant",
+    "bar": "yes",
+    "cafe": "yes",
+    "cuisine": "german",
+    "name": "Charisma",
+    "opening_hours": "17:00+",
+    "operator": "Andreas Jakob",
+    "phone": "+49 4244 967666",
+    "smoking": "separated",
+    "website": "https://charisma-harpstedt.com/"
+  }
+}

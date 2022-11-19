@@ -28,5 +28,79 @@
     "tourism": "hotel",
     "vending": "wine",
     "website": "https://www.zur-wasserburg.de"
+  },
+  "original": {
+    "type": "Feature",
+    "id": "way/181894115",
+    "properties": {
+      "type": "way",
+      "id": 181894115,
+      "tags": {
+        "addr:housenumber": "4",
+        "addr:postcode": "27243",
+        "addr:street": "Amtsfreiheit",
+        "amenity": "restaurant",
+        "building": "yes",
+        "cuisine": "german",
+        "name": "Akzent Hotel Zur Wasserburg",
+        "phone": "+49 4244 1008",
+        "tourism": "hotel",
+        "website": "https://www.zur-wasserburg.de/",
+        "wheelchair": "yes"
+      },
+      "relations": [],
+      "meta": {}
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            8.5904354,
+            52.9102071
+          ],
+          [
+            8.5904361,
+            52.9100347
+          ],
+          [
+            8.590723,
+            52.9100352
+          ],
+          [
+            8.5907233,
+            52.9099757
+          ],
+          [
+            8.5910731,
+            52.9099762
+          ],
+          [
+            8.5910727,
+            52.9100595
+          ],
+          [
+            8.5909739,
+            52.9100594
+          ],
+          [
+            8.5909736,
+            52.9101324
+          ],
+          [
+            8.59076,
+            52.9101321
+          ],
+          [
+            8.5907596,
+            52.9102076
+          ],
+          [
+            8.5904354,
+            52.9102071
+          ]
+        ]
+      ]
+    }
   }
 }

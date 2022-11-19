@@ -72,13 +72,12 @@ export class PoiPage implements OnInit, OnDestroy {
     return result;
   }
 
-  // TODO
-  // E2E-Test ergänzen
-  // reload only not Nodes
   private reloadPoiWithOriginalOsmData() {
-    this.poiSubscription$ = this.poisOverpassService.searchPoi(this.poi.id, this.searchCenter).subscribe(poi => {
-      this.poi = poi;
-    });
+    if (!this.poi.id.isNode()) {
+      this.poiSubscription$ = this.poisOverpassService.searchPoi(this.poi.id, this.searchCenter).subscribe(poi => {
+        this.poi = poi;
+      });
+    }
   }
 
   private sleep(time) {

@@ -5,9 +5,13 @@ describe('POI detail page', () => {
 
     cy.viewport('iphone-x')
     cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
-    cy.intercept('GET', '/pois/way-12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
-    cy.intercept('GET', '/pois/node-1628573037', {fixture: 'poi-information.json'}).as('poi-information');
     cy.intercept('GET', '/pois/way-45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
+    cy.intercept('GET', '/pois/way-12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
+    cy.intercept('GET', '/pois/node-1628572328', {fixture: 'poi-charisma.json'});
+    cy.intercept('GET', '/pois/node-1628572605', {fixture: 'poi-marktkieker.json'});
+    cy.intercept('GET', '/pois/node-1628573037', {fixture: 'poi-information.json'}).as('poi-information');
+    cy.intercept('GET', '/pois/node-1628573040', {fixture: 'poi-denkmal.json'});
+    cy.intercept('GET', '/pois/way-45666703', {fixture: 'poi-marktplatz.json'});
   });
 
   describe('visited directly by URL', () => {
@@ -108,6 +112,34 @@ describe('POI detail page', () => {
       cy.get('[data-cy=chipOverviewDistance] ion-icon').should('have.class', 'rotate-northeast')
 
       cy.get('[data-cy=chipOverviewRelevance]').should('have.text', '19')
+    })
+
+    it('shows poi area on map', () => {
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
+      cy.get('[data-cy=divPoiMap]').find('path.leaflet-interactive').should('have.attr', 'fill', '#0000FF')
+      // TODO #32 - not working on GitHub-CI - fix it by number of geometry attributes
+      // cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /M14/);
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
+      cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /2 0 1,0 4,0 a2,2 0 1,0 -4,0/);
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
+      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
+      cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /2 0 1,0 4,0 a2,2 0 1,0 -4,0/);
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
+      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
+      // TODO #32 - not working on GitHub-CI - fix it by number of geometry attributes
+      // cy.get('[data-cy=divPoiMap]').find('path').first().should('have.attr', 'd', 'M139 134L139 159L164 159L164 167L194 167L194 155L186 155L186 144L167 144L167 134z')
     })
   })
 
