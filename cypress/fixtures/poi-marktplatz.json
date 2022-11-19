@@ -1,0 +1,18 @@
+{
+  "id": "way/45666703",
+  "name": "Marktplatz",
+  "categories": [
+    "parking"
+  ],
+  "coordinates": {
+    "lat": 52.90812595,
+    "lon": 8.58785515
+  },
+  "tags": {
+    "amenity": "parking",
+    "capacity": "35",
+    "name": "Marktplatz",
+    "note": "auch Parkplatz",
+    "parking": "surface"
+  }
+}

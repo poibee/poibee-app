@@ -1,0 +1,17 @@
+{
+  "id": "node/1628573040",
+  "name": "Kriegerdenkmal 1870-71",
+  "website": "http://denkmalprojekt.org/dkm_deutschland/harpstedt_1870-71_ns.htm",
+  "categories": [
+    "memorial"
+  ],
+  "coordinates": {
+    "lat": 52.9083502,
+    "lon": 8.5881977
+  },
+  "tags": {
+    "historic": "memorial",
+    "name": "Kriegerdenkmal 1870-71",
+    "website": "http://denkmalprojekt.org/dkm_deutschland/harpstedt_1870-71_ns.htm"
+  }
+}

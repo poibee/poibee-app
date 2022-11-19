@@ -78,8 +78,10 @@ export class PoiMapComponent implements OnInit, OnChanges {
     }));
     this.poiMap.flyTo(poi.coordinates.asLatLng(), this.poiMap.getZoom());
 
+    const poiGeometryAsPoint = { type: "Feature", geometry: { type: "Point", coordinates: [ poi.coordinates.lon, poi.coordinates.lat ]}};
+    const geometryToRender = poi.id.isNode() ? poiGeometryAsPoint : poi.original as any;
     const styleOptions = { radius: 2, color: "#0000FF", weight: 2, opacity: 1 };
-    const geoJSON = new GeoJSON(poi.original as any, {
+    const geoJSON = new GeoJSON(geometryToRender, {
       style: styleOptions,
       pointToLayer: (feature, latlng) => { return new CircleMarker(latlng, styleOptions); }
     });

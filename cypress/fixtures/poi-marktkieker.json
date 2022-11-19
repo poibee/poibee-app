@@ -1,0 +1,20 @@
+{
+  "id": "node/1628572605",
+  "name": "Marktkieker",
+  "categories": [
+    "amenity"
+  ],
+  "coordinates": {
+    "lat": 52.9075896,
+    "lon": 8.5878592
+  },
+  "tags": {
+    "addr:city": "Harpstedt",
+    "addr:country": "DE",
+    "addr:housenumber": "20",
+    "addr:postcode": "27243",
+    "addr:street": "Lange Straße",
+    "amenity": "community_centre",
+    "name": "Marktkieker"
+  }
+}

@@ -29,5 +29,129 @@
     "wikidata": "Q1087325",
     "vending": "wine",
     "wikipedia": "de:Christuskirche (Harpstedt)"
+  },
+  "original": {
+    "type": "Feature",
+    "id": "way/45666704",
+    "properties": {
+      "type": "way",
+      "id": 45666704,
+      "tags": {
+        "addr:city": "Harpstedt",
+        "addr:housenumber": "2",
+        "addr:postcode": "27243",
+        "addr:street": "1. Kirchstraße",
+        "amenity": "place_of_worship",
+        "architect": "Ernst Braun",
+        "architect:wikidata": "Q1357632",
+        "architect:wikipedia": "https://de.wikipedia.org/wiki/Ernst_Braun_(Baumeister)",
+        "building": "church",
+        "building:architecture": "baroque",
+        "denomination": "lutheran",
+        "email": "buero@kirche-harpstedt.de",
+        "fax": "+49 4244 9653059",
+        "name": "Christuskirche",
+        "name:etymology:wikidata": "https://www.wikidata.org/wiki/Q302",
+        "opening_hours": "Th 12:00-12:00; Su 13:30-17:00",
+        "phone": "+49 4244 452",
+        "religion": "christian",
+        "service_times": "Su 10:00-11:00",
+        "start_date": "1753",
+        "website": "https://www.kirche-harpstedt.de/",
+        "wheelchair": "yes",
+        "wikidata": "Q1087325",
+        "wikimedia_commons": "Category:Christuskirche (Harpstedt)",
+        "wikipedia": "de:Christuskirche (Harpstedt)"
+      },
+      "relations": [],
+      "meta": {}
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            8.5884236,
+            52.9081099
+          ],
+          [
+            8.5886542,
+            52.9081423
+          ],
+          [
+            8.5886936,
+            52.9080401
+          ],
+          [
+            8.5888419,
+            52.9080609
+          ],
+          [
+            8.5889228,
+            52.9080722
+          ],
+          [
+            8.5888794,
+            52.9081848
+          ],
+          [
+            8.5889225,
+            52.9081909
+          ],
+          [
+            8.5888798,
+            52.9083017
+          ],
+          [
+            8.5888333,
+            52.9082951
+          ],
+          [
+            8.5887897,
+            52.9084083
+          ],
+          [
+            8.588697,
+            52.9083953
+          ],
+          [
+            8.5885583,
+            52.9083758
+          ],
+          [
+            8.5885969,
+            52.9082756
+          ],
+          [
+            8.5883717,
+            52.9082441
+          ],
+          [
+            8.5883817,
+            52.9082181
+          ],
+          [
+            8.5882653,
+            52.9082018
+          ],
+          [
+            8.5882776,
+            52.90817
+          ],
+          [
+            8.5882968,
+            52.9081201
+          ],
+          [
+            8.5884133,
+            52.9081365
+          ],
+          [
+            8.5884236,
+            52.9081099
+          ]
+        ]
+      ]
+    }
   }
 }
