@@ -77,15 +77,15 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     });
     this.myPositionMarker.on('dragend', (event) => {
       const position = event.target.getLatLng();
-      this.updateMyPositionAndFlyToIt(new LatLon(position.lat, position.lng));
+      this.updateMyPositionAndCenterMap(new LatLon(position.lat, position.lng));
     });
     this.myPositionLayer.addLayer(this.myPositionMarker);
 
-    const updateMyPositionAndFlyToItLocal = (pos) => this.updateMyPositionAndFlyToIt(pos);
+    const updateMyPositionAndCenterMapLocal = (pos) => this.updateMyPositionAndCenterMap(pos);
     new Geocoder({
       defaultMarkGeocode: false
     }).on('markgeocode', function (e) {
-      updateMyPositionAndFlyToItLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
+      updateMyPositionAndCenterMapLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
     }).addTo(this.myPositionMap);
 
     const myPositionLocateLocal = () => this.myPositionLocate();
@@ -95,7 +95,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     new PoimaniaLeafletControl('Kartenmitte als Standort', 'svg/contract-outline.svg', myPositionFromMapCenterLocal, {position: 'topright'}).addTo(this.myPositionMap);
 
     const zoomToSearchDistanceLocal = () => this.zoomToSearchDistance();
-    new PoimaniaLeafletControl('Kartenmitte als Standort', 'svg/disc-sharp.svg', zoomToSearchDistanceLocal, {position: 'topleft'}).addTo(this.myPositionMap);
+    new PoimaniaLeafletControl('Zoom zu Suchumkreis', 'svg/disc-sharp.svg', zoomToSearchDistanceLocal, {position: 'topleft'}).addTo(this.myPositionMap);
 
     this.updateSearchDistance();
   }
@@ -103,7 +103,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
   private myPositionLocate() {
     this.myPositionMap.locate({}).on('locationfound', (e: LocationEvent) => {
       const myPosition = new LatLon(e.latlng.lat, e.latlng.lng);
-      this.updateMyPositionAndFlyToIt(myPosition);
+      this.updateMyPositionAndCenterMap(myPosition);
     }).on('locationerror', (err: ErrorEvent) => {
       const message: string = err.message;
       const toast: Promise<HTMLIonToastElement> = this.toastController.create({
@@ -119,7 +119,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
 
   private myPositionFromMapCenter() {
     const center: LatLng = this.myPositionMap.getCenter();
-    this.updateMyPositionAndFlyToIt(new LatLon(center.lat, center.lng));
+    this.updateMyPositionAndCenterMap(new LatLon(center.lat, center.lng));
   }
 
   private zoomToSearchDistance() {
@@ -127,11 +127,11 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     return this.myPositionMap.setZoom(zoomLevel);
   }
 
-  private updateMyPositionAndFlyToIt(myPosition: LatLon) {
+  private updateMyPositionAndCenterMap(myPosition: LatLon) {
     if (myPosition.lat != this.myPosition.lat || myPosition.lon != this.myPosition.lon) {
       this.myPosition = myPosition;
       this.myPositionMarker.setLatLng(myPosition.asLatLng());
-      this.myPositionMap.flyTo(this.myPosition.asLatLng(), this.myPositionMap.getZoom());
+      this.myPositionMap.setView(myPosition.asLatLng());
       this.updateSearchDistance();
       this.onUpdateMyPosition.emit(this.myPosition);
     }
