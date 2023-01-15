@@ -8,7 +8,7 @@ import {StateService} from "../../services/state.service";
 import {ResultViewType} from "../../data/result-view-type";
 import {State} from "./store/discover.reducer";
 import {select, Store} from "@ngrx/store";
-import {getSearchAttributes} from "./store/discover.selectors";
+import {getPoisOfSearchAttributes} from "./store/discover.selectors";
 import {searchPois} from "./store/discover.actions";
 
 @Component({
@@ -48,10 +48,10 @@ export class DiscoverPage implements OnInit, OnChanges {
     }
 
     // TODO unregister subscription
-    const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
-      this.searchAttributes = value;
-      if (value !== INITIAL_SEARCH_ATTRIBUTES) {
-        this.reloadPois(value);
+    const poisOfSearchAttributes$ = this.discoverStore.pipe(select(getPoisOfSearchAttributes)).subscribe(value => {
+      this.searchAttributes = value.searchAttributes;
+      if (value.searchAttributes !== INITIAL_SEARCH_ATTRIBUTES) {
+        this.poisLoaded(value.searchAttributes, value.pois);
       }
     });
   }
@@ -79,6 +79,7 @@ export class DiscoverPage implements OnInit, OnChanges {
   }
 
   executeSearch(value: SearchAttributes) {
+    this.searchActive = true;
     this.discoverStore.dispatch(searchPois({data: value}));
   }
 
@@ -119,19 +120,10 @@ export class DiscoverPage implements OnInit, OnChanges {
     }
   }
 
-  // method is not private for test
-  reloadPois(attr: SearchAttributes) {
-    this.searchActive = true;
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
-    this.subscription = this.poisOverpassService.searchPois(attr.position, attr.distance, attr.category.key).subscribe(pois => {
-      this.filteredPois = this.stateService.updatePois(pois, attr);
+  poisLoaded(searchAttributes: SearchAttributes, pois: Poi[]) {
+      this.filteredPois = this.stateService.updatePois(pois, searchAttributes);
       this.allPois = this.stateService.getAllPois();
       this.resetSelectedPoi();
       this.searchActive = false;
-    });
   }
 }

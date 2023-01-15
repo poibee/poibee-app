@@ -1,16 +1,24 @@
-import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
+import {TestBed} from '@angular/core/testing';
+import {provideMockActions} from '@ngrx/effects/testing';
+import {Observable, of} from 'rxjs';
 
-import { DiscoverEffects } from './discover.effects';
+import {DiscoverEffects} from './discover.effects';
+import {PoisOverpassService} from "../../../services/pois-overpass.service";
+import {LatLon} from "../../../data/lat-lon";
 
 describe('DiscoverEffects', () => {
   let actions$: Observable<any>;
   let effects: DiscoverEffects;
 
   beforeEach(() => {
+    const poisOverpassServiceMock = {
+      searchPois: (position: LatLon, distance: number, category: string) => of([])
+    };
+    spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
+
     TestBed.configureTestingModule({
       providers: [
+        {provide: PoisOverpassService, useValue: poisOverpassServiceMock},
         DiscoverEffects,
         provideMockActions(() => actions$)
       ]

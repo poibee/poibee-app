@@ -1,11 +1,13 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 import * as fromDiscover from './discover.reducer';
 
 export const selectDiscoverState = createFeatureSelector<fromDiscover.State>(
   fromDiscover.discoverFeatureKey
 );
 
-export const getSearchAttributes = createSelector(
+export const getPoisOfSearchAttributes = createSelector(
   selectDiscoverState,
-  state => state.searchAttributes
+  state => {
+    return {searchAttributes: state.searchAttributes, pois: state.pois}
+  }
 );
