@@ -33,3 +33,4 @@
 ng g service services/PoisOverpass
 ng g page pages/discover
 ng g component pages/discover/components/discover-list
+ng g feature pages/discover/store/discover --module pages/discover --api

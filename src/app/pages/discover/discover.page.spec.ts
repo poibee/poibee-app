@@ -6,21 +6,9 @@ import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {LatLon} from "../../data/lat-lon";
 import {Poi} from "../../data/poi";
 import {OwnPosition} from "../../data/own-position";
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-import {DiscoverPageRoutingModule} from "./discover-routing.module";
-import {DiscoverFilterToolbarComponent} from "./components/discover-filter-toolbar/discover-filter-toolbar.component";
-import {DiscoverListComponent} from "./components/discover-list/discover-list.component";
-import {DiscoverSearchModalComponent} from "./components/discover-search-modal/discover-search-modal.component";
-import {DiscoverSearchToolbarComponent} from "./components/discover-search-toolbar/discover-search-toolbar.component";
-import {MyPositionMapComponent} from "./components/my-position-map/my-position-map.component";
-import {DiscoverPageModule} from "./discover.module";
-import {AppModule} from "../../app.module";
-import {PoiPage} from "../poi/poi.page";
-import {ActivatedRoute, convertToParamMap} from "@angular/router";
 import {INITIAL_SEARCH_ATTRIBUTES} from "../../data/search-attributes";
 import {PoiId} from "../../data/poi-id";
+import {Store} from "@ngrx/store";
 import {Contact} from "../../data/contact";
 
 describe('DiscoverPage', () => {
@@ -37,10 +25,18 @@ describe('DiscoverPage', () => {
     };
     spyOn(poisOverpassServiceMock, 'searchPois').and.callThrough();
 
+    const discoverStoreMock = {
+      pipe: (data: any) => of(INITIAL_SEARCH_ATTRIBUTES),
+      dispatch: (data: any) => {}
+    };
+    spyOn(discoverStoreMock, 'pipe').and.callThrough();
+    spyOn(discoverStoreMock, 'dispatch').and.callThrough();
+
     TestBed.configureTestingModule({
       imports: [IonicModule.forRoot()],
       providers: [
-        {provide: PoisOverpassService, useValue: poisOverpassServiceMock}
+        {provide: PoisOverpassService, useValue: poisOverpassServiceMock},
+        {provide: Store, useValue: discoverStoreMock}
       ]
     }).compileComponents();
 
@@ -49,9 +45,10 @@ describe('DiscoverPage', () => {
     fixture.detectChanges();
   }));
 
+  // this test should not check a private method
   it('should create', () => {
     expect(component).toBeTruthy();
-    component.executeSearch(INITIAL_SEARCH_ATTRIBUTES);
+    component.reloadPois(INITIAL_SEARCH_ATTRIBUTES);
 
     expect(component.filteredPois.length).toBe(2);
 

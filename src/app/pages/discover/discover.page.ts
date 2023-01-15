@@ -6,6 +6,10 @@ import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
 import {StateService} from "../../services/state.service";
 import {ResultViewType} from "../../data/result-view-type";
+import {State} from "./store/discover.reducer";
+import {select, Store} from "@ngrx/store";
+import {getSearchAttributes} from "./store/discover.selectors";
+import {searchPois} from "./store/discover.actions";
 
 @Component({
   selector: 'app-discover',
@@ -16,13 +20,14 @@ export class DiscoverPage implements OnInit, OnChanges {
 
   constructor(
     private stateService: StateService,
-    private poisOverpassService: PoisOverpassService) {
+    private poisOverpassService: PoisOverpassService,
+    private discoverStore: Store<{ discoverState: State }>) {
   }
 
   resultViewType: ResultViewType = 'MAP';
 
   searchActive = false;
-  searchAttributes: SearchAttributes = INITIAL_SEARCH_ATTRIBUTES;
+  searchAttributes: SearchAttributes;
   filterValue: string = '';
 
   allPois: Poi[] = [];
@@ -39,9 +44,16 @@ export class DiscoverPage implements OnInit, OnChanges {
       this.filteredPois = this.stateService.getPois();
       this.allPois = this.stateService.getAllPois();
       this.resetSelectedPoi();
-      this.searchAttributes = this.stateService.searchAttributes;
       this.filterValue = this.stateService.getFilterValue();
     }
+
+    // TODO unregister subscription
+    const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
+      this.searchAttributes = value;
+      if (value !== INITIAL_SEARCH_ATTRIBUTES) {
+        this.reloadPois(value);
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,8 +79,7 @@ export class DiscoverPage implements OnInit, OnChanges {
   }
 
   executeSearch(value: SearchAttributes) {
-    this.searchAttributes = value;
-    this.reloadPois(value);
+    this.discoverStore.dispatch(searchPois({data: value}));
   }
 
   changeView(value: ResultViewType) {
@@ -108,7 +119,8 @@ export class DiscoverPage implements OnInit, OnChanges {
     }
   }
 
-  private reloadPois(attr: SearchAttributes) {
+  // method is not private for test
+  reloadPois(attr: SearchAttributes) {
     this.searchActive = true;
 
     if (this.subscription) {
