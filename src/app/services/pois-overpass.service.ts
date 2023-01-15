@@ -10,10 +10,11 @@ import {References} from "../data/references";
 import {Attributes} from "../data/attributes";
 import {GeoService} from "./geo.service";
 import {OwnPosition} from "../data/own-position";
-import {directionToPoi, DirectionTypes} from "../data/direction";
+import {directionToPoi} from "../data/direction";
 import {Cuisine} from "../data/cuisine";
 import {Feature, Geometry} from "geojson";
 import {PoiId} from "../data/poi-id";
+import {SearchAttributes} from "../data/search-attributes";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,12 @@ export class PoisOverpassService {
   constructor(
     private geoService: GeoService,
     private http: HttpClient) {
+  }
+
+
+  // GET /pois?category=restaurant&lat=52.9&lon=8.4&distance=100
+  searchPoisByAttributes(searchAttributes: SearchAttributes): Observable<Poi[]> {
+    return this.searchPois(searchAttributes.position, searchAttributes.distance, searchAttributes.category.key);
   }
 
   // GET /pois?category=restaurant&lat=52.9&lon=8.4&distance=100
@@ -55,7 +62,7 @@ export class PoisOverpassService {
   }
 
   private jsonToPoi(p: PoiJson, position?: LatLon): Poi {
-    const categories = p.categories.map(c => this.capitalizeString(c) );
+    const categories = p.categories.map(c => this.capitalizeString(c));
 
     const coordinates = new LatLon(p.coordinates.lat, p.coordinates.lon);
 
