@@ -17,13 +17,19 @@ import {CategoryModalMainItemComponent} from "./components/category-modal-main-i
 import {CategoryModalComponent} from "./components/category-modal/category-modal.component";
 import {DiscoverMapComponent} from "./components/discover-map/discover-map.component";
 import {DiscoverPoiDetailToolbarComponent} from "./components/discover-poi-detail-toolbar/discover-poi-detail-toolbar.component";
+import { StoreModule } from '@ngrx/store';
+import * as fromDiscover from './store/discover.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { DiscoverEffects } from './store/discover.effects';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DiscoverPageRoutingModule
+    DiscoverPageRoutingModule,
+    StoreModule.forFeature(fromDiscover.discoverFeatureKey, fromDiscover.reducer),
+    EffectsModule.forFeature([DiscoverEffects])
   ],
   declarations: [
     DiscoverFilterToolbarComponent,
