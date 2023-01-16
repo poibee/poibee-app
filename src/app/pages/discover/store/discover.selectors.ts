@@ -11,3 +11,8 @@ export const getPoisOfSearchAttributes = createSelector(
     return {searchAttributes: state.searchAttributes, pois: state.pois}
   }
 );
+
+export const getSearchActive = createSelector(
+  selectDiscoverState,
+  state => state.searchActive
+);
