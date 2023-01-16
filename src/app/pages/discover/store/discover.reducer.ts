@@ -8,26 +8,40 @@ export const discoverFeatureKey = 'discover';
 
 export interface State {
   searchAttributes: SearchAttributes;
-  loading: boolean;
+  searchActive: boolean;
   pois: Poi[];
 }
 
 export const initialState: State = {
   searchAttributes: INITIAL_SEARCH_ATTRIBUTES,
-  pois: [new Poi(PoiId.of('way-1'), 'name', [], null, null, null, null, null, 0, '', null)],
-  loading: false
+  searchActive: false,
+  pois: [new Poi(PoiId.of('way-1'), 'name', [], null, null, null, null, null, 0, '', null)]
 };
 
 export const reducer = createReducer(
   initialState,
 
+  on(DiscoverActions.searchPois, (state, {searchAttributes}) => {
+    return {
+      ...state,
+      searchActive: true
+    };
+  }),
+
   on(DiscoverActions.searchPoisSuccess, (state, {searchAttributes, pois}) => {
-    const newResult = {
+    return {
       ...state,
       searchAttributes: searchAttributes,
-      pois: pois,
-      loading: false,
+      searchActive: false,
+      pois: pois
     };
-    return newResult;
+  }),
+
+  on(DiscoverActions.searchPoisFailure, (state, {searchAttributes, error}) => {
+    return {
+      ...state,
+      searchActive: false,
+      searchAttributes: searchAttributes
+    };
   }),
 );

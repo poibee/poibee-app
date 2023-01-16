@@ -3,7 +3,7 @@
     [numberOfFilterResults]="filteredPois.length"
     [numberOfSearchResults]="allPois.length"
     [searchAttributes]="searchAttributes"
-    [searchActive]="searchActive"
+    [searchActive]="searchActive$ | async"
     (searchUpdated)="executeSearch($event)"
     (resultViewTypeUpdated)="changeView($event)"
     data-cy="componentDiscoverSearchToolbar">
@@ -11,7 +11,7 @@
 
   <app-discover-filter-toolbar
     [filterValue]="filterValue"
-    [searchActive]="searchActive"
+    [searchActive]="searchActive$ | async"
     (selectedSortUpdated)="updateSelectedSort($event)"
     (filterValueUpdated)="updateFilterValue($event)">
   </app-discover-filter-toolbar>

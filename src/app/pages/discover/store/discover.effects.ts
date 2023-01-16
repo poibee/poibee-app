@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {map, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import * as DiscoverActions from './discover.actions';
 import {Action} from "@ngrx/store";
 import {PoisOverpassService} from "../../../services/pois-overpass.service";
@@ -11,18 +11,17 @@ export class DiscoverEffects {
 
   constructor(
     private actions$: Actions,
-    private poisOverpassService: PoisOverpassService
-  ) {
+    private poisOverpassService: PoisOverpassService) {
   }
 
   searchPoisEffects$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(DiscoverActions.searchPois),
-      switchMap(data => {
-        return this.poisOverpassService.searchPoisByAttributes(data.data).pipe(
-          map(pois => DiscoverActions.searchPoisSuccess({searchAttributes: data.data, pois: pois})))
-        // TODO - implement:
-        //  catchError(error => DiscoverActions.searchPoisFailure({searchAttributes: data.data, error: "error !"})))
+      switchMap(props => {
+        return this.poisOverpassService.searchPoisByAttributes(props.searchAttributes).pipe(
+          map(pois => DiscoverActions.searchPoisSuccess({searchAttributes: props.searchAttributes, pois: pois})),
+          catchError(error => of(DiscoverActions.searchPoisFailure({searchAttributes: props.searchAttributes, error: error})))
+        )
       })
     )
   );

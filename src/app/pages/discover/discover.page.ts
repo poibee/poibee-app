@@ -1,14 +1,14 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {sortTypesAsArray} from "../../data/sort-types";
 import {Poi} from "../../data/poi";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
 import {StateService} from "../../services/state.service";
 import {ResultViewType} from "../../data/result-view-type";
 import {State} from "./store/discover.reducer";
 import {select, Store} from "@ngrx/store";
-import {getPoisOfSearchAttributes} from "./store/discover.selectors";
+import {getSearchActive, getPoisOfSearchAttributes} from "./store/discover.selectors";
 import {searchPois} from "./store/discover.actions";
 
 @Component({
@@ -24,9 +24,10 @@ export class DiscoverPage implements OnInit, OnChanges {
     private discoverStore: Store<{ discoverState: State }>) {
   }
 
+  searchActive$: Observable<boolean>;
+
   resultViewType: ResultViewType = 'MAP';
 
-  searchActive = false;
   searchAttributes: SearchAttributes;
   filterValue: string = '';
 
@@ -54,6 +55,8 @@ export class DiscoverPage implements OnInit, OnChanges {
         this.poisLoaded(value.searchAttributes, value.pois);
       }
     });
+
+    this.searchActive$ = this.discoverStore.pipe(select(getSearchActive));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -79,8 +82,7 @@ export class DiscoverPage implements OnInit, OnChanges {
   }
 
   executeSearch(value: SearchAttributes) {
-    this.searchActive = true;
-    this.discoverStore.dispatch(searchPois({data: value}));
+    this.discoverStore.dispatch(searchPois({searchAttributes: value}));
   }
 
   changeView(value: ResultViewType) {
@@ -124,6 +126,5 @@ export class DiscoverPage implements OnInit, OnChanges {
       this.filteredPois = this.stateService.updatePois(pois, searchAttributes);
       this.allPois = this.stateService.getAllPois();
       this.resetSelectedPoi();
-      this.searchActive = false;
   }
 }

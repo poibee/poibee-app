@@ -4,7 +4,7 @@ import {SearchAttributes} from "../../../data/search-attributes";
 
 export const searchPois = createAction(
   '[Discover] Search POIs',
-  props<{ data: SearchAttributes }>()
+  props<{ searchAttributes: SearchAttributes }>()
 );
 
 export const searchPoisSuccess = createAction(
@@ -14,5 +14,5 @@ export const searchPoisSuccess = createAction(
 
 export const searchPoisFailure = createAction(
   '[Discover] Search POIs Failure',
-  props<{ searchAttributes: SearchAttributes, error: string }>()
+  props<{ searchAttributes: SearchAttributes, error: any }>()
 );
