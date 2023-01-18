@@ -1,8 +1,6 @@
 [
   {
     "id": "way/45666704",
-    "name": "Christuskirche",
-    "website": "https://www.kirche-harpstedt.de/",
     "categories": [
       "church"
     ],
@@ -42,8 +40,6 @@
       "lon": 8.59079985
     },
     "id": "way/12345678",
-    "name": "Akzent Hotel Zur Wasserburg",
-    "website": "https://www.zur-wasserburg.de/",
     "tags": {
       "addr:housenumber": "4",
       "addr:postcode": "27243",
@@ -66,8 +62,6 @@
       "lon": 8.5874905
     },
     "id": "node/1628572328",
-    "name": "Charisma",
-    "website": "https://charisma-harpstedt.com/",
     "tags": {
       "addr:city": "Harpstedt",
       "addr:country": "DE",
@@ -88,7 +82,6 @@
   },
   {
     "id": "node/1628572605",
-    "name": "Marktkieker",
     "categories": [
       "amenity"
     ],
@@ -121,8 +114,6 @@
   },
   {
     "id": "node/1628573040",
-    "name": "Kriegerdenkmal 1870-71",
-    "website": "http://denkmalprojekt.org/dkm_deutschland/harpstedt_1870-71_ns.htm",
     "categories": [
       "memorial"
     ],
@@ -138,7 +129,6 @@
   },
   {
     "id": "way/45666703",
-    "name": "Marktplatz",
     "categories": [
       "parking"
     ],
