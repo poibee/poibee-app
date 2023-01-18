@@ -1,25 +1,33 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {sortTypesAsArray} from "../../data/sort-types";
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Poi} from "../../data/poi";
 import {Observable, Subscription} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
-import {StateService} from "../../services/state.service";
+import {SearchAttributes} from "../../data/search-attributes";
 import {ResultViewType} from "../../data/result-view-type";
 import {State} from "./store/discover.reducer";
 import {select, Store} from "@ngrx/store";
-import {getSearchActive, getPoisOfSearchAttributes} from "./store/discover.selectors";
-import {searchPois} from "./store/discover.actions";
+import {
+  getSearchActive,
+  getSelectedPoi,
+  getFilterValue,
+  getSelectedSort, getSelectedPoiText, getSearchAttributes, getFoundPois
+} from "./store/discover.selectors";
+import {
+  searchPois,
+  selectNextPoi, selectPoi,
+  selectPreviousPoi,
+  updateFilterValue,
+  updateSelectedSort
+} from "./store/discover.actions";
 
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss'],
 })
-export class DiscoverPage implements OnInit, OnChanges {
+export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   constructor(
-    private stateService: StateService,
     private poisOverpassService: PoisOverpassService,
     private discoverStore: Store<{ discoverState: State }>) {
   }
@@ -29,34 +37,48 @@ export class DiscoverPage implements OnInit, OnChanges {
   resultViewType: ResultViewType = 'MAP';
 
   searchAttributes: SearchAttributes;
-  filterValue: string = '';
-
-  allPois: Poi[] = [];
-  filteredPois: Poi[] = [];
+  filterValue: string;
+  allPois: Poi[];
+  filteredPois: Poi[];
   selectedPoi: Poi;
-  selectedPoiText: string = '';
-
-  private selectedSort: string = sortTypesAsArray()[0][0];
+  selectedPoiText: string;
+  selectedSort: string;
   private subscription: Subscription;
-  private selectedPoiIndex = 0;
 
   ngOnInit() {
-    if (this.stateService.hasResults()) {
-      this.filteredPois = this.stateService.getPois();
-      this.allPois = this.stateService.getAllPois();
-      this.resetSelectedPoi();
-      this.filterValue = this.stateService.getFilterValue();
-    }
-
     // TODO unregister subscription
-    const poisOfSearchAttributes$ = this.discoverStore.pipe(select(getPoisOfSearchAttributes)).subscribe(value => {
+    const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
       this.searchAttributes = value.searchAttributes;
-      if (value.searchAttributes !== INITIAL_SEARCH_ATTRIBUTES) {
-        this.poisLoaded(value.searchAttributes, value.pois);
-      }
     });
 
+    // TODO unregister subscription
+    const poisOfSearchAttributes$ = this.discoverStore.pipe(select(getFoundPois)).subscribe(value => {
+      this.filteredPois = value.filteredPois;
+      this.allPois = value.allPois;
+    });
+
+    // TODO unregister subscription
     this.searchActive$ = this.discoverStore.pipe(select(getSearchActive));
+
+    // TODO unregister subscription
+    const selectedPoi$ = this.discoverStore.pipe(select(getSelectedPoi)).subscribe(value => {
+      this.selectedPoi = value;
+    });
+
+    // TODO unregister subscription
+    const selectedSort$ = this.discoverStore.pipe(select(getSelectedSort)).subscribe(value => {
+      this.selectedSort = value;
+    });
+
+    // TODO unregister subscription
+    const filterValue$ = this.discoverStore.pipe(select(getFilterValue)).subscribe(value => {
+      this.filterValue = value;
+    });
+
+    // TODO unregister subscription
+    const selectedPoiText$ = this.discoverStore.pipe(select(getSelectedPoiText)).subscribe(value => {
+      this.selectedPoiText = value;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -71,14 +93,12 @@ export class DiscoverPage implements OnInit, OnChanges {
 
   updateSelectedSort(value: string) {
     this.selectedSort = value;
-    this.filteredPois = this.stateService.updateSelectedSort(this.selectedSort);
-    this.resetSelectedPoi();
+    this.discoverStore.dispatch(updateSelectedSort({selectedSort: value}));
   }
 
   updateFilterValue(value: string) {
     this.filterValue = value;
-    this.filteredPois = this.stateService.updateFilterValue(this.filterValue);
-    this.resetSelectedPoi();
+    this.discoverStore.dispatch(updateFilterValue({filterValue: value}));
   }
 
   executeSearch(value: SearchAttributes) {
@@ -90,41 +110,14 @@ export class DiscoverPage implements OnInit, OnChanges {
   }
 
   selectPoi(selectedPoi: Poi): void {
-    this.selectedPoiIndex = this.filteredPois.indexOf(selectedPoi);
-    this.recalculateSelectedPoi();
+    this.discoverStore.dispatch(selectPoi({selectedPoi: selectedPoi}));
   }
 
   selectNextPoi(): void {
-    if (this.selectedPoiIndex < this.filteredPois.length - 1) {
-      this.selectedPoiIndex = this.selectedPoiIndex + 1;
-    }
-    this.recalculateSelectedPoi();
+    this.discoverStore.dispatch(selectNextPoi());
   }
 
   selectPreviousPoi(): void {
-    if (this.selectedPoiIndex > 0) {
-      this.selectedPoiIndex = this.selectedPoiIndex - 1;
-    }
-    this.recalculateSelectedPoi();
-  }
-
-  private resetSelectedPoi() {
-    this.selectedPoiIndex = 0;
-    this.recalculateSelectedPoi();
-  }
-
-  private recalculateSelectedPoi() {
-    this.selectedPoi = this.filteredPois.length > 0 ? this.filteredPois[this.selectedPoiIndex] : null;
-    if (this.filteredPois.length > 0) {
-      this.selectedPoiText = (this.selectedPoiIndex + 1) + ' / ' + this.filteredPois.length;
-    } else {
-      this.selectedPoiText = '0 / 0';
-    }
-  }
-
-  poisLoaded(searchAttributes: SearchAttributes, pois: Poi[]) {
-      this.filteredPois = this.stateService.updatePois(pois, searchAttributes);
-      this.allPois = this.stateService.getAllPois();
-      this.resetSelectedPoi();
+    this.discoverStore.dispatch(selectPreviousPoi());
   }
 }
