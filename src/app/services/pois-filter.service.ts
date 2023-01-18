@@ -12,7 +12,7 @@ export class PoisFilterService {
   filterPois(pois: Poi[], filterValue: string): Poi[] {
     const resultPois: Poi[] = [];
     pois.forEach(poi => {
-      if (filterValue.length == 0 || (poi.name && poi.name.toLowerCase().includes(filterValue.toLowerCase()))) {
+      if (filterValue.length == 0 || (poi.contact.name && poi.contact.name.toLowerCase().includes(filterValue.toLowerCase()))) {
         resultPois.push(poi);
       }
     });

@@ -8,14 +8,15 @@ import {LatLon} from "../data/lat-lon";
 import {CategoryEntry} from "../data/category-entry";
 import {SearchAttributes} from "../data/search-attributes";
 import {PoiId} from "../data/poi-id";
+import {Contact} from "../data/contact";
 
 describe('StateService', () => {
   let service: StateService;
 
   const pois = [
-    new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
-    new Poi(PoiId.of('node-2'), 'Christuskirche', ['church'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
-    new Poi(PoiId.of('node-3'), 'Marktkieker', ['community_centre'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null),
+    new Poi(PoiId.of('node-1'), ['restaurant'], null, new OwnPosition(null, 0, null), null, Contact.of('Charisma'), null, 1, '{}', null),
+    new Poi(PoiId.of('node-2'), ['church'], null, new OwnPosition(null, 0, null), null, Contact.of('Christuskirche'), null, 1, '{}', null),
+    new Poi(PoiId.of('node-3'), ['community_centre'], null, new OwnPosition(null, 0, null), null, Contact.of('Marktkieker'), null, 1, '{}', null),
   ];
 
   const poiCharisma = pois[0];
@@ -54,7 +55,7 @@ describe('StateService', () => {
   });
 
   it('should compare pois by PoiId', () => {
-    const poiCharismaClone = new Poi(PoiId.of('node-1'), 'Charisma', ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null);
+    const poiCharismaClone = new Poi(PoiId.of('node-1'), ['restaurant'], null, new OwnPosition(null, 0, null), null, null, null, 1, '{}', null);
 
     service.selectPoi(poiCharismaClone);
     expect(service.hasPreviousPoi()).toBeFalsy();

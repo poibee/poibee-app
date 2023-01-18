@@ -21,7 +21,7 @@ describe('PoiReferencesComponent', () => {
     component = fixture.componentInstance;
 
     const references = new References('a', 'b', 'c', 'd', 'e');
-    component.poi = new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, new OwnPosition(null, 0, null), null, null, references, 1, '{}', null);
+    component.poi = new Poi(PoiId.of('node-1'), ['myCategory'], null, new OwnPosition(null, 0, null), null, null, references, 1, '{}', null);
 
     fixture.detectChanges();
   }));

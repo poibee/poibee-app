@@ -15,9 +15,9 @@ describe('DiscoverListItemComponent', () => {
 
   const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
   const attributes = new Attributes(Cuisine.of('German'), null, null, false, false, false);
-  const contact = new Contact(null, null, null, null, null, null);
+  const contact = new Contact('myName', null, null, null, null, null);
   const references = new References(null, null, null, null, null);
-  const poi = new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null);
+  const poi = new Poi(PoiId.of('node-1'), ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null);
 
   let component: DiscoverListItemComponent;
   let fixture: ComponentFixture<DiscoverListItemComponent>;
@@ -48,7 +48,7 @@ describe('DiscoverListItemComponent', () => {
     expect(component).toBeTruthy();
 
     expect(component.poi.id).toEqual(PoiId.of('node-1'));
-    expect(component.poi.name).toBe('myName');
+    expect(component.poi.contact.name).toBe('myName');
   });
 
 });

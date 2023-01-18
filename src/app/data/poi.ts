@@ -3,7 +3,6 @@ import {Contact} from "./contact";
 import {References} from "./references";
 import {Attributes} from "./attributes";
 import {OwnPosition} from "./own-position";
-import {DirectionTypes} from "./direction";
 import {Feature, Geometry} from "geojson";
 import {PoiId} from "./poi-id";
 
@@ -11,7 +10,6 @@ export class Poi {
 
   constructor(
     public readonly id: PoiId,
-    public readonly name: string,
     public readonly categories: string[],
     public readonly coordinates: LatLon,
     public readonly ownPosition: OwnPosition,
@@ -24,6 +22,6 @@ export class Poi {
   }
 
   public label() {
-    return this.name ? this.name : this.categories[0];
+    return this.contact.name ? this.contact.name : this.categories[0];
   }
 }
