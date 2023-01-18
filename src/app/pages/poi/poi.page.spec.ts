@@ -22,11 +22,12 @@ describe('PoiPage', () => {
     poisOverpassServiceMock = {
       searchPoi: (poiId: PoiId) => of({
         id: PoiId.ofOsm('node/12345'),
-        name: 'myName',
         categories: ['myCategory'],
         coordinates: new LatLon(1.1, 2.2),
         attributes: {},
-        contact: {},
+        contact: {
+          name: 'myName'
+        },
         references: {}
       })
     };
@@ -54,6 +55,6 @@ describe('PoiPage', () => {
     expect(component).toBeTruthy();
 
     expect(component.poi.id).toEqual(PoiId.of('node-12345'));
-    expect(component.poi.name).toBe('myName');
+    expect(component.poi.contact.name).toBe('myName');
   });
 });

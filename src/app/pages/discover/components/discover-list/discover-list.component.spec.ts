@@ -16,11 +16,10 @@ describe('DiscoverListComponent', () => {
 
   const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
   const attributes = new Attributes(null, null, null, false, false, false);
-  const contact = new Contact(null, null, null, null, null, null);
   const references = new References(null, null, null, null, null);
   const pois = [
-    new Poi(PoiId.of('node-1'), 'myName', ['myCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
-    new Poi(PoiId.of('node-2'), 'otherName', ['otherCategory'], null, ownPosition, attributes, contact, references, 1, '{}', null),
+    new Poi(PoiId.of('node-1'), ['myCategory'], null, ownPosition, attributes, Contact.of('myName'), references, 1, '{}', null),
+    new Poi(PoiId.of('node-2'), ['otherCategory'], null, ownPosition, attributes, Contact.of('otherName'), references, 1, '{}', null),
   ];
 
   beforeEach(waitForAsync(() => {
@@ -43,7 +42,7 @@ describe('DiscoverListComponent', () => {
     expect(component.pois.length).toBe(2);
 
     expect(component.pois[0].id).toEqual(PoiId.of('node-1'));
-    expect(component.pois[0].name).toBe('myName');
+    expect(component.pois[0].contact.name).toBe('myName');
 
     expect(component.pois[1].id).toEqual(PoiId.of('node-2'));
   });
