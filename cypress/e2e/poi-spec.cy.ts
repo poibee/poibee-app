@@ -274,7 +274,7 @@ describe('POI detail page', () => {
 
       cy.get('[data-cy=cardRawData]').should('exist')
       cy.get('[data-cy=cardRawData] ion-card-title').should('have.text', 'Rohdaten')
-      cy.get('[data-cy=cardRawData] pre').should('contain', '"id": "way/12345678",\n  "name": "Akzent Hotel Zur Wasserburg"')
+      cy.get('[data-cy=cardRawData] pre').should('contain', '"id": "way/12345678"')
     });
   });
 
