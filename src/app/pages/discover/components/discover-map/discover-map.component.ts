@@ -9,25 +9,9 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {
-  Circle,
-  Control,
-  control,
-  ErrorEvent,
-  LatLng,
-  Layer,
-  LayerGroup,
-  LocationEvent,
-  Map,
-  Marker,
-  MarkerOptions,
-  TileLayer
-} from "leaflet";
-import {Geocoder} from "leaflet-control-geocoder";
+import {Circle, Control, control, Layer, LayerGroup, Map, Marker, MarkerOptions, TileLayer} from "leaflet";
 
 import {ImageService} from "../../../../services/image.service";
-import {ToastController} from "@ionic/angular";
-import {LatLon} from "../../../../data/lat-lon";
 import {SearchDistance} from "../../../../data/search-distance";
 import {Poi} from "../../../../data/poi";
 import {SearchAttributes} from "../../../../data/search-attributes";
@@ -166,7 +150,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       icon: this.imageService.loadMarkerIcon()
     }).addTo(searchLayer);
 
-    this.searchDistanceCircle = new Circle(mapCenterAsLeaflet,  {
+    this.searchDistanceCircle = new Circle(mapCenterAsLeaflet, {
       radius: searchCircleDistance,
       color: '#ff7777',
       weight: 1
