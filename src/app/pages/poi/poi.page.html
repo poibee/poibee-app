@@ -1,6 +1,10 @@
 <ion-header>
   <app-poi-navigation-toolbar
     [poi]="poi"
+    [hasNextPoi]="hasNextPoi"
+    [hasPreviousPoi]="hasPreviousPoi"
+    [navigatorLabel]="navigatorLabel"
+    [showNavigationButtons]="showNavigationButtons"
     (navigateBack)="navigateBack()"
     (selectPreviousPoi)="selectPreviousPoi()"
     (selectNextPoi)="selectNextPoi()">
@@ -18,8 +22,7 @@
   <ion-card>
     <app-poi-map
       [poi]="poi"
-      [searchCenter]="searchCenter"
-      [showProgress]="showProgress">
+      [searchCenter]="searchCenter">
     </app-poi-map>
   </ion-card>
 

@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {StateService} from "../../../../services/state.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Poi} from "../../../../data/poi";
 
 @Component({
@@ -7,7 +6,7 @@ import {Poi} from "../../../../data/poi";
   templateUrl: './poi-navigation-toolbar.component.html',
   styleUrls: ['./poi-navigation-toolbar.component.scss'],
 })
-export class PoiNavigationToolbarComponent implements OnInit, OnChanges {
+export class PoiNavigationToolbarComponent {
 
   @Input() poi: Poi;
 
@@ -15,22 +14,10 @@ export class PoiNavigationToolbarComponent implements OnInit, OnChanges {
   @Output() selectNextPoi = new EventEmitter<void>();
   @Output() selectPreviousPoi = new EventEmitter<void>();
 
-  hasNextPoi: boolean;
-  hasPreviousPoi: boolean;
-  navigatorLabel: string;
-  showNavigationButtons: boolean;
-
-  constructor(
-    private stateService: StateService,
-  ) {
-  }
-
-  ngOnInit() {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.updateNavigatorElements();
-  }
+  @Input() hasNextPoi: boolean;
+  @Input() hasPreviousPoi: boolean;
+  @Input() navigatorLabel: string;
+  @Input() showNavigationButtons: boolean;
 
   navigateBackClicked() {
     this.navigateBack.emit();
@@ -42,13 +29,6 @@ export class PoiNavigationToolbarComponent implements OnInit, OnChanges {
 
   selectNextPoiClicked() {
     this.selectNextPoi.emit();
-  }
-
-  private updateNavigatorElements() {
-    this.hasPreviousPoi = this.stateService.hasPreviousPoi();
-    this.hasNextPoi = this.stateService.hasNextPoi();
-    this.navigatorLabel = this.stateService.navigatorLabel();
-    this.showNavigationButtons = this.stateService.isPoiOfList();
   }
 
 }
