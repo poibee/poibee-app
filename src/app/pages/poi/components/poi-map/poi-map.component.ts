@@ -3,6 +3,7 @@ import {Poi} from "../../../../data/poi";
 import {LatLon} from "../../../../data/lat-lon";
 import {ImageService} from "../../../../services/image.service";
 import {GeoJSON, LayerGroup, Map, Marker, TileLayer, CircleMarker} from "leaflet";
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../../../data/search-attributes";
 
 @Component({
   selector: 'app-poi-map',
@@ -13,9 +14,9 @@ export class PoiMapComponent implements OnInit, OnChanges {
 
   @Input() poi: Poi;
   @Input() searchCenter: LatLon;
-  @Input() showProgress: boolean;
 
-  private ngOnInitDone: boolean;
+  showProgress: boolean;
+
   private poiMap: Map;
   private poiPositionLayer: LayerGroup;
   private searchCenterLayer: LayerGroup;
@@ -29,14 +30,24 @@ export class PoiMapComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.ngOnInitDone = true;
+    this.showProgress = true;
+    this.sleep(500).then(() => {
+      this.constructMap(INITIAL_SEARCH_ATTRIBUTES.position);
+      this.updateSearchCenterAndPoiOfMap();
+      this.showProgress = false;
+    });
+  }
+
+  private sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.ngOnInitDone && !this.poiMap && this.poi) {
-      this.constructMap(this.poi.coordinates)
-    }
-    if (this.searchCenter && this.searchCenterLayer && this.searchCenterLayer.getLayers().length == 0) {
+    this.updateSearchCenterAndPoiOfMap();
+  }
+
+  private updateSearchCenterAndPoiOfMap() {
+    if (this.poiMap && this.searchCenter && this.searchCenterLayer && this.searchCenterLayer.getLayers().length == 0) {
       this.updateSearchCenter(this.searchCenter)
     }
     if (this.poiMap && this.poi) {

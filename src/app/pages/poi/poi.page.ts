@@ -4,8 +4,11 @@ import {PoisOverpassService} from "../../services/pois-overpass.service";
 import {Poi} from "../../data/poi";
 import {LatLon} from "../../data/lat-lon";
 import {Subscription} from "rxjs";
-import {StateService} from "../../services/state.service";
 import {NavController} from "@ionic/angular";
+import {select, Store} from "@ngrx/store";
+import {State} from "../discover/store/discover.reducer";
+import {getPoiPageData} from "../discover/store/discover.selectors";
+import {selectNextPoi, selectPreviousPoi} from "../discover/store/discover.actions";
 import {PoiId} from "../../data/poi-id";
 
 @Component({
@@ -15,61 +18,59 @@ import {PoiId} from "../../data/poi-id";
 })
 export class PoiPage implements OnInit, OnDestroy {
 
+  hasNextPoi: boolean;
+  hasPreviousPoi: boolean;
+  navigatorLabel: string;
+  showNavigationButtons: boolean;
   poi: Poi;
+
   searchCenter: LatLon;
-  showProgress: boolean;
 
   poiSubscription$: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private navCtrl: NavController,
-    private stateService: StateService,
-    private poisOverpassService: PoisOverpassService
-  ) {
+    private poisOverpassService: PoisOverpassService,
+    private discoverStore: Store<{ discoverState: State }>) {
   }
 
   ngOnInit(): void {
-    this.searchCenter = this.determineSearchCenter();
+    // TODO unregister subscription
     const poiId = PoiId.of(this.route.snapshot.paramMap.get('id'));
-
-    this.showProgress = true;
-    this.poiSubscription$ = this.poisOverpassService.searchPoi(poiId, this.searchCenter).subscribe(poi => {
-      this.stateService.selectPoi(poi);
-      this.poi = poi;
-      this.sleep(500).then(() => {
-        this.showProgress = false;
-      });
+    const poiPageData$ = this.discoverStore.pipe(select(getPoiPageData)).subscribe((value: PoiPageValueType) => {
+      if (this.isValidPoiInStore(value)) {
+        this.updatePoiResult(value);
+        this.reloadPoiWithOriginalOsmData();
+      } else {
+        this.reloadPoi(poiId);
+      }
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.poiSubscription$) {
-      this.poiSubscription$.unsubscribe()
-    }
+  private isValidPoiInStore(poiPageValue: PoiPageValueType): boolean {
+    return poiPageValue && poiPageValue.poi != null;
+  }
+
+  private updatePoiResult(value: PoiPageValueType) {
+    this.poi = value.poi;
+    this.searchCenter = value.searchCenter;
+    this.hasNextPoi = value.hasNextPoi;
+    this.hasPreviousPoi = value.hasPreviousPoi;
+    this.navigatorLabel = value.navigatorLabel;
+    this.showNavigationButtons = value.showNavigationButtons;
   }
 
   navigateBack() {
     this.navCtrl.navigateRoot("/discover")
   }
 
-  selectNextPoi() {
-    this.poi = this.stateService.selectNextPoi();
-    this.reloadPoiWithOriginalOsmData();
+  selectNextPoi(): void {
+    this.discoverStore.dispatch(selectNextPoi());
   }
 
-  selectPreviousPoi() {
-    this.poi = this.stateService.selectPreviousPoi();
-    this.reloadPoiWithOriginalOsmData();
-  }
-
-  private determineSearchCenter(): LatLon {
-    let result: LatLon = null;
-    const searchAttributes = this.stateService.searchAttributes;
-    if (searchAttributes) {
-      result = searchAttributes.position;
-    }
-    return result;
+  selectPreviousPoi(): void {
+    this.discoverStore.dispatch(selectPreviousPoi());
   }
 
   private reloadPoiWithOriginalOsmData() {
@@ -80,8 +81,33 @@ export class PoiPage implements OnInit, OnDestroy {
     }
   }
 
-  private sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+  // TODO - use an effect to load a single POI
+  private reloadPoi(poiId: PoiId) {
+    this.poiSubscription$ = this.poisOverpassService.searchPoi(poiId, null).subscribe(poi => {
+      const poiPageValue: PoiPageValueType = {
+        hasNextPoi: false,
+        hasPreviousPoi: false,
+        navigatorLabel: "",
+        poi: poi,
+        searchCenter: poi.coordinates,
+        showNavigationButtons: false
+      };
+      this.updatePoiResult(poiPageValue);
+    });
   }
 
+  ngOnDestroy(): void {
+    if (this.poiSubscription$) {
+      this.poiSubscription$.unsubscribe()
+    }
+  }
 }
+
+export type PoiPageValueType = {
+  navigatorLabel: string;
+  searchCenter: LatLon;
+  hasNextPoi: boolean;
+  showNavigationButtons: boolean;
+  hasPreviousPoi: boolean;
+  poi: Poi
+};

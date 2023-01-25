@@ -11,30 +11,29 @@ export const discoverFeatureKey = 'discover';
 export interface State {
   searchAttributes: SearchAttributes;
   searchActive: boolean;
-  pois: Poi[];
-
-/* TODO:  --------- */
-  selectedPoi: Poi;
   allPois: Poi[];
+  filteredPois: Poi[];
+  selectedPoi: Poi;
   selectedSort: string;
   filterValue: string;
-
   selectedPoiIndex: number;
   selectedPoiText: string;
+  hasNextPoi: boolean;
+  hasPreviousPoi: boolean;
 }
 
 export const initialState: State = {
   searchAttributes: INITIAL_SEARCH_ATTRIBUTES,
   searchActive: false,
-  pois: [],
-
-  /* --------- */
-  selectedPoi: null,
   allPois: [],
+  filteredPois: [],
+  selectedPoi: null,
   selectedSort: sortTypesAsArray()[0][0],
   filterValue: '',
   selectedPoiIndex: 0,
-  selectedPoiText: '0 / 0'
+  selectedPoiText: '0 / 0',
+  hasNextPoi: false,
+  hasPreviousPoi: false
 };
 
 export const reducer = createReducer(
@@ -78,61 +77,47 @@ export const reducer = createReducer(
     });
   }),
 
-  /* ---------------------------------------------------- */
-
   on(DiscoverActions.selectPoi, (state, {selectedPoi}) => {
-    const selectedPoiIndex = state.pois.indexOf(selectedPoi);
-    const selectedPoiText = calculateSelectedPoiText(state);
-
-    return {
-      ...state,
-      selectedPoiIndex: selectedPoiIndex,
-      selectedPoi: selectedPoi,
-      selectedPoiText: selectedPoiText
-    };
+    const selectedPoiIndex = state.filteredPois.indexOf(selectedPoi);
+    return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
   on(DiscoverActions.selectPreviousPoi, (state: State) => {
-    var selectedPoiIndex = state.selectedPoiIndex;
-    if (selectedPoiIndex > 0) {
-      selectedPoiIndex = selectedPoiIndex - 1;
-    }
-    const selectedPoi = state.pois[selectedPoiIndex];
-    const selectedPoiText = calculateSelectedPoiText(state);
-
-    return {
-      ...state,
-      selectedPoiIndex: selectedPoiIndex,
-      selectedPoi: selectedPoi,
-      selectedPoiText: selectedPoiText
-    };
+    const selectedPoiIndex = hasPreviousPoi(state) ? state.selectedPoiIndex - 1 : state.selectedPoiIndex;
+    const selectedPoi = state.filteredPois[selectedPoiIndex];
+    return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
   on(DiscoverActions.selectNextPoi, (state) => {
-    var selectedPoiIndex = state.selectedPoiIndex;
-    if (selectedPoiIndex < state.pois.length - 1) {
-      selectedPoiIndex = selectedPoiIndex + 1;
-    }
-
-    const selectedPoi = state.pois[selectedPoiIndex];
-    const selectedPoiText = calculateSelectedPoiText(state);
-
-    return {
-      ...state,
-      selectedPoiIndex: selectedPoiIndex,
-      selectedPoi: selectedPoi,
-      selectedPoiText: selectedPoiText
-    };
+    const selectedPoiIndex = hasNextPoi(state) ? state.selectedPoiIndex + 1 : state.selectedPoiIndex;
+    const selectedPoi = state.filteredPois[selectedPoiIndex];
+    return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
 );
 
-function calculateSelectedPoiText(state: State) {
-  var result = '0 / 0';
-  if (state.pois.length > 0) {
-    result = (state.selectedPoiIndex + 1) + ' / ' + state.pois.length;
-  }
-  return result;
+function hasPreviousPoi(state: State) {
+  return state.selectedPoiIndex > 0;
+}
+
+function hasNextPoi(state) {
+  return state.selectedPoiIndex < state.filteredPois.length - 1;
+}
+
+function calculateSelectedPoiText(numberOfPois: number, selectedPoiIndex: number) {
+  return numberOfPois == 0 ? '0 / 0': ((selectedPoiIndex + 1) + ' / ' + numberOfPois);
+}
+
+function recalculatStateOfSelectedPoi(state: State, selectedPoiIndex: number, selectedPoi: Poi) {
+  const selectedPoiText = calculateSelectedPoiText(state.filteredPois.length, selectedPoiIndex);
+  return {
+    ...state,
+    selectedPoiIndex: selectedPoiIndex,
+    selectedPoi: selectedPoi,
+    selectedPoiText: selectedPoiText,
+    hasNextPoi: hasNextPoi(state),
+    hasPreviousPoi: hasPreviousPoi(state)
+  };
 }
 
 function recalculatePoiValues(newState: State): State {
@@ -142,12 +127,17 @@ function recalculatePoiValues(newState: State): State {
   const filteredPois = poisFilterService.filterPois(newState.allPois, newState.filterValue);
   const sortedPois = poisSorterService.sortPois(filteredPois, newState.selectedSort);
 
-  const selectedPoi = sortedPois.length > 0 ? sortedPois[0] : null;
+  const selectedPoiIndex = 0;
+  const selectedPoi = sortedPois.length > 0 ? sortedPois[selectedPoiIndex] : null;
+  const selectedPoiText = calculateSelectedPoiText(sortedPois.length, selectedPoiIndex);
+  const hasNextPoi = sortedPois.length >= 2;
   return {
     ...newState,
     selectedPoi: selectedPoi,
-    selectedPoiIndex: 0,
-    selectedPoiText: '1 / ' + filteredPois.length, // TODO - calculateSelectedPoiText()
-    pois: sortedPois,
+    selectedPoiIndex: selectedPoiIndex,
+    selectedPoiText: selectedPoiText,
+    filteredPois: sortedPois,
+    hasNextPoi: hasNextPoi,
+    hasPreviousPoi: false
   };
 }
