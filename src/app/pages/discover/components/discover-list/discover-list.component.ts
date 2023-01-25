@@ -1,10 +1,5 @@
-import {Component, Input, OnDestroy, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Poi} from "../../../../data/poi";
-import {PoisOverpassService} from "../../../../services/pois-overpass.service";
-import {LatLon} from "../../../../data/lat-lon";
-import {Subscription} from "rxjs";
-import {NavController} from "@ionic/angular";
-import {sortTypesAsArray} from "../../../../data/sort-types";
 
 @Component({
   selector: 'app-discover-list',
@@ -13,6 +8,11 @@ import {sortTypesAsArray} from "../../../../data/sort-types";
 })
 export class DiscoverListComponent {
 
+  @Output() selectPoiOutput = new EventEmitter<Poi>();
+
   @Input() pois: Poi[] = [];
 
+  selectPoi(poi: Poi) {
+    this.selectPoiOutput.emit(poi);
+  }
 }

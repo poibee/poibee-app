@@ -6,7 +6,8 @@
   <app-discover-list-item
     *ngFor="let poi of pois; index as i"
     [poi]="poi"
-    [index]="i">
+    [index]="i"
+    (selectPoiOutput)="selectPoi($event)">
   </app-discover-list-item>
 </ion-list>
 
