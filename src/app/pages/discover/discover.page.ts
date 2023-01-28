@@ -2,23 +2,30 @@ import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/c
 import {Poi} from "../../data/poi";
 import {Observable, Subscription} from "rxjs";
 import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {SearchAttributes} from "../../data/search-attributes";
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
 import {ResultViewType} from "../../data/result-view-type";
 import {State} from "./store/discover.reducer";
 import {select, Store} from "@ngrx/store";
 import {
-  getSearchActive,
-  getSelectedPoi,
   getFilterValue,
-  getSelectedSort, getSelectedPoiText, getSearchAttributes, getFoundPois
+  getFoundPois,
+  getSearchActive,
+  getSearchAttributes,
+  getSelectedPoi,
+  getSelectedPoiText,
+  getSelectedSort
 } from "./store/discover.selectors";
 import {
   searchPois,
-  selectNextPoi, selectPoi,
+  selectNextPoi,
+  selectPoi,
   selectPreviousPoi,
   updateFilterValue,
   updateSelectedSort
 } from "./store/discover.actions";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {LatLon} from "../../data/lat-lon";
+import {CategoryService} from "../../services/category.service";
 
 @Component({
   selector: 'app-discover',
@@ -28,14 +35,15 @@ import {
 export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   constructor(
+    private route: ActivatedRoute,
     private poisOverpassService: PoisOverpassService,
+    private categoryService: CategoryService,
     private discoverStore: Store<{ discoverState: State }>) {
   }
 
   searchActive$: Observable<boolean>;
-
   resultViewType: ResultViewType = 'MAP';
-
+  initialMapCenter: LatLon;
   searchAttributes: SearchAttributes;
   filterValue: string;
   allPois: Poi[];
@@ -46,6 +54,9 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
   private subscription: Subscription;
 
   ngOnInit() {
+    const parameters = this.queryParameters(this.route.snapshot.queryParamMap);
+    this.initialMapCenter = parameters.position ? parameters.position : INITIAL_SEARCH_ATTRIBUTES.position;
+
     // TODO unregister subscription
     const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
       this.searchAttributes = value.searchAttributes;
@@ -79,6 +90,12 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
     const selectedPoiText$ = this.discoverStore.pipe(select(getSelectedPoiText)).subscribe(value => {
       this.selectedPoiText = value;
     });
+
+    if (parameters.category) {
+      const categoryEntry = this.categoryService.ofKey(parameters.category);
+      const searchAttributes = new SearchAttributes(parameters.position, parameters.distance, categoryEntry);
+      this.discoverStore.dispatch(searchPois({searchAttributes}));
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -119,5 +136,21 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   selectPreviousPoi(): void {
     this.discoverStore.dispatch(selectPreviousPoi());
+  }
+
+  // https://poibee.de/discover?category=playground&position=52.908,8.588&distance=5000
+  private queryParameters(paramMap: ParamMap) {
+    const distance: number = this.parseValue(() => Number.parseInt(paramMap.get('distance')));
+    const category: string = this.parseValue(() => paramMap.get('category'));
+    const position: LatLon = this.parseValue(() => LatLon.ofPosition(paramMap.get('position')));
+    return {position, category, distance};
+  }
+
+  private parseValue<Type>(parseFunction: () => Type): Type {
+    try {
+      return parseFunction();
+    } catch (error) {
+      return undefined;
+    }
   }
 }

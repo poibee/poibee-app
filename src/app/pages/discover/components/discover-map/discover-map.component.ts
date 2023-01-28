@@ -16,6 +16,7 @@ import {SearchDistance} from "../../../../data/search-distance";
 import {Poi} from "../../../../data/poi";
 import {SearchAttributes} from "../../../../data/search-attributes";
 import {PoiNavigatorControl} from "./poi-navigator.control";
+import {LatLon} from "../../../../data/lat-lon";
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -38,7 +39,8 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private selectedPoiMaskLayer: LayerGroup;
   private poiNavigatorControl: PoiNavigatorControl;
 
-  @Input() pois: Poi[] = [];
+  @Input() initialMapCenter: LatLon;
+  @Input() pois: Poi[];
   @Input() searchAttributes: SearchAttributes;
   @Input() selectedPoi: Poi;
   @Input() selectedPoiText: string;
@@ -56,50 +58,34 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     this.showProgress = true;
     this.sleep(500).then(() => {
       this.constructMap();
-      this.updatePois(this.pois);
-      this.updateSearchAttributes(this.searchAttributes);
       this.showProgress = false;
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const poisChange: SimpleChange = changes['pois'];
+    if (poisChange && !poisChange.isFirstChange()) {
+      this.poisUpdated();
+    }
+
     const searchAttributesChange: SimpleChange = changes['searchAttributes'];
-    const selectedPoiChange: SimpleChange = changes['selectedPoi'];
+    if (searchAttributesChange && !searchAttributesChange.isFirstChange()) {
+      this.selectedSearchAttributesUpdated();
+    }
+
     const selectedPoiTextChange: SimpleChange = changes['selectedPoiText'];
-
-    if (poisChange && !poisChange.firstChange) {
-      this.updatePois(this.pois);
+    if (selectedPoiTextChange && !selectedPoiTextChange.isFirstChange()) {
+      this.selectedPoiTextUpdated();
     }
 
-    if (searchAttributesChange && !searchAttributesChange.firstChange) {
-      this.updateSearchAttributes(this.searchAttributes);
-    }
-
-    if (this.poiNavigatorControl && selectedPoiTextChange && !selectedPoiTextChange.firstChange) {
-      this.poiNavigatorControl.updateLabel(this.selectedPoiText)
-    }
-
-    if (selectedPoiChange && !selectedPoiChange.firstChange) {
-      this.poisLayer.eachLayer((layer: Layer) => {
-        const poiMarker = layer as PoiMarker;
-        const zIndex = (this.selectedPoi === (poiMarker).poi) ? 1000 : 0;
-        poiMarker.setZIndexOffset(zIndex)
-      });
-
-      this.selectedPoiMaskLayer.clearLayers();
-      if (this.selectedPoi) {
-        const markerOptions = {
-          icon: this.imageService.loadSelectedMarkerIcon(),
-          zIndexOffset: 2000
-        };
-        const marker = new Marker(this.selectedPoi.coordinates.asLatLng(), markerOptions);
-        marker.addTo(this.selectedPoiMaskLayer);
-      }
+    const selectedPoiChange: SimpleChange = changes['selectedPoi'];
+    if (selectedPoiChange && !selectedPoiChange.isFirstChange()) {
+      this.selectedPoiUpdated();
     }
   }
 
-  private updateSearchAttributes(searchAttributes: SearchAttributes) {
+  private selectedSearchAttributesUpdated() {
+    const searchAttributes = this.searchAttributes;
     const searchCenterPositionAsLeaflet = searchAttributes.position.asLatLng();
     this.searchCenterMarker.setLatLng(searchCenterPositionAsLeaflet);
     this.searchDistanceCircle.setLatLng(searchCenterPositionAsLeaflet);
@@ -107,7 +93,11 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     this.discoverMap.flyTo(searchCenterPositionAsLeaflet, SearchDistance.kmAsZoomLevel(searchAttributes.distance));
   }
 
-  private updatePois(pois: Poi[]) {
+  private selectedPoiTextUpdated() {
+    this.poiNavigatorControl.updateLabel(this.selectedPoiText)
+  }
+
+  private poisUpdated() {
     this.poisLayer.clearLayers();
     for (let i = 0; i < this.pois.length; i++) {
       const poi: Poi = this.pois[i];
@@ -120,9 +110,26 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     }
   }
 
+  private selectedPoiUpdated() {
+    this.poisLayer.eachLayer((layer: Layer) => {
+      const poiMarker = layer as PoiMarker;
+      const zIndex = (this.selectedPoi === (poiMarker).poi) ? 1000 : 0;
+      poiMarker.setZIndexOffset(zIndex)
+    });
+
+    this.selectedPoiMaskLayer.clearLayers();
+    if (this.selectedPoi) {
+      const markerOptions = {
+        icon: this.imageService.loadSelectedMarkerIcon(),
+        zIndexOffset: 2000
+      };
+      const marker = new Marker(this.selectedPoi.coordinates.asLatLng(), markerOptions);
+      marker.addTo(this.selectedPoiMaskLayer);
+    }
+  }
+
   private constructMap() {
-    const searchCircleDistance = this.searchAttributes.distance;
-    const mapCenterAsLeaflet = this.searchAttributes.position.asLatLng();
+    const mapCenterAsLeaflet = this.initialMapCenter.asLatLng();
 
     this.poisLayer = new LayerGroup();
     this.selectedPoiMaskLayer = new LayerGroup();
@@ -151,7 +158,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     }).addTo(searchLayer);
 
     this.searchDistanceCircle = new Circle(mapCenterAsLeaflet, {
-      radius: searchCircleDistance,
+      radius: 1,
       color: '#ff7777',
       weight: 1
     }).addTo(searchLayer);
