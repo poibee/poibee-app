@@ -16,6 +16,7 @@ import {
   getSelectedSort
 } from "./store/discover.selectors";
 import {
+  initializeDiscoverPage,
   searchPois,
   selectNextPoi,
   selectPoi,
@@ -91,11 +92,7 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
       this.selectedPoiText = value;
     });
 
-    if (parameters.category) {
-      const categoryEntry = this.categoryService.ofKey(parameters.category);
-      const searchAttributes = new SearchAttributes(parameters.position, parameters.distance, categoryEntry);
-      this.discoverStore.dispatch(searchPois({searchAttributes}));
-    }
+    this.discoverStore.dispatch(initializeDiscoverPage(parameters));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

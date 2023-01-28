@@ -23,7 +23,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  searchAttributes: INITIAL_SEARCH_ATTRIBUTES,
+  searchAttributes: undefined,
   searchActive: false,
   allPois: [],
   filteredPois: [],
@@ -38,6 +38,13 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
+
+  on(DiscoverActions.initializeSearchAttributes, (state) => {
+    return {
+      ...state,
+      searchAttributes: INITIAL_SEARCH_ATTRIBUTES
+    };
+  }),
 
   on(DiscoverActions.searchPois, (state, {searchAttributes}) => {
     return {
