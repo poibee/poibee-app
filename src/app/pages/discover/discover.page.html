@@ -20,6 +20,7 @@
 <ion-content>
   <app-discover-map
     *ngIf="resultViewType === 'MAP'"
+    [initialMapCenter]="initialMapCenter"
     [pois]="filteredPois"
     [searchAttributes]="searchAttributes"
     [selectedPoi]="selectedPoi"
