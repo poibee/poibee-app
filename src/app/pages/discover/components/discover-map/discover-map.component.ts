@@ -38,6 +38,8 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private poisLayer: LayerGroup;
   private selectedPoiMaskLayer: LayerGroup;
   private poiNavigatorControl: PoiNavigatorControl;
+  private isMapInitialized: boolean;
+  private changesTillCallNgOnInit: SimpleChanges[] = [];
 
   @Input() initialMapCenter: LatLon;
   @Input() pois: Poi[];
@@ -59,10 +61,21 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     this.sleep(500).then(() => {
       this.constructMap();
       this.showProgress = false;
+      this.isMapInitialized = true;
+      // replay missing changes, to display map items correctly (maybe only needed for e2e tests)
+      this.changesTillCallNgOnInit.forEach(c => this.evaluateChanges(c));
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.isMapInitialized) {
+      this.evaluateChanges(changes);
+    } else {
+      this.changesTillCallNgOnInit.push(changes);
+    }
+  }
+
+  private evaluateChanges(changes: SimpleChanges) {
     const poisChange: SimpleChange = changes['pois'];
     if (poisChange && !poisChange.isFirstChange()) {
       this.poisUpdated();
