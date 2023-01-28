@@ -1,6 +1,20 @@
 import { createAction, props } from '@ngrx/store';
 import {Poi} from "../../../data/poi";
 import {SearchAttributes} from "../../../data/search-attributes";
+import {LatLon} from "../../../data/lat-lon";
+
+export const initializeDiscoverPage = createAction(
+  '[Discover] Initialize Page',
+  props<{
+    position: LatLon,
+    distance: number,
+    category: string
+  }>()
+);
+
+export const initializeSearchAttributes = createAction(
+  '[Discover] Initialize Search Attributes'
+);
 
 export const searchPois = createAction(
   '[Discover] Search POIs',
