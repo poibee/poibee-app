@@ -107,6 +107,22 @@ describe('POI detail page', () => {
       cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
     })
 
+    it('updates URL location after navigating to further POI ', () => {
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+      cy.url().should('include', '/poi/way-45666704')
+
+      cy.get('[data-cy=buttonSelectNextPoi]').click()
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+      cy.url().should('include', '/poi/node-1628572605')
+
+      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
+      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
+      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+      cy.url().should('include', '/poi/way-45666704')
+    })
+
     it('shows distance and relevance chip ', () => {
       cy.get('[data-cy=chipOverviewDistance]').should('have.text', '0.05 km')
       cy.get('[data-cy=chipOverviewDistance] ion-icon').should('have.class', 'rotate-northeast')

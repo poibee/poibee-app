@@ -10,11 +10,13 @@ import {State} from "../discover/store/discover.reducer";
 import {getPoiPageData} from "../discover/store/discover.selectors";
 import {selectNextPoi, selectPreviousPoi} from "../discover/store/discover.actions";
 import {PoiId} from "../../data/poi-id";
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
 @Component({
   selector: 'app-poi',
   templateUrl: './poi.page.html',
   styleUrls: ['./poi.page.scss'],
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}],
 })
 export class PoiPage implements OnInit, OnDestroy {
 
@@ -30,6 +32,7 @@ export class PoiPage implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
     private navCtrl: NavController,
     private poisOverpassService: PoisOverpassService,
     private discoverStore: Store<{ discoverState: State }>) {
@@ -59,6 +62,9 @@ export class PoiPage implements OnInit, OnDestroy {
     this.hasPreviousPoi = value.hasPreviousPoi;
     this.navigatorLabel = value.navigatorLabel;
     this.showNavigationButtons = value.showNavigationButtons;
+
+    // https://stackoverflow.com/questions/43698032/angular-how-to-update-queryparams-without-changing-route
+    this.location.replaceState('/poi/' + this.poi.id);
   }
 
   navigateBack() {
