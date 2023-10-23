@@ -2,11 +2,12 @@
 
 ## Environment
 ```nvm use 16```
-```npm install --location=global @ionic/cli```
+```npm install --location=global @ionic/cli --version=6```
+```npm install```
 
-```npm --version``` ==> 8.11.0
-```node --version``` ==> 16.16.0
-```ionic --version``` ==> 6.20.1
+```npm --version``` ==> 8.19.4
+```node --version``` ==> v16.20.2
+```ionic --version``` ==> 6.20.9
 
 ## Start Ionic local server
 ```ionic serve```
