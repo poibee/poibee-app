@@ -17,6 +17,10 @@ import {Poi} from "../../../../data/poi";
 import {SearchAttributes} from "../../../../data/search-attributes";
 import {PoiNavigatorControl} from "./poi-navigator.control";
 import {LatLon} from "../../../../data/lat-lon";
+import {MyPositionFromMapCenterControl} from "../map/my-position-from-map-center.control";
+import {MyPositionFromLocatorControl} from "../map/my-position-from-locator.control";
+import {MyPositionFromGeocoderControl} from "../map/my-position-from-geocoder.control";
+import {ToastController} from "@ionic/angular";
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -47,12 +51,14 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   @Input() selectedPoi: Poi;
   @Input() selectedPoiText: string;
 
+  @Output() changePositionOutput = new EventEmitter<LatLon>();
   @Output() selectPoiOutput = new EventEmitter<Poi>();
   @Output() selectNextPoiOutput = new EventEmitter<void>();
   @Output() selectPreviousPoiOutput = new EventEmitter<void>();
 
   constructor(
-    private imageService: ImageService
+    private imageService: ImageService,
+    private toastController: ToastController
   ) {
   }
 
@@ -64,6 +70,13 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       this.isMapInitialized = true;
       // replay missing changes, to display map items correctly (maybe only needed for e2e tests)
       this.changesTillCallNgOnInit.forEach(c => this.evaluateChanges(c));
+
+      const updatePosition = (pos: LatLon) => {
+        this.changePositionOutput.emit(pos);
+      };
+      new MyPositionFromMapCenterControl(this.discoverMap, updatePosition);
+      new MyPositionFromLocatorControl(this.discoverMap, this. toastController, updatePosition);
+      new MyPositionFromGeocoderControl(this.discoverMap, updatePosition);
     });
   }
 

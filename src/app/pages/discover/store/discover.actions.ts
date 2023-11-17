@@ -16,6 +16,11 @@ export const initializeSearchAttributes = createAction(
   '[Discover] Initialize Search Attributes'
 );
 
+export const changePosition = createAction(
+  '[Discover] Change Position',
+  props<{ position: LatLon }>()
+);
+
 export const searchPois = createAction(
   '[Discover] Search POIs',
   props<{ searchAttributes: SearchAttributes }>()
