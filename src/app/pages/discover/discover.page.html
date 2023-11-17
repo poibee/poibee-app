@@ -25,6 +25,7 @@
     [searchAttributes]="searchAttributes"
     [selectedPoi]="selectedPoi"
     [selectedPoiText]="selectedPoiText"
+    (changePositionOutput)="changePosition($event)"
     (selectPoiOutput)="selectPoi($event)"
     (selectPreviousPoiOutput)="selectPreviousPoi()"
     (selectNextPoiOutput)="selectNextPoi()"

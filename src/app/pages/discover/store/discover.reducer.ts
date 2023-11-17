@@ -46,6 +46,16 @@ export const reducer = createReducer(
     };
   }),
 
+  on(DiscoverActions.changePosition, (state, {position}) => {
+    return {
+      ...state,
+      searchAttributes: {
+        ...state.searchAttributes,
+        position: position
+      }
+    };
+  }),
+
   on(DiscoverActions.searchPois, (state, {searchAttributes}) => {
     return {
       ...state,

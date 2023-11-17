@@ -16,6 +16,7 @@ import {
   getSelectedSort
 } from "./store/discover.selectors";
 import {
+  changePosition,
   initializeDiscoverPage,
   searchPois,
   selectNextPoi,
@@ -103,6 +104,10 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  changePosition(value: LatLon) {
+    this.discoverStore.dispatch(changePosition({position: value}));
   }
 
   updateSelectedSort(value: string) {
