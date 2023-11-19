@@ -190,6 +190,33 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     }).addTo(searchLayer);
 
     this.poiNavigatorControl = new PoiNavigatorControl(this.discoverMap, this.selectPreviousPoiOutput, this.selectNextPoiOutput, {position: 'bottomright'});
+
+    this.initializeCypressHelpers();
+  }
+
+  private initializeCypressHelpers() {
+    const updateMapCypressFunction = () => {
+      this.discoverMap.getContainer().setAttribute("data-cy-map-zoom", String(this.discoverMap.getZoom()));
+      this.discoverMap.getContainer().setAttribute("data-cy-map-lat", String(this.discoverMap.getCenter().lat));
+      this.discoverMap.getContainer().setAttribute("data-cy-map-lon", String(this.discoverMap.getCenter().lng));
+    }
+    updateMapCypressFunction();
+    this.discoverMap.on('zoom move', () => updateMapCypressFunction());
+
+    const updateMarkerCypressFunction = () => {
+      this.searchCenterMarker.getElement().setAttribute("data-cy-marker-lat", String(this.searchCenterMarker.getLatLng().lat));
+      this.searchCenterMarker.getElement().setAttribute("data-cy-marker-lon", String(this.searchCenterMarker.getLatLng().lng));
+    }
+    updateMarkerCypressFunction();
+    this.searchCenterMarker.on('move', () => updateMarkerCypressFunction());
+
+    const updateCircleCypressFunction = () => {
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-radius", String(this.searchDistanceCircle.getRadius()));
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-lat", String(this.searchDistanceCircle.getLatLng().lat));
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-lon", String(this.searchDistanceCircle.getLatLng().lng));
+    }
+    updateCircleCypressFunction();
+    this.searchDistanceCircle.on('move', () => updateCircleCypressFunction());
   }
 
   private sleep(time) {
