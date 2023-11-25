@@ -1,4 +1,4 @@
-import DiscoverPage from "../pages/discover-page";
+import {DiscoverPage}  from "../pages/discover-page";
 
 describe('Discover page shows map', () => {
 
@@ -15,54 +15,52 @@ describe('Discover page shows map', () => {
   describe('with position control', () => {
 
     it('"geocode" should move map to searched "Hamburg"', () => {
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lat', '52.908')
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lon', '8.588')
+      discoverPage.map().assertPosition(52.908, 8.588);
+      discoverPage.map().positionMarker().assertPosition(52.908, 8.588);
 
-      discoverPage.mapControlPositionByGeocodeSearchOpen().click()
-      discoverPage.mapControlPositionByGeocodeSearchTextfield().type('Hamburg')
-
+      discoverPage.map().buttons().positionByGeocodeSearch().search('Hamburg')
       // ignore search, because it's only working locally not at GitHub-CI
-      // discoverPage.mapControlPositionByGeocodeSearchTextfield().type('{enter}')
+      // discoverPage.map().buttons().positionByGeocodeSearch().execute()
 
-      // discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lat', '53.550341')
-      // discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lon', '10.000654')
+      // discoverPage.map().assertPosition(53.550341, 10.000654);
+      // discoverPage.map().positionMarker().assertPosition(53.550341, 10.000654);
     })
 
     it('"locate" should move map and position to current device position', () => {
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lat', '52.908')
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lon', '8.588')
+      discoverPage.map().assertPosition(52.908, 8.588);
+      discoverPage.map().positionMarker().assertPosition(52.908, 8.588);
 
-      discoverPage.mapControlPositionByDeviceLocation().click()
+      discoverPage.map().buttons().positionByDeviceLocation().click()
 
       // ignore handling of browser popup at the moment
     })
 
     it('"map center" should move position to map center', () => {
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lat', '52.908')
-      discoverPage.mapPositionMarker().should('have.attr', 'data-cy-marker-lon', '8.588')
+      discoverPage.map().assertPosition(52.908, 8.588);
+      discoverPage.map().positionMarker().assertPosition(52.908, 8.588);
 
       // ignore drag and drop of the map at the moment
 
-      discoverPage.mapControlPositionByMapCenter().click()
+      discoverPage.map().buttons().positionByMapCenter().click()
     })
   });
 
   describe('with zoom control', () => {
 
     it('"Zoom in"', () => {
-      discoverPage.mapLeafletNative().should('have.attr', 'data-cy-map-zoom', '13')
+      discoverPage.map().assertZoom(13);
 
-      discoverPage.mapControlZoomIn().click()
+      discoverPage.map().buttons().zoomIn().click()
 
-      discoverPage.mapLeafletNative().should('have.attr', 'data-cy-map-zoom', '14')
+      discoverPage.map().assertZoom(14);
     })
 
     it('"Zoom out"', () => {
-      discoverPage.mapLeafletNative().should('have.attr', 'data-cy-map-zoom', '13')
+      discoverPage.map().assertZoom(13);
 
-      discoverPage.mapControlZoomOut().click()
+      discoverPage.map().buttons().zoomOut().click()
 
-      discoverPage.mapLeafletNative().should('have.attr', 'data-cy-map-zoom', '12')
+      discoverPage.map().assertZoom(12);
     })
   });
 
