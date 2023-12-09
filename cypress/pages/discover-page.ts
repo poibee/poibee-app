@@ -5,8 +5,17 @@ class DiscoverPage {
     return this;
   }
 
+  openWithQuery(query: string): DiscoverPage {
+    cy.visit('/discover' + query)
+    return this;
+  }
+
   map(): MapComponent {
     return new MapComponent();
+  }
+
+  search(): SearchDialog {
+    return new SearchDialog();
   }
 }
 
@@ -27,8 +36,56 @@ class MapComponent {
     return new PositionMarker(MapComponent.CY_LOCATOR);
   }
 
+  poiMarkers(): PoiMarkers {
+    return new PoiMarkers(MapComponent.CY_LOCATOR);
+  }
+
+  distanceMarker(): DistanceMarker {
+    return new DistanceMarker(MapComponent.CY_LOCATOR);
+  }
+
   buttons(): ButtonsComponent {
     return new ButtonsComponent(MapComponent.CY_LOCATOR);
+  }
+}
+
+class SearchDialog {
+
+  openDialog(): void {
+    cy.get('[data-cy=buttonSearchModal]').click()
+  }
+
+  distance(): SearchDistanceComponent {
+    return new SearchDistanceComponent();
+  }
+
+  category(): SearchCategoryComponent {
+    return new SearchCategoryComponent();
+  }
+
+  map(): SearchMapComponent {
+    return new SearchMapComponent();
+  }
+}
+
+class SearchDistanceComponent {
+
+  assertDistance(value: string) {
+    cy.get('[data-cy=selectDistance]').should('have.attr', 'aria-label', value)
+  }
+}
+
+class SearchCategoryComponent {
+
+  assertCategory(value: string) {
+    cy.get('[data-cy=buttonCategoryModal').should('have.text', value)
+  }
+}
+
+class SearchMapComponent {
+
+  assertCenter(value: string) {
+    cy.get('[data-cy=componentMyPositionMap]').should('have.attr', 'ng-reflect-my-position', value)
   }
 }
 
@@ -64,12 +121,47 @@ class PositionMarker {
   private locator: string;
 
   constructor(parentLocator: string) {
-    this.locator = parentLocator + ' .leaflet-pane.leaflet-marker-pane .leaflet-marker-icon';
+    this.locator = parentLocator + ' img[data-cy-type="position"]';
   }
 
   assertPosition(lat: number, lon: number) {
-    cy.get(this.locator).should('have.attr', 'data-cy-marker-lat', lat)
-    cy.get(this.locator).should('have.attr', 'data-cy-marker-lon', lon)
+    cy.get(this.locator).should('have.attr', 'data-cy-position-lat', lat)
+    cy.get(this.locator).should('have.attr', 'data-cy-position-lon', lon)
+  }
+}
+
+class DistanceMarker {
+
+  private locator: string;
+
+  constructor(parentLocator: string) {
+    this.locator = parentLocator + ' path[data-cy-type="distance"]';
+  }
+
+  assertPosition(lat: number, lon: number) {
+    cy.get(this.locator).should('have.attr', 'data-cy-distance-lat', lat)
+    cy.get(this.locator).should('have.attr', 'data-cy-distance-lon', lon)
+  }
+
+  assertRadius(radius: number) {
+    cy.get(this.locator).should('have.attr', 'data-cy-distance-radius', radius)
+  }
+}
+
+class PoiMarkers {
+
+  private locator: string;
+
+  constructor(parentLocator: string) {
+    this.locator = parentLocator + ' img[data-cy-type="poi"]';
+  }
+
+  assertEmpty() {
+    cy.get(this.locator).should('have.length', 0)
+  }
+
+  assertCount(count: number) {
+    cy.get(this.locator).should('have.length', count)
   }
 }
 

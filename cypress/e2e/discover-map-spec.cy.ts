@@ -47,7 +47,7 @@ describe('Discover page shows map', () => {
 
   describe('with zoom control', () => {
 
-    it('"Zoom in"', () => {
+    it('"Zoom in" should map zoom in', () => {
       discoverPage.map().assertZoom(13);
 
       discoverPage.map().buttons().zoomIn().click()
@@ -55,7 +55,7 @@ describe('Discover page shows map', () => {
       discoverPage.map().assertZoom(14);
     })
 
-    it('"Zoom out"', () => {
+    it('"Zoom out" should map zoom out', () => {
       discoverPage.map().assertZoom(13);
 
       discoverPage.map().buttons().zoomOut().click()
