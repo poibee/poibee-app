@@ -37,7 +37,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   showProgress: boolean;
 
   private discoverMap: Map;
-  private searchCenterMarker: Marker;
+  private searchPositionMarker: Marker;
   private searchDistanceCircle: Circle;
   private poisLayer: LayerGroup;
   private selectedPoiMaskLayer: LayerGroup;
@@ -113,7 +113,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private selectedSearchAttributesUpdated() {
     const searchAttributes = this.searchAttributes;
     const searchCenterPositionAsLeaflet = searchAttributes.position.asLatLng();
-    this.searchCenterMarker.setLatLng(searchCenterPositionAsLeaflet);
+    this.searchPositionMarker.setLatLng(searchCenterPositionAsLeaflet);
     this.searchDistanceCircle.setLatLng(searchCenterPositionAsLeaflet);
     this.searchDistanceCircle.setRadius(searchAttributes.distance);
     this.discoverMap.flyTo(searchCenterPositionAsLeaflet, SearchDistance.kmAsZoomLevel(searchAttributes.distance));
@@ -128,11 +128,12 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.pois.length; i++) {
       const poi: Poi = this.pois[i];
       const markerIcon = this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase());
-      const marker: any = new PoiMarker(poi, {icon: markerIcon});
+      const marker: PoiMarker = new PoiMarker(poi, {icon: markerIcon});
       marker.on('click', async () => {
         this.selectPoiOutput.emit(poi);
       });
       this.poisLayer.addLayer(marker);
+      marker.updatePoiCypressFunction();
     }
   }
 
@@ -177,7 +178,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     this.discoverMap.attributionControl.addAttribution(OSM_ATTRIBUTES);
     control.scale().addTo(this.discoverMap);
 
-    this.searchCenterMarker = new Marker(mapCenterAsLeaflet, {
+    this.searchPositionMarker = new Marker(mapCenterAsLeaflet, {
       title: "Mein Standort",
       draggable: true,
       icon: this.imageService.loadMarkerIcon()
@@ -196,6 +197,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
   private initializeCypressHelpers() {
     const updateMapCypressFunction = () => {
+      this.discoverMap.getContainer().setAttribute("data-cy-type", "map");
       this.discoverMap.getContainer().setAttribute("data-cy-map-zoom", String(this.discoverMap.getZoom()));
       this.discoverMap.getContainer().setAttribute("data-cy-map-lat", String(this.discoverMap.getCenter().lat));
       this.discoverMap.getContainer().setAttribute("data-cy-map-lon", String(this.discoverMap.getCenter().lng));
@@ -203,20 +205,22 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     updateMapCypressFunction();
     this.discoverMap.on('zoom move', () => updateMapCypressFunction());
 
-    const updateMarkerCypressFunction = () => {
-      this.searchCenterMarker.getElement().setAttribute("data-cy-marker-lat", String(this.searchCenterMarker.getLatLng().lat));
-      this.searchCenterMarker.getElement().setAttribute("data-cy-marker-lon", String(this.searchCenterMarker.getLatLng().lng));
+    const updatePositionMarkerCypressFunction = () => {
+      this.searchPositionMarker.getElement().setAttribute("data-cy-type", "position");
+      this.searchPositionMarker.getElement().setAttribute("data-cy-position-lat", String(this.searchPositionMarker.getLatLng().lat));
+      this.searchPositionMarker.getElement().setAttribute("data-cy-position-lon", String(this.searchPositionMarker.getLatLng().lng));
     }
-    updateMarkerCypressFunction();
-    this.searchCenterMarker.on('move', () => updateMarkerCypressFunction());
+    updatePositionMarkerCypressFunction();
+    this.searchPositionMarker.on('move', () => updatePositionMarkerCypressFunction());
 
-    const updateCircleCypressFunction = () => {
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-radius", String(this.searchDistanceCircle.getRadius()));
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-lat", String(this.searchDistanceCircle.getLatLng().lat));
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-circle-lon", String(this.searchDistanceCircle.getLatLng().lng));
+    const updateDistanceCircleCypressFunction = () => {
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-type", "distance");
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-radius", String(this.searchDistanceCircle.getRadius()));
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-lat", String(this.searchDistanceCircle.getLatLng().lat));
+      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-lon", String(this.searchDistanceCircle.getLatLng().lng));
     }
-    updateCircleCypressFunction();
-    this.searchDistanceCircle.on('move', () => updateCircleCypressFunction());
+    updateDistanceCircleCypressFunction();
+    this.searchDistanceCircle.on('move', () => updateDistanceCircleCypressFunction());
   }
 
   private sleep(time) {
@@ -227,5 +231,12 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 export class PoiMarker extends Marker<Poi> {
   constructor(public poi: Poi, options?: MarkerOptions) {
     super(poi.coordinates.asLatLng(), options)
+  }
+
+  updatePoiCypressFunction() {
+    this.getElement().setAttribute("data-cy-type", "poi");
+    this.getElement().setAttribute("data-cy-poi-categories", String(this.poi.categories.join()));
+    this.getElement().setAttribute("data-cy-poi-lat", String(this.poi.coordinates.lat));
+    this.getElement().setAttribute("data-cy-poi-lon", String(this.poi.coordinates.lon));
   }
 }

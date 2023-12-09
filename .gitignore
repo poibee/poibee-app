@@ -34,3 +34,5 @@ npm-debug.log*
 /temp
 
 /src/assets/category
+/cypress/videos/
+/cypress/screenshots/
