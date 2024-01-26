@@ -15,14 +15,14 @@ export class PoiMapComponent implements OnInit, OnChanges {
   @Input() poi: Poi;
   @Input() searchCenter: LatLon;
 
+  // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
+  @ViewChild('poiMapDiv') private poiMapContainer;
+
   showProgress: boolean;
 
   private poiMap: Map;
   private poiPositionLayer: LayerGroup;
   private searchCenterLayer: LayerGroup;
-
-  // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
-  @ViewChild('poiMapDiv') private poiMapContainer;
 
   constructor(
     private imageService: ImageService
@@ -38,16 +38,16 @@ export class PoiMapComponent implements OnInit, OnChanges {
     });
   }
 
-  private sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.updateSearchCenterAndPoiOfMap();
   }
 
+  private sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
   private updateSearchCenterAndPoiOfMap() {
-    if (this.poiMap && this.searchCenter && this.searchCenterLayer && this.searchCenterLayer.getLayers().length == 0) {
+    if (this.poiMap && this.searchCenter && this.searchCenterLayer && this.searchCenterLayer.getLayers().length === 0) {
       this.updateSearchCenter(this.searchCenter);
     }
     if (this.poiMap && this.poi) {

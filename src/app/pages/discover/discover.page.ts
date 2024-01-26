@@ -36,12 +36,6 @@ import {CategoryService} from '../../services/category.service';
 })
 export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
-  constructor(
-    private route: ActivatedRoute,
-    private poisOverpassService: PoisOverpassService,
-    private categoryService: CategoryService,
-    private discoverStore: Store<{ discoverState: State }>) {
-  }
 
   searchActive$: Observable<boolean>;
   resultViewType: ResultViewType = 'MAP';
@@ -54,6 +48,13 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
   selectedPoiText: string;
   selectedSort: string;
   private subscription: Subscription;
+
+  constructor(
+    private route: ActivatedRoute,
+    private poisOverpassService: PoisOverpassService,
+    private categoryService: CategoryService,
+    private discoverStore: Store<{ discoverState: State }>) {
+  }
 
   ngOnInit() {
     const parameters = this.queryParameters(this.route.snapshot.queryParamMap);
@@ -142,7 +143,7 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   // https://poibee.de/discover?category=playground&position=52.908,8.588&distance=5000
   private queryParameters(paramMap: ParamMap) {
-    const distance: number = this.parseValue(() => Number.parseInt(paramMap.get('distance')));
+    const distance: number = this.parseValue(() => Number.parseInt(paramMap.get('distance'), 10));
     const category: string = this.parseValue(() => paramMap.get('category'));
     const position: LatLon = this.parseValue(() => LatLon.ofPosition(paramMap.get('position')));
     return {position, category, distance};

@@ -19,17 +19,17 @@ describe('Direction', () => {
   describe('for myPosition', () => {
 
     it('should be calculated for Harpstedt', () => {
-      expect(directionToPoi(harpstedt, delmenhorst)).toBe(DirectionTypes.N);
-      expect(directionToPoi(harpstedt, bremen)).toBe(DirectionTypes.NE);
-      expect(directionToPoi(harpstedt, kiel)).toBe(DirectionTypes.NE);
-      expect(directionToPoi(harpstedt, hamburg)).toBe(DirectionTypes.NE);
-      expect(directionToPoi(harpstedt, rostock)).toBe(DirectionTypes.NE);
-      expect(directionToPoi(harpstedt, berlin)).toBe(DirectionTypes.E);
-      expect(directionToPoi(harpstedt, hannover)).toBe(DirectionTypes.SE);
-      expect(directionToPoi(harpstedt, kalletal)).toBe(DirectionTypes.S);
-      expect(directionToPoi(harpstedt, vechta)).toBe(DirectionTypes.SW);
-      expect(directionToPoi(harpstedt, cloppenburg)).toBe(DirectionTypes.W);
-      expect(directionToPoi(harpstedt, oldenburg)).toBe(DirectionTypes.NW);
+      expect(directionToPoi(harpstedt, delmenhorst)).toBe(DirectionTypes.n);
+      expect(directionToPoi(harpstedt, bremen)).toBe(DirectionTypes.ne);
+      expect(directionToPoi(harpstedt, kiel)).toBe(DirectionTypes.ne);
+      expect(directionToPoi(harpstedt, hamburg)).toBe(DirectionTypes.ne);
+      expect(directionToPoi(harpstedt, rostock)).toBe(DirectionTypes.ne);
+      expect(directionToPoi(harpstedt, berlin)).toBe(DirectionTypes.e);
+      expect(directionToPoi(harpstedt, hannover)).toBe(DirectionTypes.se);
+      expect(directionToPoi(harpstedt, kalletal)).toBe(DirectionTypes.s);
+      expect(directionToPoi(harpstedt, vechta)).toBe(DirectionTypes.sw);
+      expect(directionToPoi(harpstedt, cloppenburg)).toBe(DirectionTypes.w);
+      expect(directionToPoi(harpstedt, oldenburg)).toBe(DirectionTypes.nw);
     });
   });
 });

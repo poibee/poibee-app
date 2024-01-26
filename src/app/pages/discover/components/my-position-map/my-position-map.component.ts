@@ -18,6 +18,10 @@ const MAP_ZOOM = 13;
 })
 export class MyPositionMapComponent implements OnInit, OnChanges {
 
+  @Input() searchDistance;
+  @Input() myPosition: LatLon;
+  @Output() updatedMyPosition = new EventEmitter<LatLon>();
+
   // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
   @ViewChild('myPositionMap') myPositionMapContainer;
   showProgress: boolean;
@@ -26,10 +30,6 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
   private myPositionLayer: LayerGroup;
   private myPositionMarker: Marker;
   private searchDistanceLayer: LayerGroup;
-
-  @Input() searchDistance;
-  @Input() myPosition: LatLon;
-  @Output() onUpdateMyPosition = new EventEmitter<LatLon>();
 
   constructor(
     private imageService: ImageService,
@@ -128,12 +128,12 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
   }
 
   private updateMyPositionAndCenterMap(myPosition: LatLon) {
-    if (myPosition.lat != this.myPosition.lat || myPosition.lon != this.myPosition.lon) {
+    if (myPosition.lat !== this.myPosition.lat || myPosition.lon !== this.myPosition.lon) {
       this.myPosition = myPosition;
       this.myPositionMarker.setLatLng(myPosition.asLatLng());
       this.myPositionMap.setView(myPosition.asLatLng());
       this.updateSearchDistance();
-      this.onUpdateMyPosition.emit(this.myPosition);
+      this.updatedMyPosition.emit(this.myPosition);
     }
   }
 

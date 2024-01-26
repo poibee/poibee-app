@@ -38,6 +38,18 @@ export class PoiPage implements OnInit, OnDestroy {
     private discoverStore: Store<{ discoverState: State }>) {
   }
 
+  navigateBack() {
+    this.navCtrl.navigateRoot('/discover');
+  }
+
+  selectNextPoi(): void {
+    this.discoverStore.dispatch(selectNextPoi());
+  }
+
+  selectPreviousPoi(): void {
+    this.discoverStore.dispatch(selectPreviousPoi());
+  }
+
   ngOnInit(): void {
     // TODO unregister subscription
     const poiId = PoiId.of(this.route.snapshot.paramMap.get('id'));
@@ -49,6 +61,12 @@ export class PoiPage implements OnInit, OnDestroy {
         this.reloadPoi(poiId);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.poiSubscription$) {
+      this.poiSubscription$.unsubscribe();
+    }
   }
 
   private isValidPoiInStore(poiPageValue: PoiPageValueType): boolean {
@@ -65,18 +83,6 @@ export class PoiPage implements OnInit, OnDestroy {
 
     // https://stackoverflow.com/questions/43698032/angular-how-to-update-queryparams-without-changing-route
     this.location.replaceState('/poi/' + this.poi.id);
-  }
-
-  navigateBack() {
-    this.navCtrl.navigateRoot('/discover');
-  }
-
-  selectNextPoi(): void {
-    this.discoverStore.dispatch(selectNextPoi());
-  }
-
-  selectPreviousPoi(): void {
-    this.discoverStore.dispatch(selectPreviousPoi());
   }
 
   private reloadPoiWithOriginalOsmData() {
@@ -102,11 +108,6 @@ export class PoiPage implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.poiSubscription$) {
-      this.poiSubscription$.unsubscribe();
-    }
-  }
 }
 
 export type PoiPageValueType = {

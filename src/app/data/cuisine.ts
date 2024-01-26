@@ -5,6 +5,22 @@ export class Cuisine {
   ) {
   }
 
+  static of(values: string): Cuisine {
+    let result = [];
+    if (values) {
+      result = values.split(';').map((v) => this.normalizeCuisineString(v)).sort((a, b) => a.localeCompare(b));
+    }
+    return new Cuisine(result);
+  }
+
+  private static normalizeCuisineString(value: string) {
+    return value.replace('_', ' ').split(' ').map((v) => this.capitalizeString(v)).join(' ');
+  }
+
+  private static capitalizeString(value: string) {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+  }
+
   isPresent(): boolean {
     return this.values.length > 0;
   }
@@ -26,22 +42,6 @@ export class Cuisine {
       result = this.values.join(', ');
     }
     return result;
-  }
-
-  static of(values: string): Cuisine {
-    let result = [];
-    if (values) {
-      result = values.split(';').map((v) => this.normalizeCuisineString(v)).sort((a, b) => a.localeCompare(b));
-    }
-    return new Cuisine(result);
-  }
-
-  private static normalizeCuisineString(value: string) {
-    return value.replace('_', ' ').split(' ').map((v) => this.capitalizeString(v)).join(' ');
-  }
-
-  private static capitalizeString(value: string) {
-    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
   }
 
 }

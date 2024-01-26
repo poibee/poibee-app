@@ -12,12 +12,13 @@ import {LatLon} from '../../../../data/lat-lon';
 })
 export class DiscoverFilterToolbarComponent implements OnInit {
 
-  selectedSort: string = sortTypesAsArray()[0][0];
   @Input() searchActive = false;
   @Input() filterValue = '';
 
   @Output() selectedSortUpdated = new EventEmitter<string>();
   @Output() filterValueUpdated = new EventEmitter<string>();
+
+  selectedSort: string = sortTypesAsArray()[0][0];
 
   constructor(
     private modalController: ModalController

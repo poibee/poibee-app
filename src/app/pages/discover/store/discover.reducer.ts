@@ -86,29 +86,29 @@ export const reducer = createReducer(
   }),
 
   on(DiscoverActions.selectPreviousPoi, (state: State) => {
-    const selectedPoiIndex = hasPreviousPoi(state) ? state.selectedPoiIndex - 1 : state.selectedPoiIndex;
+    const selectedPoiIndex = hasPreviousPoiFc(state) ? state.selectedPoiIndex - 1 : state.selectedPoiIndex;
     const selectedPoi = state.filteredPois[selectedPoiIndex];
     return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
   on(DiscoverActions.selectNextPoi, (state) => {
-    const selectedPoiIndex = hasNextPoi(state) ? state.selectedPoiIndex + 1 : state.selectedPoiIndex;
+    const selectedPoiIndex = hasNextPoiFc(state) ? state.selectedPoiIndex + 1 : state.selectedPoiIndex;
     const selectedPoi = state.filteredPois[selectedPoiIndex];
     return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
 );
 
-function hasPreviousPoi(state: State) {
+function hasPreviousPoiFc(state: State) {
   return state.selectedPoiIndex > 0;
 }
 
-function hasNextPoi(state) {
+function hasNextPoiFc(state) {
   return state.selectedPoiIndex < state.filteredPois.length - 1;
 }
 
 function calculateSelectedPoiText(numberOfPois: number, selectedPoiIndex: number) {
-  return numberOfPois == 0 ? '0 / 0': ((selectedPoiIndex + 1) + ' / ' + numberOfPois);
+  return numberOfPois === 0 ? '0 / 0': ((selectedPoiIndex + 1) + ' / ' + numberOfPois);
 }
 
 function recalculatStateOfSelectedPoi(state: State, selectedPoiIndex: number, selectedPoi: Poi) {
@@ -118,8 +118,8 @@ function recalculatStateOfSelectedPoi(state: State, selectedPoiIndex: number, se
     selectedPoiIndex,
     selectedPoi,
     selectedPoiText,
-    hasNextPoi: hasNextPoi(state),
-    hasPreviousPoi: hasPreviousPoi(state)
+    hasNextPoi: hasNextPoiFc(state),
+    hasPreviousPoi: hasPreviousPoiFc(state)
   };
 }
 

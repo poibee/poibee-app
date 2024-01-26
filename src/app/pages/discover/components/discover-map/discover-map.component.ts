@@ -32,19 +32,6 @@ const MAP_ZOOM = 13;
 })
 export class DiscoverMapComponent implements OnInit, OnChanges {
 
-  // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
-  @ViewChild('discoverMap') discoverMapContainer;
-  showProgress: boolean;
-
-  private discoverMap: Map;
-  private searchPositionMarker: Marker;
-  private searchDistanceCircle: Circle;
-  private poisLayer: LayerGroup;
-  private selectedPoiMaskLayer: LayerGroup;
-  private poiNavigatorControl: PoiNavigatorControl;
-  private isMapInitialized: boolean;
-  private changesTillCallNgOnInit: SimpleChanges[] = [];
-
   @Input() initialMapCenter: LatLon;
   @Input() pois: Poi[];
   @Input() searchAttributes: SearchAttributes;
@@ -55,6 +42,20 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   @Output() selectPoiOutput = new EventEmitter<Poi>();
   @Output() selectNextPoiOutput = new EventEmitter<void>();
   @Output() selectPreviousPoiOutput = new EventEmitter<void>();
+
+  // https://stackoverflow.com/questions/42428251/initializing-leaflet-map-in-angular2-component-after-dom-object-exists/42431059#42431059
+  @ViewChild('discoverMap') discoverMapContainer;
+
+  showProgress: boolean;
+
+  private discoverMap: Map;
+  private searchPositionMarker: Marker;
+  private searchDistanceCircle: Circle;
+  private poisLayer: LayerGroup;
+  private selectedPoiMaskLayer: LayerGroup;
+  private poiNavigatorControl: PoiNavigatorControl;
+  private isMapInitialized: boolean;
+  private changesTillCallNgOnInit: SimpleChanges[] = [];
 
   constructor(
     private imageService: ImageService,
@@ -89,22 +90,22 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   }
 
   private evaluateChanges(changes: SimpleChanges) {
-    const poisChange: SimpleChange = changes.pois;
+    const poisChange: SimpleChange = changes['pois'];
     if (poisChange && !poisChange.isFirstChange()) {
       this.poisUpdated();
     }
 
-    const searchAttributesChange: SimpleChange = changes.searchAttributes;
+    const searchAttributesChange: SimpleChange = changes['searchAttributes'];
     if (searchAttributesChange && !searchAttributesChange.isFirstChange()) {
       this.selectedSearchAttributesUpdated();
     }
 
-    const selectedPoiTextChange: SimpleChange = changes.selectedPoiText;
+    const selectedPoiTextChange: SimpleChange = changes['selectedPoiText'];
     if (selectedPoiTextChange && !selectedPoiTextChange.isFirstChange()) {
       this.selectedPoiTextUpdated();
     }
 
-    const selectedPoiChange: SimpleChange = changes.selectedPoi;
+    const selectedPoiChange: SimpleChange = changes['selectedPoi'];
     if (selectedPoiChange && !selectedPoiChange.isFirstChange()) {
       this.selectedPoiUpdated();
     }
@@ -125,8 +126,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
   private poisUpdated() {
     this.poisLayer.clearLayers();
-    for (let i = 0; i < this.pois.length; i++) {
-      const poi: Poi = this.pois[i];
+    for (const poi of this.pois) {
       const markerIcon = this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase());
       const marker: PoiMarker = new PoiMarker(poi, {icon: markerIcon});
       marker.on('click', async () => {
