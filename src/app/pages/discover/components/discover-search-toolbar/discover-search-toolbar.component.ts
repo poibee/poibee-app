@@ -13,8 +13,6 @@ import {ResultViewType} from '../../../../data/result-view-type';
 })
 export class DiscoverSearchToolbarComponent implements OnInit {
 
-  viewTypeList = false;
-
   @Input() numberOfSearchResults: number;
   @Input() numberOfFilterResults: number;
   @Input() searchAttributes: SearchAttributes;
@@ -22,6 +20,8 @@ export class DiscoverSearchToolbarComponent implements OnInit {
 
   @Output() searchUpdated = new EventEmitter<SearchAttributes>();
   @Output() resultViewTypeUpdated = new EventEmitter<ResultViewType>();
+
+  viewTypeList = false;
 
   constructor(
     private modalController: ModalController

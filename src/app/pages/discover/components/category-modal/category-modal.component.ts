@@ -10,8 +10,9 @@ import {CategoryService} from '../../../../services/category.service';
 })
 export class CategoryModalComponent implements OnInit {
 
-  allCategories: CategoryEntry[];
   @Input() selectedCategory: CategoryEntry;
+
+  allCategories: CategoryEntry[];
 
   constructor(
     private categoryService: CategoryService,

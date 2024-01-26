@@ -12,8 +12,8 @@ export class GeoService {
     const latLngThisPosition = new LatLng(thisPosition.lat, thisPosition.lon);
     const latLngOtherPosition = new LatLng(otherPosition.lat, otherPosition.lon);
     const distanceInKm = latLngThisPosition.distanceTo(latLngOtherPosition) / 1000;
-    const number = Math.round(distanceInKm * 100) / 100;
-    return number;
+    const result = Math.round(distanceInKm * 100) / 100;
+    return result;
   }
 
 }

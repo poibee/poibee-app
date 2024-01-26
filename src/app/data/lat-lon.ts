@@ -5,7 +5,7 @@ export class LatLon {
     const positionParts = position.split(',');
     const latTemp = Number.parseFloat(positionParts[0]);
     const lonTemp = Number.parseFloat(positionParts[1]);
-    return positionParts.length == 2 && latTemp && lonTemp ? new LatLon(latTemp, lonTemp) : undefined;
+    return positionParts.length === 2 && latTemp && lonTemp ? new LatLon(latTemp, lonTemp) : undefined;
   }
 
   asLatLng() {

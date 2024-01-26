@@ -118,9 +118,9 @@ export class PoisOverpassService {
   }
 
   private calculateAddress(p: PoiJson) {
-    const streetString = [p.tags['addr:street'], p.tags['addr:housenumber']].filter(p => p).join(' ');
-    const cityString = [p.tags['addr:postcode'], p.tags['addr:city']].filter(p => p).join(' ');
-    const addressString = [streetString, cityString].filter(p => p).join(', ');
+    const streetString = [p.tags['addr:street'], p.tags['addr:housenumber']].filter(pf => pf).join(' ');
+    const cityString = [p.tags['addr:postcode'], p.tags['addr:city']].filter(pf => pf).join(' ');
+    const addressString = [streetString, cityString].filter(pf => pf).join(', ');
     return addressString;
   }
 

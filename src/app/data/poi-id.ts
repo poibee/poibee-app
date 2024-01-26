@@ -1,5 +1,7 @@
 export class PoiId {
 
+  private constructor(public readonly type: string, public readonly id: string) {}
+
   static of(id: string): PoiId {
     const parts = id.split('-');
     return new PoiId(parts[0], parts[1]);
@@ -11,15 +13,15 @@ export class PoiId {
   }
 
   isNode(): boolean {
-    return this.type == 'node';
+    return this.type === 'node';
   }
 
   isWay(): boolean {
-    return this.type == 'way';
+    return this.type === 'way';
   }
 
   isRelation(): boolean {
-    return this.type == 'relation';
+    return this.type === 'relation';
   }
 
   toOsm(): string {
@@ -33,7 +35,5 @@ export class PoiId {
   public equals(obj: PoiId): boolean {
     return obj && this.toString() === obj.toString();
   }
-
-  private constructor(public readonly type: string, public readonly id: string) {}
 
 }

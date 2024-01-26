@@ -12,7 +12,7 @@ export class Distance {
 }
 
 export class SearchDistance {
-  static ALL = [
+  static all = [
     new Distance(0.1, 17),
     new Distance(0.25, 16),
     new Distance(0.5, 15),
@@ -27,7 +27,7 @@ export class SearchDistance {
   ];
 
   static kmAsZoomLevel(km: number): number {
-    const distance: Distance = SearchDistance.ALL.find(d => d.km === km / 1000);
+    const distance: Distance = SearchDistance.all.find(d => d.km === km / 1000);
     return distance.zoomLevel;
   }
 }

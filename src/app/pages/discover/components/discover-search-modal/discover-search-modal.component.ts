@@ -16,7 +16,7 @@ export class DiscoverSearchModalComponent implements OnInit {
 
   @Input() searchAttributes: SearchAttributes;
 
-  public distanceArray = SearchDistance.ALL;
+  public distanceArray = SearchDistance.all;
   public favoriteCategoryArray: CategoryEntry[];
 
   public selectedPosition: LatLon;

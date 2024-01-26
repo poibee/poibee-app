@@ -13,7 +13,7 @@ import {PoiId} from '../../../../data/poi-id';
 
 describe('DiscoverListItemComponent', () => {
 
-  const ownPosition = new OwnPosition(null, 0, DirectionTypes.NE);
+  const ownPosition = new OwnPosition(null, 0, DirectionTypes.ne);
   const attributes = new Attributes(Cuisine.of('German'), null, null, false, false, false);
   const contact = new Contact('myName', null, null, null, null, null);
   const references = new References(null, null, null, null, null);

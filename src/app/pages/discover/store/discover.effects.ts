@@ -12,12 +12,6 @@ import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../data/search-
 @Injectable()
 export class DiscoverEffects {
 
-  constructor(
-    private actions$: Actions,
-    private categoryService: CategoryService,
-    private poisOverpassService: PoisOverpassService) {
-  }
-
   initializeDiscoverPage$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(DiscoverActions.initializeDiscoverPage),
@@ -43,5 +37,11 @@ export class DiscoverEffects {
         ))
     )
   );
+
+  constructor(
+    private actions$: Actions,
+    private categoryService: CategoryService,
+    private poisOverpassService: PoisOverpassService) {
+  }
 
 }
