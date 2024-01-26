@@ -34,14 +34,14 @@ describe('Discover page evaluates URL query parameters', () => {
   describe('with query parameter "position" ', () => {
 
     it('initializes search dialog with given position', () => {
-      discoverPage.openWithQuery('?position=22.2,11.1')
+      discoverPage.openWithQueryParameter('?position=22.2,11.1')
 
       discoverPage.search().openDialog()
       discoverPage.search().map().assertCenter('{"lat":22.2,"lon":11.1}')
     })
 
     it('does start search with given position', () => {
-      discoverPage.openWithQuery('?position=22.2,11.1')
+      discoverPage.openWithQueryParameter('?position=22.2,11.1')
 
       discoverPage.map().poiMarkers().assertCount(7)
       discoverPage.map().assertPosition(22.2,11.1)
@@ -49,7 +49,7 @@ describe('Discover page evaluates URL query parameters', () => {
     })
 
     it('ignores invalid parameter for position and uses default value', () => {
-      discoverPage.openWithQuery('?position=invalid')
+      discoverPage.openWithQueryParameter('?position=invalid')
 
       discoverPage.map().poiMarkers().assertEmpty()
       discoverPage.map().assertPosition(52.908,8.588)
@@ -60,14 +60,14 @@ describe('Discover page evaluates URL query parameters', () => {
   describe('with query parameter "distance" ', () => {
 
     it('initializes search dialog with given distance', () => {
-      discoverPage.openWithQuery('?distance=10000')
+      discoverPage.openWithQueryParameter('?distance=10000')
 
       discoverPage.search().openDialog()
       discoverPage.search().distance().assertDistance('10 km, Maximale Entfernung')
     })
 
     it('does start search with given distance', () => {
-      discoverPage.openWithQuery('?distance=10000')
+      discoverPage.openWithQueryParameter('?distance=10000')
 
       discoverPage.map().poiMarkers().assertCount(7)
 
@@ -76,7 +76,7 @@ describe('Discover page evaluates URL query parameters', () => {
     })
 
     it('ignores invalid parameter for distance and uses default value', () => {
-      discoverPage.openWithQuery('?distance=invalid')
+      discoverPage.openWithQueryParameter('?distance=invalid')
 
       discoverPage.map().poiMarkers().assertCount(0)
 
@@ -88,20 +88,20 @@ describe('Discover page evaluates URL query parameters', () => {
   describe('with query parameter "category" ', () => {
 
     it('initializes search dialog with given category', () => {
-      discoverPage.openWithQuery('?category=restaurant')
+      discoverPage.openWithQueryParameter('?category=restaurant')
 
       discoverPage.search().openDialog()
       discoverPage.search().category().assertCategory('Restaurant')
     })
 
     it('does start search with given category', () => {
-      discoverPage.openWithQuery('?category=restaurant')
+      discoverPage.openWithQueryParameter('?category=restaurant')
 
       discoverPage.map().poiMarkers().assertCount(7)
     })
 
     it('ignores invalid parameter for category and uses default value', () => {
-      discoverPage.openWithQuery('?category=invalid')
+      discoverPage.openWithQueryParameter('?category=invalid')
 
       discoverPage.search().openDialog()
       discoverPage.search().category().assertCategory('Alles')
