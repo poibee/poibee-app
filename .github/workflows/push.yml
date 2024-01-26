@@ -36,6 +36,9 @@ jobs:
       - name: Run e2e tests
         run: npm run cypress:run
 
+      - name: Run lint
+        run: npm run lint
+
 #      - name: SonarCloud Scan
 #        uses: sonarsource/sonarcloud-github-action@master
 #        env:
