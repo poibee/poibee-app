@@ -9,18 +9,18 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Circle, Control, control, Layer, LayerGroup, Map, Marker, MarkerOptions, TileLayer} from "leaflet";
+import {Circle, Control, control, Layer, LayerGroup, Map, Marker, MarkerOptions, TileLayer} from 'leaflet';
 
-import {ImageService} from "../../../../services/image.service";
-import {SearchDistance} from "../../../../data/search-distance";
-import {Poi} from "../../../../data/poi";
-import {SearchAttributes} from "../../../../data/search-attributes";
-import {PoiNavigatorControl} from "./poi-navigator.control";
-import {LatLon} from "../../../../data/lat-lon";
-import {MyPositionFromMapCenterControl} from "../map/my-position-from-map-center.control";
-import {MyPositionFromLocatorControl} from "../map/my-position-from-locator.control";
-import {MyPositionFromGeocoderControl} from "../map/my-position-from-geocoder.control";
-import {ToastController} from "@ionic/angular";
+import {ImageService} from '../../../../services/image.service';
+import {SearchDistance} from '../../../../data/search-distance';
+import {Poi} from '../../../../data/poi';
+import {SearchAttributes} from '../../../../data/search-attributes';
+import {PoiNavigatorControl} from './poi-navigator.control';
+import {LatLon} from '../../../../data/lat-lon';
+import {MyPositionFromMapCenterControl} from '../map/my-position-from-map-center.control';
+import {MyPositionFromLocatorControl} from '../map/my-position-from-locator.control';
+import {MyPositionFromGeocoderControl} from '../map/my-position-from-geocoder.control';
+import {ToastController} from '@ionic/angular';
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -89,22 +89,22 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   }
 
   private evaluateChanges(changes: SimpleChanges) {
-    const poisChange: SimpleChange = changes['pois'];
+    const poisChange: SimpleChange = changes.pois;
     if (poisChange && !poisChange.isFirstChange()) {
       this.poisUpdated();
     }
 
-    const searchAttributesChange: SimpleChange = changes['searchAttributes'];
+    const searchAttributesChange: SimpleChange = changes.searchAttributes;
     if (searchAttributesChange && !searchAttributesChange.isFirstChange()) {
       this.selectedSearchAttributesUpdated();
     }
 
-    const selectedPoiTextChange: SimpleChange = changes['selectedPoiText'];
+    const selectedPoiTextChange: SimpleChange = changes.selectedPoiText;
     if (selectedPoiTextChange && !selectedPoiTextChange.isFirstChange()) {
       this.selectedPoiTextUpdated();
     }
 
-    const selectedPoiChange: SimpleChange = changes['selectedPoi'];
+    const selectedPoiChange: SimpleChange = changes.selectedPoi;
     if (selectedPoiChange && !selectedPoiChange.isFirstChange()) {
       this.selectedPoiUpdated();
     }
@@ -120,7 +120,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   }
 
   private selectedPoiTextUpdated() {
-    this.poiNavigatorControl.updateLabel(this.selectedPoiText)
+    this.poiNavigatorControl.updateLabel(this.selectedPoiText);
   }
 
   private poisUpdated() {
@@ -141,7 +141,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     this.poisLayer.eachLayer((layer: Layer) => {
       const poiMarker = layer as PoiMarker;
       const zIndex = (this.selectedPoi === (poiMarker).poi) ? 1000 : 0;
-      poiMarker.setZIndexOffset(zIndex)
+      poiMarker.setZIndexOffset(zIndex);
     });
 
     this.selectedPoiMaskLayer.clearLayers();
@@ -179,7 +179,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     control.scale().addTo(this.discoverMap);
 
     this.searchPositionMarker = new Marker(mapCenterAsLeaflet, {
-      title: "Mein Standort",
+      title: 'Mein Standort',
       draggable: true,
       icon: this.imageService.loadMarkerIcon()
     }).addTo(searchLayer);
@@ -197,28 +197,28 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
   private initializeCypressHelpers() {
     const updateMapCypressFunction = () => {
-      this.discoverMap.getContainer().setAttribute("data-cy-type", "map");
-      this.discoverMap.getContainer().setAttribute("data-cy-map-zoom", String(this.discoverMap.getZoom()));
-      this.discoverMap.getContainer().setAttribute("data-cy-map-lat", String(this.discoverMap.getCenter().lat));
-      this.discoverMap.getContainer().setAttribute("data-cy-map-lon", String(this.discoverMap.getCenter().lng));
-    }
+      this.discoverMap.getContainer().setAttribute('data-cy-type', 'map');
+      this.discoverMap.getContainer().setAttribute('data-cy-map-zoom', String(this.discoverMap.getZoom()));
+      this.discoverMap.getContainer().setAttribute('data-cy-map-lat', String(this.discoverMap.getCenter().lat));
+      this.discoverMap.getContainer().setAttribute('data-cy-map-lon', String(this.discoverMap.getCenter().lng));
+    };
     updateMapCypressFunction();
     this.discoverMap.on('zoom move', () => updateMapCypressFunction());
 
     const updatePositionMarkerCypressFunction = () => {
-      this.searchPositionMarker.getElement().setAttribute("data-cy-type", "position");
-      this.searchPositionMarker.getElement().setAttribute("data-cy-position-lat", String(this.searchPositionMarker.getLatLng().lat));
-      this.searchPositionMarker.getElement().setAttribute("data-cy-position-lon", String(this.searchPositionMarker.getLatLng().lng));
-    }
+      this.searchPositionMarker.getElement().setAttribute('data-cy-type', 'position');
+      this.searchPositionMarker.getElement().setAttribute('data-cy-position-lat', String(this.searchPositionMarker.getLatLng().lat));
+      this.searchPositionMarker.getElement().setAttribute('data-cy-position-lon', String(this.searchPositionMarker.getLatLng().lng));
+    };
     updatePositionMarkerCypressFunction();
     this.searchPositionMarker.on('move', () => updatePositionMarkerCypressFunction());
 
     const updateDistanceCircleCypressFunction = () => {
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-type", "distance");
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-radius", String(this.searchDistanceCircle.getRadius()));
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-lat", String(this.searchDistanceCircle.getLatLng().lat));
-      this.searchDistanceCircle.getElement().setAttribute("data-cy-distance-lon", String(this.searchDistanceCircle.getLatLng().lng));
-    }
+      this.searchDistanceCircle.getElement().setAttribute('data-cy-type', 'distance');
+      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-radius', String(this.searchDistanceCircle.getRadius()));
+      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lat', String(this.searchDistanceCircle.getLatLng().lat));
+      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lon', String(this.searchDistanceCircle.getLatLng().lng));
+    };
     updateDistanceCircleCypressFunction();
     this.searchDistanceCircle.on('move', () => updateDistanceCircleCypressFunction());
   }
@@ -230,13 +230,13 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
 export class PoiMarker extends Marker<Poi> {
   constructor(public poi: Poi, options?: MarkerOptions) {
-    super(poi.coordinates.asLatLng(), options)
+    super(poi.coordinates.asLatLng(), options);
   }
 
   updatePoiCypressFunction() {
-    this.getElement().setAttribute("data-cy-type", "poi");
-    this.getElement().setAttribute("data-cy-poi-categories", String(this.poi.categories.join()));
-    this.getElement().setAttribute("data-cy-poi-lat", String(this.poi.coordinates.lat));
-    this.getElement().setAttribute("data-cy-poi-lon", String(this.poi.coordinates.lon));
+    this.getElement().setAttribute('data-cy-type', 'poi');
+    this.getElement().setAttribute('data-cy-poi-categories', String(this.poi.categories.join()));
+    this.getElement().setAttribute('data-cy-poi-lat', String(this.poi.coordinates.lat));
+    this.getElement().setAttribute('data-cy-poi-lon', String(this.poi.coordinates.lon));
   }
 }

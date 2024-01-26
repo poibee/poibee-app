@@ -1,5 +1,5 @@
-import {LatLon} from "./lat-lon";
-import {DirectionTypes} from "./direction";
+import {LatLon} from './lat-lon';
+import {DirectionTypes} from './direction';
 
 export class OwnPosition {
 

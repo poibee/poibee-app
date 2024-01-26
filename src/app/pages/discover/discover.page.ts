@@ -1,11 +1,11 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Poi} from "../../data/poi";
-import {Observable, Subscription} from "rxjs";
-import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../data/search-attributes";
-import {ResultViewType} from "../../data/result-view-type";
-import {State} from "./store/discover.reducer";
-import {select, Store} from "@ngrx/store";
+import {Poi} from '../../data/poi';
+import {Observable, Subscription} from 'rxjs';
+import {PoisOverpassService} from '../../services/pois-overpass.service';
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../data/search-attributes';
+import {ResultViewType} from '../../data/result-view-type';
+import {State} from './store/discover.reducer';
+import {select, Store} from '@ngrx/store';
 import {
   getFilterValue,
   getFoundPois,
@@ -14,7 +14,7 @@ import {
   getSelectedPoi,
   getSelectedPoiText,
   getSelectedSort
-} from "./store/discover.selectors";
+} from './store/discover.selectors';
 import {
   changePosition,
   initializeDiscoverPage,
@@ -24,10 +24,10 @@ import {
   selectPreviousPoi,
   updateFilterValue,
   updateSelectedSort
-} from "./store/discover.actions";
-import {ActivatedRoute, ParamMap} from "@angular/router";
-import {LatLon} from "../../data/lat-lon";
-import {CategoryService} from "../../services/category.service";
+} from './store/discover.actions';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {LatLon} from '../../data/lat-lon';
+import {CategoryService} from '../../services/category.service';
 
 @Component({
   selector: 'app-discover',
@@ -129,7 +129,7 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
   }
 
   selectPoi(selectedPoi: Poi): void {
-    this.discoverStore.dispatch(selectPoi({selectedPoi: selectedPoi}));
+    this.discoverStore.dispatch(selectPoi({selectedPoi}));
   }
 
   selectNextPoi(): void {

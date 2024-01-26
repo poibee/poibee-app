@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {Poi} from "../../data/poi";
-import {LatLon} from "../../data/lat-lon";
-import {Subscription} from "rxjs";
-import {NavController} from "@ionic/angular";
-import {select, Store} from "@ngrx/store";
-import {State} from "../discover/store/discover.reducer";
-import {getPoiPageData} from "../discover/store/discover.selectors";
-import {selectNextPoi, selectPreviousPoi} from "../discover/store/discover.actions";
-import {PoiId} from "../../data/poi-id";
+import {ActivatedRoute} from '@angular/router';
+import {PoisOverpassService} from '../../services/pois-overpass.service';
+import {Poi} from '../../data/poi';
+import {LatLon} from '../../data/lat-lon';
+import {Subscription} from 'rxjs';
+import {NavController} from '@ionic/angular';
+import {select, Store} from '@ngrx/store';
+import {State} from '../discover/store/discover.reducer';
+import {getPoiPageData} from '../discover/store/discover.selectors';
+import {selectNextPoi, selectPreviousPoi} from '../discover/store/discover.actions';
+import {PoiId} from '../../data/poi-id';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
 @Component({
@@ -68,7 +68,7 @@ export class PoiPage implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this.navCtrl.navigateRoot("/discover")
+    this.navCtrl.navigateRoot('/discover');
   }
 
   selectNextPoi(): void {
@@ -93,8 +93,8 @@ export class PoiPage implements OnInit, OnDestroy {
       const poiPageValue: PoiPageValueType = {
         hasNextPoi: false,
         hasPreviousPoi: false,
-        navigatorLabel: "",
-        poi: poi,
+        navigatorLabel: '',
+        poi,
         searchCenter: poi.coordinates,
         showNavigationButtons: false
       };
@@ -104,7 +104,7 @@ export class PoiPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.poiSubscription$) {
-      this.poiSubscription$.unsubscribe()
+      this.poiSubscription$.unsubscribe();
     }
   }
 }
@@ -115,5 +115,5 @@ export type PoiPageValueType = {
   hasNextPoi: boolean;
   showNavigationButtons: boolean;
   hasPreviousPoi: boolean;
-  poi: Poi
+  poi: Poi;
 };

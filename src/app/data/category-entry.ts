@@ -8,6 +8,6 @@ export class CategoryEntry {
   }
 
   image() {
-    return 'assets/category/' + this.key + '.png'
+    return 'assets/category/' + this.key + '.png';
   }
 }

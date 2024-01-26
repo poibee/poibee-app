@@ -1,4 +1,4 @@
-import {Cuisine} from "./cuisine";
+import {Cuisine} from './cuisine';
 
 describe('Cuisine', () => {
 

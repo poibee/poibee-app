@@ -1,14 +1,14 @@
 import { createAction, props } from '@ngrx/store';
-import {Poi} from "../../../data/poi";
-import {SearchAttributes} from "../../../data/search-attributes";
-import {LatLon} from "../../../data/lat-lon";
+import {Poi} from '../../../data/poi';
+import {SearchAttributes} from '../../../data/search-attributes';
+import {LatLon} from '../../../data/lat-lon';
 
 export const initializeDiscoverPage = createAction(
   '[Discover] Initialize Page',
   props<{
-    position: LatLon,
-    distance: number,
-    category: string
+    position: LatLon;
+    distance: number;
+    category: string;
   }>()
 );
 
@@ -28,12 +28,12 @@ export const searchPois = createAction(
 
 export const searchPoisSuccess = createAction(
   '[Discover] Search POIs Success',
-  props<{ searchAttributes: SearchAttributes, pois: Poi[] }>()
+  props<{ searchAttributes: SearchAttributes; pois: Poi[] }>()
 );
 
 export const searchPoisFailure = createAction(
   '[Discover] Search POIs Failure',
-  props<{ searchAttributes: SearchAttributes, error: any }>()
+  props<{ searchAttributes: SearchAttributes; error: any }>()
 );
 
 export const updateSelectedSort = createAction(

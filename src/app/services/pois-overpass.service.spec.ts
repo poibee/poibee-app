@@ -1,12 +1,12 @@
 import {inject, TestBed} from '@angular/core/testing';
 
 import {PoisOverpassService} from './pois-overpass.service';
-import {HttpClient, HttpRequest} from "@angular/common/http";
-import {of} from "rxjs";
-import {Poi} from "../data/poi";
-import {LatLon} from "../data/lat-lon";
+import {HttpClient, HttpRequest} from '@angular/common/http';
+import {of} from 'rxjs';
+import {Poi} from '../data/poi';
+import {LatLon} from '../data/lat-lon';
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
-import {PoiId} from "../data/poi-id";
+import {PoiId} from '../data/poi-id';
 
 describe('PoisOverpassService', () => {
 
@@ -65,12 +65,12 @@ describe('PoisOverpassService', () => {
       expect(receivedPois[1].id).toEqual(PoiId.of('node-22'));
 
       expect(httpMock.get).toHaveBeenCalledTimes(1);
-      expect(httpMock.get).toHaveBeenCalledWith('http://localhost:3000/pois', httpParamsMatcher("lat=1&lon=2&category=restaurant&distance=10"));
+      expect(httpMock.get).toHaveBeenCalledWith('http://localhost:3000/pois', httpParamsMatcher('lat=1&lon=2&category=restaurant&distance=10'));
     }));
 
   function httpParamsMatcher(expectedParamsQuery: string): AsymmetricMatcher<HttpRequest<null>> {
     return {
-      asymmetricMatch: function (actual: HttpRequest<null>) {
+      asymmetricMatch(actual: HttpRequest<null>) {
         return actual.params.toString() === expectedParamsQuery;
       }
     };

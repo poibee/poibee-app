@@ -1,1 +1,1 @@
-export type ResultViewType = 'MAP' | 'LIST'
+export type ResultViewType = 'MAP' | 'LIST';

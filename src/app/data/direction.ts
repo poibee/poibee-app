@@ -1,4 +1,4 @@
-import {LatLon} from "./lat-lon";
+import {LatLon} from './lat-lon';
 
 export enum DirectionTypes {
 

@@ -1,10 +1,10 @@
-import {LatLon} from "./lat-lon";
-import {Contact} from "./contact";
-import {References} from "./references";
-import {Attributes} from "./attributes";
-import {OwnPosition} from "./own-position";
-import {Feature, Geometry} from "geojson";
-import {PoiId} from "./poi-id";
+import {LatLon} from './lat-lon';
+import {Contact} from './contact';
+import {References} from './references';
+import {Attributes} from './attributes';
+import {OwnPosition} from './own-position';
+import {Feature, Geometry} from 'geojson';
+import {PoiId} from './poi-id';
 
 export class Poi {
 

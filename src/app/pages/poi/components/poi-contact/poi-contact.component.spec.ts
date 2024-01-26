@@ -2,10 +2,10 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule} from '@ionic/angular';
 
 import {PoiContactComponent} from './poi-contact.component';
-import {Poi} from "../../../../data/poi";
-import {Contact} from "../../../../data/contact";
-import {OwnPosition} from "../../../../data/own-position";
-import {PoiId} from "../../../../data/poi-id";
+import {Poi} from '../../../../data/poi';
+import {Contact} from '../../../../data/contact';
+import {OwnPosition} from '../../../../data/own-position';
+import {PoiId} from '../../../../data/poi-id';
 
 describe('PoiContactComponent', () => {
   let component: PoiContactComponent;

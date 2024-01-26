@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PoisSorterService } from './pois-sorter.service';
-import {LatLon} from "../data/lat-lon";
-import {of} from "rxjs";
-import {Poi} from "../data/poi";
-import {OwnPosition} from "../data/own-position";
-import {PoiId} from "../data/poi-id";
-import {Contact} from "../data/contact";
+import {LatLon} from '../data/lat-lon';
+import {of} from 'rxjs';
+import {Poi} from '../data/poi';
+import {OwnPosition} from '../data/own-position';
+import {PoiId} from '../data/poi-id';
+import {Contact} from '../data/contact';
 
 describe('PoisSorterService', () => {
   let service: PoisSorterService;

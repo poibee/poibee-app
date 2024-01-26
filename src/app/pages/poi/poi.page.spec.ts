@@ -2,17 +2,17 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule} from '@ionic/angular';
 
 import {PoiPage, PoiPageValueType} from './poi.page';
-import {of} from "rxjs";
-import {PoisOverpassService} from "../../services/pois-overpass.service";
+import {of} from 'rxjs';
+import {PoisOverpassService} from '../../services/pois-overpass.service';
 
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
-import {LatLon} from "../../data/lat-lon";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {RouterTestingModule} from "@angular/router/testing";
-import {PoiId} from "../../data/poi-id";
-import {Store} from "@ngrx/store";
-import {Poi} from "../../data/poi";
-import {Contact} from "../../data/contact";
+import {LatLon} from '../../data/lat-lon';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {RouterTestingModule} from '@angular/router/testing';
+import {PoiId} from '../../data/poi-id';
+import {Store} from '@ngrx/store';
+import {Poi} from '../../data/poi';
+import {Contact} from '../../data/contact';
 
 
 describe('PoiPage', () => {
@@ -25,13 +25,13 @@ describe('PoiPage', () => {
   beforeEach(waitForAsync(() => {
 
     const poiPageValue: PoiPageValueType = {
-      navigatorLabel: "",
+      navigatorLabel: '',
       searchCenter: new LatLon(1.1, 2.2),
       hasNextPoi: false,
       showNavigationButtons: false,
       hasPreviousPoi: false,
       poi: new Poi(PoiId.of('node-12345'), ['myCategory'], null, null, null, new Contact('poiName', null, null, null, null, null), null, 1, '{}', null)
-    }
+    };
     discoverStoreMock = {
       pipe: (selector: any) => of(poiPageValue)
     };
@@ -60,7 +60,7 @@ describe('PoiPage', () => {
         {provide: Store, useValue: discoverStoreMock},
         {
           provide: ActivatedRoute, useValue:
-            {snapshot: {paramMap: convertToParamMap({'id': 'node-12345'})}}
+            {snapshot: {paramMap: convertToParamMap({id: 'node-12345'})}}
         }
       ]
     }).compileComponents();

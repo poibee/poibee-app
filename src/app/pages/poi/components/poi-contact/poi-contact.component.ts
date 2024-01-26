@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Poi} from "../../../../data/poi";
+import {Poi} from '../../../../data/poi';
 
 @Component({
   selector: 'app-poi-contact',

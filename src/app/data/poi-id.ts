@@ -30,7 +30,7 @@ export class PoiId {
     return `${this.type}-${this.id}`;
   }
 
-  public equals(obj: PoiId) : boolean {
+  public equals(obj: PoiId): boolean {
     return obj && this.toString() === obj.toString();
   }
 

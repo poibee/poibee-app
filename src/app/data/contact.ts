@@ -11,6 +11,6 @@ export class Contact {
   }
 
   static of(name: string): Contact {
-    return new Contact(name, null, null, null, null, null)
+    return new Contact(name, null, null, null, null, null);
   }
 }

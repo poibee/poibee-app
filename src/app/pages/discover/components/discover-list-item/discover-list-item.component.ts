@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Poi} from "../../../../data/poi";
-import {NavController} from "@ionic/angular";
+import {Poi} from '../../../../data/poi';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-discover-list-item',
@@ -20,7 +20,7 @@ export class DiscoverListItemComponent {
 
   navigateTo(poi: Poi) {
     this.selectPoiOutput.emit(poi);
-    this.navCtrl.navigateRoot("/poi/" + poi.id.toString())
+    this.navCtrl.navigateRoot('/poi/' + poi.id.toString());
     // TODO: redirectTo einsetzen (siehe Buch, Seite 168)
   }
 

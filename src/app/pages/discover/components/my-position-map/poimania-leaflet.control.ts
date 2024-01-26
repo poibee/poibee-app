@@ -9,8 +9,8 @@ export class PoimaniaLeafletControl extends L.Control {
   onAdd(map: L.Map) {
     const onClickButtonLocal = this.onClickButton;
     const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-    container.innerHTML = '<a style="background-image: url(' + this.svgImage + '); background-size: 20px 20px;" href="#" title="' + this.title + '" role="button" aria-label="' + this.title + '"></a>'
-    container.onclick = function () {
+    container.innerHTML = '<a style="background-image: url(' + this.svgImage + '); background-size: 20px 20px;" href="#" title="' + this.title + '" role="button" aria-label="' + this.title + '"></a>';
+    container.onclick = function() {
       onClickButtonLocal();
       return false;
     };

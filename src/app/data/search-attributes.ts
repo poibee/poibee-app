@@ -1,5 +1,5 @@
-import {LatLon} from "./lat-lon";
-import {CategoryEntry} from "./category-entry";
+import {LatLon} from './lat-lon';
+import {CategoryEntry} from './category-entry';
 
 export class SearchAttributes {
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {LatLng} from "leaflet";
+import {LatLng} from 'leaflet';
 
-import {LatLon} from "../data/lat-lon";
+import {LatLon} from '../data/lat-lon';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,10 @@ import {LatLon} from "../data/lat-lon";
 export class GeoService {
 
   distanceToPositionInKm(thisPosition: LatLon, otherPosition: LatLon): number {
-    let latLngThisPosition = new LatLng(thisPosition.lat, thisPosition.lon);
-    let latLngOtherPosition = new LatLng(otherPosition.lat, otherPosition.lon);
-    let distanceInKm = latLngThisPosition.distanceTo(latLngOtherPosition) / 1000;
-    let number = Math.round(distanceInKm * 100) / 100;
+    const latLngThisPosition = new LatLng(thisPosition.lat, thisPosition.lon);
+    const latLngOtherPosition = new LatLng(otherPosition.lat, otherPosition.lon);
+    const distanceInKm = latLngThisPosition.distanceTo(latLngOtherPosition) / 1000;
+    const number = Math.round(distanceInKm * 100) / 100;
     return number;
   }
 

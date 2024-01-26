@@ -1,7 +1,7 @@
 import {createFeatureSelector, createSelector, MemoizedSelector} from '@ngrx/store';
 import * as fromDiscover from './discover.reducer';
-import {LatLon} from "../../../data/lat-lon";
-import {Poi} from "../../../data/poi";
+import {LatLon} from '../../../data/lat-lon';
+import {Poi} from '../../../data/poi';
 
 export const selectDiscoverState = createFeatureSelector<fromDiscover.State>(
   fromDiscover.discoverFeatureKey
@@ -9,16 +9,12 @@ export const selectDiscoverState = createFeatureSelector<fromDiscover.State>(
 
 export const getSearchAttributes = createSelector(
   selectDiscoverState,
-  state => {
-    return {searchAttributes: state.searchAttributes}
-  }
+  state => ({searchAttributes: state.searchAttributes})
 );
 
 export const getFoundPois = createSelector(
   selectDiscoverState,
-  state => {
-    return {filteredPois: state.filteredPois, allPois: state.allPois}
-  }
+  state => ({filteredPois: state.filteredPois, allPois: state.allPois})
 );
 
 export const getSearchActive = createSelector(
@@ -60,5 +56,5 @@ export const getPoiPageData: MemoizedSelector<object, { navigatorLabel: string; 
       hasPreviousPoi: state.hasPreviousPoi,
       navigatorLabel: state.selectedPoiText,
       showNavigationButtons: true
-    }}
+    };}
 );

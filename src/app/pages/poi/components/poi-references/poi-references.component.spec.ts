@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { PoiReferencesComponent } from './poi-references.component';
-import {Poi} from "../../../../data/poi";
-import {OwnPosition} from "../../../../data/own-position";
-import {References} from "../../../../data/references";
-import {PoiId} from "../../../../data/poi-id";
+import {Poi} from '../../../../data/poi';
+import {OwnPosition} from '../../../../data/own-position';
+import {References} from '../../../../data/references';
+import {PoiId} from '../../../../data/poi-id';
 
 describe('PoiReferencesComponent', () => {
   let component: PoiReferencesComponent;

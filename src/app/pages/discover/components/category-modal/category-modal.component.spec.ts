@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CategoryModalComponent } from './category-modal.component';
-import {CategoryEntry} from "../../../../data/category-entry";
+import {CategoryEntry} from '../../../../data/category-entry';
 
 describe('CategoryModalComponent', () => {
   let component: CategoryModalComponent;
