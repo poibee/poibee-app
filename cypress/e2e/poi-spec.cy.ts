@@ -1,297 +1,306 @@
+import {PoiPage} from "../pages/poi-page"
+import {DiscoverPage} from "../pages/discover-page"
+
 describe('POI detail page', () => {
 
+  const poiPage = new PoiPage()
+  const discoverPage = (page: PoiPage): DiscoverPage => new DiscoverPage()
+
   beforeEach(() => {
-    Cypress.config('defaultCommandTimeout', 60000);
+    Cypress.config('defaultCommandTimeout', 60000)
 
     cy.viewport('iphone-x')
-    cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois');
-    cy.intercept('GET', '/pois/way-45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche');
-    cy.intercept('GET', '/pois/way-12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg');
-    cy.intercept('GET', '/pois/node-1628572328', {fixture: 'poi-charisma.json'});
-    cy.intercept('GET', '/pois/node-1628572605', {fixture: 'poi-marktkieker.json'});
-    cy.intercept('GET', '/pois/node-1628573037', {fixture: 'poi-information.json'}).as('poi-information');
-    cy.intercept('GET', '/pois/node-1628573040', {fixture: 'poi-denkmal.json'});
-    cy.intercept('GET', '/pois/way-45666703', {fixture: 'poi-marktplatz.json'});
-  });
+    cy.intercept('GET', '/pois*', { fixture: 'pois.json' }).as('search-pois')
+    cy.intercept('GET', '/pois/way-45666704', {fixture: 'poi-christuskirche.json'}).as('poi-christuskirche')
+    cy.intercept('GET', '/pois/way-12345678', {fixture: 'poi-wasserburg.json'}).as('poi-wasserburg')
+    cy.intercept('GET', '/pois/node-1628572328', {fixture: 'poi-charisma.json'})
+    cy.intercept('GET', '/pois/node-1628572605', {fixture: 'poi-marktkieker.json'})
+    cy.intercept('GET', '/pois/node-1628573037', {fixture: 'poi-information.json'}).as('poi-information')
+    cy.intercept('GET', '/pois/node-1628573040', {fixture: 'poi-denkmal.json'})
+    cy.intercept('GET', '/pois/way-45666703', {fixture: 'poi-marktplatz.json'})
+  })
 
   describe('visited directly by URL', () => {
 
     beforeEach(() => {
-      cy.visit('/poi/way-12345678')
-      cy.get('ion-content').contains('Akzent Hotel Zur Wasserburg')
-    });
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.content().assertText('Akzent Hotel Zur Wasserburg')
+    })
 
     it('loads poi by querying data from external PoiOverpassService', () => {
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
       cy.get('@poi-wasserburg')
         .its('request.url')
         .should('deep.equal','http://localhost:3000/pois/way-12345678')
-    });
+    })
 
     it('shows no navigation buttons', () => {
-      cy.get('[data-cy=buttonSelectNextPoi]').should('not.exist')
-      cy.get('[data-cy=labelPoiNavigatorText]').should('not.exist')
-      cy.get('[data-cy=buttonSelectPreviousPoi]').should('not.exist')
-      cy.get('[data-cy=buttonNavigateBack]').should('not.exist')
+      poiPage.header().buttonSelectNextPoi().assertIsVisible(false)
+      poiPage.header().labelPoiNavigatorText().assertIsVisible(false)
+      poiPage.header().buttonSelectPreviousPoi().assertIsVisible(false)
+      poiPage.header().buttonNavigateBack().assertIsVisible(false)
     })
 
     it('shows no distance chip', () => {
-      cy.get('[data-cy=chipDistance]').should('not.exist')
+      poiPage.content().overviewChipDistance().assertIsVisible(false)
     })
   })
 
   describe('visited from discover page', () => {
 
     beforeEach(() => {
-      cy.visit('/discover')
-      cy.get('[data-cy=buttonToggleView]').click()
-      cy.get('[data-cy=buttonSearchModal]').click()
-      cy.get('[data-cy=buttonStartSearch]').click()
+      const localDiscoverPage = discoverPage(poiPage)
+      localDiscoverPage.open()
+      localDiscoverPage.toggleView().toggle()
+      localDiscoverPage.search().openDialog()
+      localDiscoverPage.search().executeSearch()
 
       cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
       cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
       cy.get('@christuskircheItem').find('ion-thumbnail').click({ multiple: true })
 
-      cy.url().should('include', '/poi/way-45666704')
-      cy.get('ion-content').contains('Christuskirche')
-    });
+      poiPage.assertUrl('/poi/way-45666704')
 
-    it('shows navigation buttons', () => {
-      cy.get('[data-cy=buttonNavigateBack]').should('exist')
+      poiPage.content().assertText('Christuskirche')
+    })
 
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+    it('shows navigation buttons and title', () => {
+      poiPage.header().buttonNavigateBack().assertIsVisible(true)
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+      poiPage.header().titlePoiLable().assertText('Christuskirche')
+      poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
+      poiPage.content().assertColumnCategories(['Church'])
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().titlePoiLable().assertText('Marktkieker')
+      poiPage.header().labelPoiNavigatorText().assertText('5 / 7')
+      poiPage.content().assertColumnCategories(['Amenity'])
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().titlePoiLable().assertText('Charisma')
+      poiPage.header().labelPoiNavigatorText().assertText('6 / 7')
+      poiPage.content().assertColumnCategories(['Restaurant'])
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().titlePoiLable().assertText('Akzent Hotel Zur Wasserburg')
+      poiPage.header().labelPoiNavigatorText().assertText('7 / 7')
+      poiPage.content().assertColumnCategories(['Hotel', 'Restaurant'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('7 / 7')
+      poiPage.content().assertColumnCategories(['Hotel', 'Restaurant'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('6 / 7')
+      poiPage.content().assertColumnCategories(['Restaurant'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('5 / 7')
+      poiPage.content().assertColumnCategories(['Amenity'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '3 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Memorial')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
+      poiPage.content().assertColumnCategories(['Church'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '2 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Parking')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('3 / 7')
+      poiPage.content().assertColumnCategories(['Memorial'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '1 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('2 / 7')
+      poiPage.content().assertColumnCategories(['Parking'])
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '1 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Information')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('1 / 7')
+      poiPage.content().assertColumnCategories(['Information'])
+
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('1 / 7')
+      poiPage.content().assertColumnCategories(['Information'])
     })
 
     it('updates URL location after navigating to further POI ', () => {
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
-      cy.url().should('include', '/poi/way-45666704')
+      poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
+      poiPage.content().assertColumnCategories(['Church'])
+      poiPage.assertUrl('/poi/way-45666704')
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
-      cy.url().should('include', '/poi/node-1628572605')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('5 / 7')
+      poiPage.content().assertColumnCategories(['Amenity'])
+      poiPage.assertUrl('/poi/node-1628572605')
 
-      cy.get('[data-cy=buttonSelectPreviousPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
-      cy.url().should('include', '/poi/way-45666704')
+      poiPage.header().buttonSelectPreviousPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
+      poiPage.content().assertColumnCategories(['Church'])
+      poiPage.assertUrl('/poi/way-45666704')
     })
 
     it('shows distance and relevance chip ', () => {
-      cy.get('[data-cy=chipOverviewDistance]').should('have.text', '0.05 km')
-      cy.get('[data-cy=chipOverviewDistance] ion-icon').should('have.class', 'rotate-northeast')
-
-      cy.get('[data-cy=chipOverviewRelevance]').should('have.text', '19')
+      poiPage.content().overviewChipDistance().assertIsVisible(true).assertText('0.05 km').assertIcon('rotate-northeast')
+      poiPage.content().overviewChipRelevance().assertIsVisible(true).assertText('19')
     })
 
     it('shows poi area on map', () => {
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '4 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Church')
-      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
-      cy.get('[data-cy=divPoiMap]').find('path.leaflet-interactive').should('have.attr', 'fill', '#0000FF')
-      // TODO #32 - not working on GitHub-CI - fix it by number of geometry attributes
-      // cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /M14/);
+      poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
+      poiPage.content().assertColumnCategories(['Church'])
+      poiPage.content().map().assertNumberOfGemetries(1)
+      poiPage.content().map().assertGeometryValues(/M14|M15/)
+      poiPage.content().map().assertGeometryColor('#0000FF')
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '5 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Amenity')
-      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
-      cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /2 0 1,0 4,0 a2,2 0 1,0 -4,0/);
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('5 / 7')
+      poiPage.content().assertColumnCategories(['Amenity'])
+      poiPage.content().map().assertNumberOfGemetries(1)
+      poiPage.content().map().assertGeometryValues(/2 0 1,0 4,0 a2,2 0 1,0 -4,0/)
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '6 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'Restaurant')
-      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
-      cy.get('[data-cy=divPoiMap]').find('path').first().should("have.attr", 'd').and("match", /2 0 1,0 4,0 a2,2 0 1,0 -4,0/);
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('6 / 7')
+      poiPage.content().assertColumnCategories(['Restaurant'])
+      poiPage.content().map().assertNumberOfGemetries(1)
+      poiPage.content().map().assertGeometryValues(/2 0 1,0 4,0 a2,2 0 1,0 -4,0/)
 
-      cy.get('[data-cy=buttonSelectNextPoi]').click()
-      cy.get('[data-cy=labelPoiNavigatorText]').should('have.text', '7 / 7')
-      cy.get('[data-cy=columnCategories]').should('have.text', 'HotelRestaurant')
-      cy.get('[data-cy=divPoiMap]').find('path').should('have.length', 1)
-      // TODO #32 - not working on GitHub-CI - fix it by number of geometry attributes
-      // cy.get('[data-cy=divPoiMap]').find('path').first().should('have.attr', 'd', 'M139 134L139 159L164 159L164 167L194 167L194 155L186 155L186 144L167 144L167 134z')
+      poiPage.header().buttonSelectNextPoi().click()
+      poiPage.header().labelPoiNavigatorText().assertText('7 / 7')
+      poiPage.content().assertColumnCategories(['Hotel', 'Restaurant'])
+      poiPage.content().map().assertNumberOfGemetries(1)
+      poiPage.content().map().assertGeometryValues(/M14|M15/)
     })
   })
 
   describe('shows poi details of a poi', () => {
 
     it('with categories', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
 
       cy.get('[data-cy=columnCategories] ion-item').should('have.length', 2)
       cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-label').should('have.text', 'Hotel')
       cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/hotel.png')
       cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-label').should('have.text', 'Restaurant')
       cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/restaurant.png')
-    });
+    })
 
     it('with specific attributes', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
-      cy.get('[data-cy=chipOverviewCuisine]').should('have.text', 'German')
-      cy.get('[data-cy=chipOverviewOpeningHours]').should('have.text', '17:00+')
-      cy.get('[data-cy=chipOverviewVending]').should('have.text', 'wine')
-      cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
-      cy.get('[data-cy=chipOverviewIsBuilding]').should('have.text', 'Gebäude')
-      cy.get('[data-cy=chipOverviewIsBar]').should('have.text', 'Bar')
-      cy.get('[data-cy=chipOverviewIsCafe]').should('have.text', 'Cafe')
-    });
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
+
+      poiPage.content().overviewChipCuisine().assertIsVisible(true).assertText('German')
+      poiPage.content().overviewChipOpeningHours().assertIsVisible(true).assertText('17:00+')
+      poiPage.content().overviewChipVending().assertIsVisible(true).assertText('wine')
+      poiPage.content().overviewChipIsBuilding().assertIsVisible(true).assertText('Gebäude')
+      poiPage.content().overviewChipIsBar().assertIsVisible(true).assertText('Bar')
+      poiPage.content().overviewChipIsCafe().assertIsVisible(true).assertText('Cafe')
+      poiPage.content().overviewChipDistance().assertIsVisible(false)
+      poiPage.content().overviewChipRelevance().assertIsVisible(true).assertText('17')
+    })
 
     it('without specific attributes', () => {
-      cy.visit('/poi/node-1628573037')
-      cy.url().should('include', '/poi/node-1628573037')
-      cy.get('[data-cy=chipOverviewCuisine]').should('not.exist')
-      cy.get('[data-cy=chipOverviewOpeningHours]').should('not.exist')
-      cy.get('[data-cy=chipOverviewVending]').should('not.exist')
-      cy.get('[data-cy=chipOverviewDistance]').should('not.exist')
-      cy.get('[data-cy=chipOverviewIsBar]').should('not.exist')
-      cy.get('[data-cy=chipOverviewIsCafe]').should('not.exist')
-      cy.get('[data-cy=chipOverviewIsBuilding]').should('not.exist')
-    });
+      poiPage.openWithUrlParameter('/node-1628573037')
+      poiPage.assertUrl('/poi/node-1628573037')
+
+      poiPage.content().overviewChipCuisine().assertIsVisible(false)
+      poiPage.content().overviewChipOpeningHours().assertIsVisible(false)
+      poiPage.content().overviewChipVending().assertIsVisible(false)
+      poiPage.content().overviewChipIsBuilding().assertIsVisible(false)
+      poiPage.content().overviewChipIsBar().assertIsVisible(false)
+      poiPage.content().overviewChipIsCafe().assertIsVisible(false)
+      poiPage.content().overviewChipDistance().assertIsVisible(false)
+      poiPage.content().overviewChipRelevance().assertIsVisible(true).assertText('1')
+    })
 
     it('with every contact attribute', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
 
-      cy.get('[data-cy=titlePoiLabel]').should('have.text', 'Akzent Hotel Zur Wasserburg')
+      poiPage.header().titlePoiLable().assertText('Akzent Hotel Zur Wasserburg')
 
-      cy.get('[data-cy=itemName]').should('have.text', 'Akzent Hotel Zur Wasserburg')
-      cy.get('[data-cy=itemAddress]').should('have.text', 'Amtsfreiheit 4, 27243 Harpstedt')
-      cy.get('[data-cy=itemPhone]').should('have.text', '+49 4244 1008')
-      cy.get('[data-cy=itemFax]').should('have.text', '+49 4244 1009')
-
-      cy.get('[data-cy=itemEmail]').should('have.text', 'info@zur-wasserburg.de')
-      cy.get('[data-cy=itemEmail] a').invoke('attr', 'href').should('eq', 'mailto:info@zur-wasserburg.de')
-
-      cy.get('[data-cy=itemWebsite]').should('have.text', 'https://www.zur-wasserburg.de')
-      cy.get('[data-cy=itemWebsite] a').invoke('attr', 'href').should('eq', 'https://www.zur-wasserburg.de')
-    });
+      poiPage.content().contactItemName().assertIsVisible(true).assertText('Akzent Hotel Zur Wasserburg')
+      poiPage.content().contactItemAddress().assertIsVisible(true).assertText('Amtsfreiheit 4, 27243 Harpstedt')
+      poiPage.content().contactItemPhone().assertIsVisible(true).assertText('+49 4244 1008')
+      poiPage.content().contactItemFax().assertIsVisible(true).assertText('+49 4244 1009')
+      poiPage.content().contactItemEmail().assertIsVisible(true).assertText('info@zur-wasserburg.de').assertLinkUrl('mailto:info@zur-wasserburg.de')
+      poiPage.content().contactItemWebsite().assertIsVisible(true).assertText('https://www.zur-wasserburg.de').assertLinkUrl('https://www.zur-wasserburg.de')
+    })
 
     it('without every contact attribute', () => {
-      cy.visit('/poi/node-1628573037')
-      cy.url().should('include', '/poi/node-1628573037')
+      poiPage.openWithUrlParameter('/node-1628573037')
+      poiPage.assertUrl('/poi/node-1628573037')
 
-      cy.get('[data-cy=titlePoiLabel]').should('have.text', 'Information')
+      poiPage.header().titlePoiLable().assertText('Information')
 
-      cy.get('[data-cy=itemName]').should('not.exist')
-      cy.get('[data-cy=itemAddress]').should('not.exist')
-      cy.get('[data-cy=itemPhone]').should('not.exist')
-      cy.get('[data-cy=itemFax]').should('not.exist')
-      cy.get('[data-cy=itemEmail]').should('not.exist')
-      cy.get('[data-cy=itemWebsite]').should('not.exist')
-    });
+      poiPage.content().contactItemName().assertIsVisible(false)
+      poiPage.content().contactItemAddress().assertIsVisible(false)
+      poiPage.content().contactItemPhone().assertIsVisible(false)
+      poiPage.content().contactItemFax().assertIsVisible(false)
+      poiPage.content().contactItemEmail().assertIsVisible(false)
+      poiPage.content().contactItemWebsite().assertIsVisible(false)
+    })
 
     it('with every reference attribute', () => {
-      cy.visit('/poi/way-45666704')
-      cy.url().should('include', '/poi/way-45666704')
-      cy.get('[data-cy=chipOsmDataset] a').invoke('attr', 'href').should('eq', 'https://www.openstreetmap.org/way/45666704')
-      cy.get('[data-cy=chipOsmLocation] a').invoke('attr', 'href').should('eq', 'https://www.openstreetmap.org/#map=19/52.9082584/8.5886623')
-      cy.get('[data-cy=chipGoogleLocation] a').invoke('attr', 'href').should('eq', 'https://www.google.de/maps/@52.9082584,8.5886623,18z')
-      cy.get('[data-cy=chipWikipedia] a').invoke('attr', 'href').should('eq', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
-      cy.get('[data-cy=chipWikidata] a').invoke('attr', 'href').should('eq', 'https://www.wikidata.org/wiki/Q1087325')
-    });
+      poiPage.openWithUrlParameter('/way-45666704')
+      poiPage.assertUrl('/poi/way-45666704')
+
+      poiPage.content().referencesChipOsmDataset().assertIsVisible(true).assertText('OSM-Datensatz').assertLinkUrl('https://www.openstreetmap.org/way/45666704')
+      poiPage.content().referencesChipOsmLocation().assertIsVisible(true).assertText('OSM-Karte').assertLinkUrl('https://www.openstreetmap.org/#map=19/52.9082584/8.5886623')
+      poiPage.content().referencesChipGoogleLocation().assertIsVisible(true).assertText('Google-Maps').assertLinkUrl('https://www.google.de/maps/@52.9082584,8.5886623,18z')
+      poiPage.content().referencesChipWikipedia().assertIsVisible(true).assertText('Wikipedia').assertLinkUrl('https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
+      poiPage.content().referencesChipWikidata().assertIsVisible(true).assertText('Wikidata').assertLinkUrl('https://www.wikidata.org/wiki/Q1087325')
+    })
 
     it('without every reference attribute', () => {
-      cy.visit('/poi/node-1628573037')
-      cy.url().should('include', '/poi/node-1628573037')
-      cy.get('[data-cy=chipOsmDataset] a').invoke('attr', 'href').should('eq', 'https://www.openstreetmap.org/node/1628573037')
-      cy.get('[data-cy=chipOsmLocation] a').invoke('attr', 'href').should('eq', 'https://www.openstreetmap.org/#map=19/52.9080359/8.5877197')
-      cy.get('[data-cy=chipGoogleLocation] a').invoke('attr', 'href').should('eq', 'https://www.google.de/maps/@52.9080359,8.5877197,18z')
-      cy.get('[data-cy=chipWikipedia]').should('not.exist')
-      cy.get('[data-cy=chipWikidata]').should('not.exist')
-    });
+      poiPage.openWithUrlParameter('/node-1628573037')
+      poiPage.assertUrl('/poi/node-1628573037')
 
-    // TODO #32 - not working on GitHub-CI
-    // AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-cy=divPoiMap] ion-spinner`, but never found it.
-    xit('with spinner and poi markers on map', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.content().referencesChipOsmDataset().assertIsVisible(true).assertText('OSM-Datensatz').assertLinkUrl('https://www.openstreetmap.org/node/1628573037')
+      poiPage.content().referencesChipOsmLocation().assertIsVisible(true).assertText('OSM-Karte').assertLinkUrl('https://www.openstreetmap.org/#map=19/52.9080359/8.5877197')
+      poiPage.content().referencesChipGoogleLocation().assertIsVisible(true).assertText('Google-Maps').assertLinkUrl('https://www.google.de/maps/@52.9080359,8.5877197,18z')
+      poiPage.content().referencesChipWikipedia().assertIsVisible(false)
+      poiPage.content().referencesChipWikidata().assertIsVisible(false)
+    })
 
-      cy.get('[data-cy=divPoiMap]').should('exist')
+    it('with spinner and poi markers on map', () => {
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
 
-      cy.get('[data-cy=divPoiMap] ion-spinner').should('exist')
-      cy.get('[data-cy=divPoiMap] ion-spinner').should('not.exist')
+      poiPage.content().map().assertIsVisible(true)
 
-      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').should('exist')
-      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').should('have.length', 1)
-      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.class', 'leaflet-marker-icon')
-      cy.get('[data-cy=divPoiMap] .leaflet-pane.leaflet-marker-pane').first().find('img').first().should('have.attr', 'src', 'assets/category/hotel.png')
-    });
+      poiPage.content().map().assertSpinnerVisible(true)
+      poiPage.content().map().assertSpinnerVisible(false)
+
+      poiPage.content().map().mapMarker().assertIsVisible(true)
+      poiPage.content().map().mapMarker().assertNumberOfElements(2)
+      poiPage.content().map().mapMarker().assertHasCssClass('leaflet-marker-icon')
+      poiPage.content().map().mapMarker().assertHasMarkerImage('assets/marker/marker-icon.png')
+      poiPage.content().map().mapMarker().assertHasCategoryImage('assets/category/hotel.png')
+    })
 
     it('with OSM key and tag links to OSM-Wiki and TagInfo', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
 
-      cy.get('[data-cy=cardOsmTags]').should('exist')
-      cy.get('[data-cy=cardOsmTags] ion-card-title').should('have.text', 'OSM-Tags')
-      cy.get('[data-cy=cardOsmTags] ion-row').should('have.length', 18)
+      poiPage.content().osmTags().assertIsVisible(true)
+      poiPage.content().osmTags().assertTitle('OSM-Tags')
+      poiPage.content().osmTags().assertNumberOfRows(18)
 
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey]').should('have.text', 'addr:city')
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey] a').first().should('have.attr', 'href', 'https://wiki.openstreetmap.org/wiki/Key:addr:city')
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnKey] a').last().should('have.attr', 'href', 'https://taginfo.openstreetmap.org/keys/addr:city')
+      poiPage.content().osmTags().row(1).key().assertText('addr:city')
+      poiPage.content().osmTags().row(1).key().assertWikiLinkUrl('https://wiki.openstreetmap.org/wiki/Key:addr:city')
+      poiPage.content().osmTags().row(1).key().assertTagInfoLinkUrl('https://taginfo.openstreetmap.org/keys/addr:city')
 
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag]').should('have.text', 'Harpstedt')
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag] a').first().should('have.attr', 'href', 'https://wiki.openstreetmap.org/wiki/Tag:addr:city=Harpstedt')
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(1).find('[data-cy=columnTag] a').last().should('have.attr', 'href', 'https://taginfo.openstreetmap.org/tags/addr:city=Harpstedt')
+      poiPage.content().osmTags().row(1).value().assertText('Harpstedt')
+      poiPage.content().osmTags().row(1).value().assertWikiLinkUrl('https://wiki.openstreetmap.org/wiki/Tag:addr:city=Harpstedt')
+      poiPage.content().osmTags().row(1).value().assertTagInfoLinkUrl('https://taginfo.openstreetmap.org/tags/addr:city=Harpstedt')
 
-      cy.get('[data-cy=cardOsmTags] ion-row').eq(2).find('[data-cy=columnKey]').should('have.text', 'addr:housenumber')
-    });
+      poiPage.content().osmTags().row(2).key().assertText('addr:housenumber')
+    })
 
     it('with raw data as JSON', () => {
-      cy.visit('/poi/way-12345678')
-      cy.url().should('include', '/poi/way-12345678')
+      poiPage.openWithUrlParameter('/way-12345678')
+      poiPage.assertUrl('/poi/way-12345678')
 
-      cy.get('[data-cy=cardRawData]').should('exist')
-      cy.get('[data-cy=cardRawData] ion-card-title').should('have.text', 'Rohdaten')
-      cy.get('[data-cy=cardRawData] pre').should('contain', '"id": "way/12345678"')
-    });
-  });
+      poiPage.content().rawData().assertIsVisible(true)
+      poiPage.content().rawData().assertTitle('Rohdaten')
+      poiPage.content().rawData().assertText('"id": "way/12345678"')
+    })
+  })
 
-});
+})

@@ -1,27 +1,27 @@
-class DiscoverPage {
+import {BasePage} from "./base-page"
 
-  open(): DiscoverPage {
-    cy.visit('/discover')
-    return this;
-  }
+class DiscoverPage extends BasePage {
 
-  openWithQuery(query: string): DiscoverPage {
-    cy.visit('/discover' + query)
-    return this;
+  url(): string {
+    return '/discover'
   }
 
   map(): MapComponent {
-    return new MapComponent();
+    return new MapComponent()
   }
 
   search(): SearchDialog {
-    return new SearchDialog();
+    return new SearchDialog()
+  }
+
+  toggleView(): ToggleViewComponent {
+    return new ToggleViewComponent()
   }
 }
 
 class MapComponent {
 
-  private static CY_LOCATOR = "[data-cy=componentDiscoverMap] .map";
+  private static CY_LOCATOR = "[data-cy=componentDiscoverMap] .map"
 
   assertPosition(lat: number, lon: number) {
     cy.get(MapComponent.CY_LOCATOR).should('have.attr', 'data-cy-map-lat', lat)
@@ -33,19 +33,19 @@ class MapComponent {
   }
 
   positionMarker(): PositionMarker {
-    return new PositionMarker(MapComponent.CY_LOCATOR);
+    return new PositionMarker(MapComponent.CY_LOCATOR)
   }
 
   poiMarkers(): PoiMarkers {
-    return new PoiMarkers(MapComponent.CY_LOCATOR);
+    return new PoiMarkers(MapComponent.CY_LOCATOR)
   }
 
   distanceMarker(): DistanceMarker {
-    return new DistanceMarker(MapComponent.CY_LOCATOR);
+    return new DistanceMarker(MapComponent.CY_LOCATOR)
   }
 
   buttons(): ButtonsComponent {
-    return new ButtonsComponent(MapComponent.CY_LOCATOR);
+    return new ButtonsComponent(MapComponent.CY_LOCATOR)
   }
 }
 
@@ -56,15 +56,19 @@ class SearchDialog {
   }
 
   distance(): SearchDistanceComponent {
-    return new SearchDistanceComponent();
+    return new SearchDistanceComponent()
   }
 
   category(): SearchCategoryComponent {
-    return new SearchCategoryComponent();
+    return new SearchCategoryComponent()
   }
 
   map(): SearchMapComponent {
-    return new SearchMapComponent();
+    return new SearchMapComponent()
+  }
+
+  executeSearch(): void {
+    cy.get('[data-cy=buttonStartSearch]').click()
   }
 }
 
@@ -72,6 +76,15 @@ class SearchDistanceComponent {
 
   assertDistance(value: string) {
     cy.get('[data-cy=selectDistance]').should('have.attr', 'aria-label', value)
+  }
+}
+
+class ToggleViewComponent {
+
+  private static CY_LOCATOR = '[data-cy=buttonToggleView]'
+
+  toggle() {
+    cy.get(ToggleViewComponent.CY_LOCATOR).click()
   }
 }
 
@@ -118,10 +131,10 @@ class ButtonsComponent {
 
 class PositionMarker {
 
-  private locator: string;
+  private locator: string
 
   constructor(parentLocator: string) {
-    this.locator = parentLocator + ' img[data-cy-type="position"]';
+    this.locator = parentLocator + ' img[data-cy-type="position"]'
   }
 
   assertPosition(lat: number, lon: number) {
@@ -132,10 +145,10 @@ class PositionMarker {
 
 class DistanceMarker {
 
-  private locator: string;
+  private locator: string
 
   constructor(parentLocator: string) {
-    this.locator = parentLocator + ' path[data-cy-type="distance"]';
+    this.locator = parentLocator + ' path[data-cy-type="distance"]'
   }
 
   assertPosition(lat: number, lon: number) {
@@ -150,10 +163,10 @@ class DistanceMarker {
 
 class PoiMarkers {
 
-  private locator: string;
+  private locator: string
 
   constructor(parentLocator: string) {
-    this.locator = parentLocator + ' img[data-cy-type="poi"]';
+    this.locator = parentLocator + ' img[data-cy-type="poi"]'
   }
 
   assertEmpty() {
@@ -167,14 +180,14 @@ class PoiMarkers {
 
 class MapButton {
 
-  private locator: string;
+  private locator: string
 
   constructor(parentLocator: string, title: string) {
-    this.locator = parentLocator + ' .leaflet-control [title="' + title + '"]';
+    this.locator = parentLocator + ' .leaflet-control [title="' + title + '"]'
   }
 
   click() {
-    cy.get(this.locator).click();
+    cy.get(this.locator).click()
   }
 }
 
@@ -184,7 +197,7 @@ class PositionByGeocodeButton {
   }
 
   search(value: string) {
-    cy.get(this.parentLocator + ' .leaflet-control [aria-label="Initiate a new search"').click();
+    cy.get(this.parentLocator + ' .leaflet-control [aria-label="Initiate a new search"').click()
     cy.get(this.parentLocator + ' .leaflet-control-geocoder input').type(value)
   }
 
@@ -193,4 +206,4 @@ class PositionByGeocodeButton {
   }
 }
 
-export { DiscoverPage };
+export { DiscoverPage }

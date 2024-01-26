@@ -1,41 +1,45 @@
-describe('PoiBee-App', () => {
+import {AppPage}  from "../pages/app-page"
+import {DiscoverPage} from "../pages/discover-page"
 
-  const appSite = {
-    visit: () => {
-      cy.visit('/')
-    },
+describe('PoiBee App', () => {
 
-    title: () => {
-      return 'POIs in Harpstedt und überall'
-    },
-  }
+  const appPage = new AppPage()
+  const discoverPage = (page: AppPage): DiscoverPage => new DiscoverPage()
 
   beforeEach(() => {
-    appSite.visit()
-  });
+    Cypress.config('defaultCommandTimeout', 5000)
 
-  // TODO #32 - not working on GitHub-CI
-  xit('has a menu', () => {
-    appSite.visit()
-    cy.contains(appSite.title());
+    appPage.open()
+  })
 
-    clickMenuItem('Ein Dank an ...');
-    cy.url().should('include', '/credit')
-    cy.get('ion-content').contains('Openstreetmap')
+  describe('with default elements', () => {
 
+    it('shows html title', () => {
+      appPage.htmlTitle().assertText('Ionic App')
+    })
 
-    clickMenuItem('Kontakt / Impressum');
-    cy.url().should('include', '/about')
-    cy.get('ion-content').contains('Softwareentwicklung')
+    it('shows title', () => {
+      appPage.title().assertText('Gefundene POIs: 0 mit Filter, 0 insgesamt')
+    })
 
+    it('shows content', () => {
+      appPage.content().assertText('POIs in Harpstedt und überall')
+    })
 
-    clickMenuItem('Entdecken');
-    cy.url().should('include', '/discover')
-    cy.get('[data-cy=buttonToggleView]').click()
-    cy.get('ion-content').contains('Es wurden keine POIs gefunden.')
-  });
+    it('has a menu', () => {
+      appPage.menu().clickItem('Ein Dank an ...')
+      appPage.assertUrl('/credit')
+      appPage.content().assertText('Openstreetmap')
 
-  function clickMenuItem(menuItemLabel: string) {
-    cy.get('ion-list#menu-list').contains(menuItemLabel).click()
-  }
-});
+      appPage.menu().clickItem('Kontakt / Impressum')
+      appPage.assertUrl('/about')
+      appPage.content().assertText('Softwareentwicklung')
+
+      appPage.menu().clickItem('Entdecken')
+      appPage.assertUrl('/discover')
+      discoverPage(appPage).toggleView().toggle()
+      appPage.content().assertText('Es wurden keine POIs gefunden.')
+    })
+  })
+})
+
