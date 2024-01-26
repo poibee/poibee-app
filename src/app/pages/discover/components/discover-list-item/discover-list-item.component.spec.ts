@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {IonicModule, NavController} from '@ionic/angular';
 
 import { DiscoverListItemComponent } from './discover-list-item.component';
-import {OwnPosition} from "../../../../data/own-position";
-import {DirectionTypes} from "../../../../data/direction";
-import {Attributes} from "../../../../data/attributes";
-import {Contact} from "../../../../data/contact";
-import {Cuisine} from "../../../../data/cuisine";
-import {References} from "../../../../data/references";
-import {Poi} from "../../../../data/poi";
-import {PoiId} from "../../../../data/poi-id";
+import {OwnPosition} from '../../../../data/own-position';
+import {DirectionTypes} from '../../../../data/direction';
+import {Attributes} from '../../../../data/attributes';
+import {Contact} from '../../../../data/contact';
+import {Cuisine} from '../../../../data/cuisine';
+import {References} from '../../../../data/references';
+import {Poi} from '../../../../data/poi';
+import {PoiId} from '../../../../data/poi-id';
 
 describe('DiscoverListItemComponent', () => {
 

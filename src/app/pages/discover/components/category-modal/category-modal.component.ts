@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {CategoryEntry} from "../../../../data/category-entry";
-import {CategoryService} from "../../../../services/category.service";
+import {ModalController} from '@ionic/angular';
+import {CategoryEntry} from '../../../../data/category-entry';
+import {CategoryService} from '../../../../services/category.service';
 
 @Component({
   selector: 'app-category-modal',

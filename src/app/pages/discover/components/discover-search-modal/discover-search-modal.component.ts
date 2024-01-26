@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {SearchDistance} from "../../../../data/search-distance";
-import {LatLon} from "../../../../data/lat-lon";
-import {SearchAttributes} from "../../../../data/search-attributes";
-import {CategoryModalComponent} from "../category-modal/category-modal.component";
-import {CategoryEntry} from "../../../../data/category-entry";
-import {CategoryService} from "../../../../services/category.service";
+import {ModalController} from '@ionic/angular';
+import {SearchDistance} from '../../../../data/search-distance';
+import {LatLon} from '../../../../data/lat-lon';
+import {SearchAttributes} from '../../../../data/search-attributes';
+import {CategoryModalComponent} from '../category-modal/category-modal.component';
+import {CategoryEntry} from '../../../../data/category-entry';
+import {CategoryService} from '../../../../services/category.service';
 
 @Component({
   selector: 'app-discover-search-modal',
@@ -54,7 +54,7 @@ export class DiscoverSearchModalComponent implements OnInit {
   }
 
   startSearch() {
-    const attributes = new SearchAttributes(this.selectedPosition, this.selectedDistance, this.selectedCategory)
+    const attributes = new SearchAttributes(this.selectedPosition, this.selectedDistance, this.selectedCategory);
     this.searchAttributes = attributes;
     this.modalController.dismiss(attributes, 'confirm');
   }

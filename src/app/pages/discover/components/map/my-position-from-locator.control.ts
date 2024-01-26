@@ -1,13 +1,13 @@
-import {PoimaniaLeafletControl} from "../my-position-map/poimania-leaflet.control";
-import {ErrorEvent, LocationEvent, Map} from "leaflet";
-import {LatLon} from "../../../../data/lat-lon";
-import {ToastController} from "@ionic/angular";
+import {PoimaniaLeafletControl} from '../my-position-map/poimania-leaflet.control';
+import {ErrorEvent, LocationEvent, Map} from 'leaflet';
+import {LatLon} from '../../../../data/lat-lon';
+import {ToastController} from '@ionic/angular';
 
 export class MyPositionFromLocatorControl extends PoimaniaLeafletControl {
 
   constructor(private leafletMap: Map, private toastController: ToastController, private onUpdatePosition: (newPosition: LatLon) => void) {
     super('Standort lokalisieren', 'svg/aperture-sharp.svg', () => this.myPositionLocate(), {position: 'topright'});
-    this.addTo(this.leafletMap)
+    this.addTo(this.leafletMap);
   }
 
   private myPositionLocate() {
@@ -18,7 +18,7 @@ export class MyPositionFromLocatorControl extends PoimaniaLeafletControl {
       const message: string = err.message;
       const toast: Promise<HTMLIonToastElement> = this.toastController.create({
         header: 'Fehler bei Standort-Ermittlung',
-        message: message,
+        message,
         position: 'bottom',
         duration: 3000,
         buttons: [{text: 'Ok', role: 'cancel'}]

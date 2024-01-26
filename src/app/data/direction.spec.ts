@@ -1,5 +1,5 @@
-import {directionToPoi, DirectionTypes} from "./direction";
-import {LatLon} from "./lat-lon";
+import {directionToPoi, DirectionTypes} from './direction';
+import {LatLon} from './lat-lon';
 
 describe('Direction', () => {
 

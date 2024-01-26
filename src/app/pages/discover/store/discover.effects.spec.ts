@@ -3,8 +3,8 @@ import {provideMockActions} from '@ngrx/effects/testing';
 import {Observable, of} from 'rxjs';
 
 import {DiscoverEffects} from './discover.effects';
-import {PoisOverpassService} from "../../../services/pois-overpass.service";
-import {LatLon} from "../../../data/lat-lon";
+import {PoisOverpassService} from '../../../services/pois-overpass.service';
+import {LatLon} from '../../../data/lat-lon';
 
 describe('DiscoverEffects', () => {
   let actions$: Observable<any>;

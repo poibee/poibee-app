@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {Poi} from "../../../../data/poi";
-import {LatLon} from "../../../../data/lat-lon";
-import {ImageService} from "../../../../services/image.service";
-import {GeoJSON, LayerGroup, Map, Marker, TileLayer, CircleMarker} from "leaflet";
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../../../data/search-attributes";
+import {Poi} from '../../../../data/poi';
+import {LatLon} from '../../../../data/lat-lon';
+import {ImageService} from '../../../../services/image.service';
+import {GeoJSON, LayerGroup, Map, Marker, TileLayer, CircleMarker} from 'leaflet';
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../../data/search-attributes';
 
 @Component({
   selector: 'app-poi-map',
@@ -48,10 +48,10 @@ export class PoiMapComponent implements OnInit, OnChanges {
 
   private updateSearchCenterAndPoiOfMap() {
     if (this.poiMap && this.searchCenter && this.searchCenterLayer && this.searchCenterLayer.getLayers().length == 0) {
-      this.updateSearchCenter(this.searchCenter)
+      this.updateSearchCenter(this.searchCenter);
     }
     if (this.poiMap && this.poi) {
-      this.updatePoiOfMap(this.poi)
+      this.updatePoiOfMap(this.poi);
     }
   }
 
@@ -89,12 +89,12 @@ export class PoiMapComponent implements OnInit, OnChanges {
     }));
     this.poiMap.flyTo(poi.coordinates.asLatLng(), this.poiMap.getZoom());
 
-    const poiGeometryAsPoint = { type: "Feature", geometry: { type: "Point", coordinates: [ poi.coordinates.lon, poi.coordinates.lat ]}};
+    const poiGeometryAsPoint = { type: 'Feature', geometry: { type: 'Point', coordinates: [ poi.coordinates.lon, poi.coordinates.lat ]}};
     const geometryToRender = poi.id.isNode() ? poiGeometryAsPoint : poi.original as any;
-    const styleOptions = { radius: 2, color: "#0000FF", weight: 2, opacity: 1 };
+    const styleOptions = { radius: 2, color: '#0000FF', weight: 2, opacity: 1 };
     const geoJSON = new GeoJSON(geometryToRender, {
       style: styleOptions,
-      pointToLayer: (feature, latlng) => { return new CircleMarker(latlng, styleOptions); }
+      pointToLayer: (feature, latlng) => new CircleMarker(latlng, styleOptions)
     });
     this.poiPositionLayer.addLayer(geoJSON);
   }

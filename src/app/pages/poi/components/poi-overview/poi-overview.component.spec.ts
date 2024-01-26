@@ -2,12 +2,12 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule} from '@ionic/angular';
 
 import {PoiOverviewComponent} from './poi-overview.component';
-import {Poi} from "../../../../data/poi";
-import {OwnPosition} from "../../../../data/own-position";
-import {Attributes} from "../../../../data/attributes";
-import {Cuisine} from "../../../../data/cuisine";
-import {DirectionTypes} from "../../../../data/direction";
-import {PoiId} from "../../../../data/poi-id";
+import {Poi} from '../../../../data/poi';
+import {OwnPosition} from '../../../../data/own-position';
+import {Attributes} from '../../../../data/attributes';
+import {Cuisine} from '../../../../data/cuisine';
+import {DirectionTypes} from '../../../../data/direction';
+import {PoiId} from '../../../../data/poi-id';
 
 describe('PoiOverviewComponent', () => {
   let component: PoiOverviewComponent;

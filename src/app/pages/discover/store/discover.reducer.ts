@@ -1,10 +1,10 @@
 import {createReducer, on} from '@ngrx/store';
 import * as DiscoverActions from './discover.actions';
-import {Poi} from "../../../data/poi";
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from "../../../data/search-attributes";
-import {sortTypesAsArray} from "../../../data/sort-types";
-import {PoisFilterService} from "../../../services/pois-filter.service";
-import {PoisSorterService} from "../../../services/pois-sorter.service";
+import {Poi} from '../../../data/poi';
+import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../data/search-attributes';
+import {sortTypesAsArray} from '../../../data/sort-types';
+import {PoisFilterService} from '../../../services/pois-filter.service';
+import {PoisSorterService} from '../../../services/pois-sorter.service';
 
 export const discoverFeatureKey = 'discover';
 
@@ -39,60 +39,46 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
 
-  on(DiscoverActions.initializeSearchAttributes, (state) => {
-    return {
+  on(DiscoverActions.initializeSearchAttributes, (state) => ({
       ...state,
       searchAttributes: INITIAL_SEARCH_ATTRIBUTES
-    };
-  }),
+    })),
 
-  on(DiscoverActions.changePosition, (state, {position}) => {
-    return {
+  on(DiscoverActions.changePosition, (state, {position}) => ({
       ...state,
       searchAttributes: {
         ...state.searchAttributes,
-        position: position
+        position
       }
-    };
-  }),
+    })),
 
-  on(DiscoverActions.searchPois, (state, {searchAttributes}) => {
-    return {
+  on(DiscoverActions.searchPois, (state, {searchAttributes}) => ({
       ...state,
       searchActive: true
-    };
-  }),
+    })),
 
-  on(DiscoverActions.searchPoisSuccess, (state, {searchAttributes, pois}) => {
-    return recalculatePoiValues({
+  on(DiscoverActions.searchPoisSuccess, (state, {searchAttributes, pois}) => recalculatePoiValues({
       ...state,
-      searchAttributes: searchAttributes,
+      searchAttributes,
       searchActive: false,
       allPois: pois
-    });
-  }),
+    })),
 
-  on(DiscoverActions.searchPoisFailure, (state, {searchAttributes, error}) => {
-    return {
+  on(DiscoverActions.searchPoisFailure, (state, {searchAttributes, error}) => ({
       ...state,
-      searchAttributes: searchAttributes,
+      searchAttributes,
       searchActive: false
-    };
-  }),
+    })),
 
-  on(DiscoverActions.updateFilterValue, (state, {filterValue}) => {
-    return recalculatePoiValues({
+  on(DiscoverActions.updateFilterValue, (state, {filterValue}) => recalculatePoiValues({
       ...state,
-      filterValue: filterValue
-    });
-  }),
+      filterValue
+    })),
 
-  on(DiscoverActions.updateSelectedSort, (state, {selectedSort}) => {
-    return recalculatePoiValues({
+  on(DiscoverActions.updateSelectedSort, (state, {selectedSort}) => recalculatePoiValues({
       ...state,
-      selectedSort: selectedSort
-    });
-  }),
+      selectedSort
+    })),
 
   on(DiscoverActions.selectPoi, (state, {selectedPoi}) => {
     const selectedPoiIndex = state.filteredPois.indexOf(selectedPoi);
@@ -129,9 +115,9 @@ function recalculatStateOfSelectedPoi(state: State, selectedPoiIndex: number, se
   const selectedPoiText = calculateSelectedPoiText(state.filteredPois.length, selectedPoiIndex);
   return {
     ...state,
-    selectedPoiIndex: selectedPoiIndex,
-    selectedPoi: selectedPoi,
-    selectedPoiText: selectedPoiText,
+    selectedPoiIndex,
+    selectedPoi,
+    selectedPoiText,
     hasNextPoi: hasNextPoi(state),
     hasPreviousPoi: hasPreviousPoi(state)
   };
@@ -150,11 +136,11 @@ function recalculatePoiValues(newState: State): State {
   const hasNextPoi = sortedPois.length >= 2;
   return {
     ...newState,
-    selectedPoi: selectedPoi,
-    selectedPoiIndex: selectedPoiIndex,
-    selectedPoiText: selectedPoiText,
+    selectedPoi,
+    selectedPoiIndex,
+    selectedPoiText,
     filteredPois: sortedPois,
-    hasNextPoi: hasNextPoi,
+    hasNextPoi,
     hasPreviousPoi: false
   };
 }

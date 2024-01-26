@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { DiscoverMapComponent } from './discover-map.component';
-import {LatLon} from "../../../../data/lat-lon";
-import {CategoryEntry} from "../../../../data/category-entry";
-import {SearchAttributes} from "../../../../data/search-attributes";
+import {LatLon} from '../../../../data/lat-lon';
+import {CategoryEntry} from '../../../../data/category-entry';
+import {SearchAttributes} from '../../../../data/search-attributes';
 
 describe('DiscoverMapComponent', () => {
   let component: DiscoverMapComponent;

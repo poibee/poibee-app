@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import {Component, Input} from "@angular/core";
+import {Component, Input} from '@angular/core';
 
 import { DiscoverSearchModalComponent } from './discover-search-modal.component';
-import {SearchAttributes} from "../../../../data/search-attributes";
-import {LatLon} from "../../../../data/lat-lon";
-import {CategoryEntry} from "../../../../data/category-entry";
+import {SearchAttributes} from '../../../../data/search-attributes';
+import {LatLon} from '../../../../data/lat-lon';
+import {CategoryEntry} from '../../../../data/category-entry';
 
 describe('DiscoverSearchModalComponent', () => {
   let component: DiscoverSearchModalComponent;

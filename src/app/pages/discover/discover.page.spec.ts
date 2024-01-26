@@ -1,15 +1,15 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule} from '@ionic/angular';
 import {DiscoverPage} from './discover.page';
-import {of} from "rxjs";
-import {PoisOverpassService} from "../../services/pois-overpass.service";
-import {LatLon} from "../../data/lat-lon";
-import {Poi} from "../../data/poi";
-import {OwnPosition} from "../../data/own-position";
-import {INITIAL_SEARCH_ATTRIBUTES} from "../../data/search-attributes";
-import {PoiId} from "../../data/poi-id";
-import {Store} from "@ngrx/store";
-import {Contact} from "../../data/contact";
+import {of} from 'rxjs';
+import {PoisOverpassService} from '../../services/pois-overpass.service';
+import {LatLon} from '../../data/lat-lon';
+import {Poi} from '../../data/poi';
+import {OwnPosition} from '../../data/own-position';
+import {INITIAL_SEARCH_ATTRIBUTES} from '../../data/search-attributes';
+import {PoiId} from '../../data/poi-id';
+import {Store} from '@ngrx/store';
+import {Contact} from '../../data/contact';
 
 describe('DiscoverPage', () => {
   let component: DiscoverPage;

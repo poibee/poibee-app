@@ -2,13 +2,13 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule, NavController} from '@ionic/angular';
 
 import {DiscoverListComponent} from './discover-list.component';
-import {Poi} from "../../../../data/poi";
-import {OwnPosition} from "../../../../data/own-position";
-import {DirectionTypes} from "../../../../data/direction";
-import {Attributes} from "../../../../data/attributes";
-import {Contact} from "../../../../data/contact";
-import {References} from "../../../../data/references";
-import {PoiId} from "../../../../data/poi-id";
+import {Poi} from '../../../../data/poi';
+import {OwnPosition} from '../../../../data/own-position';
+import {DirectionTypes} from '../../../../data/direction';
+import {Attributes} from '../../../../data/attributes';
+import {Contact} from '../../../../data/contact';
+import {References} from '../../../../data/references';
+import {PoiId} from '../../../../data/poi-id';
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;

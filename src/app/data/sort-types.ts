@@ -7,8 +7,6 @@ export enum SortTypes {
 }
 
 export function sortTypesAsArray(): [string, string][] {
-  const keys = Object.keys(SortTypes).filter((item) => {
-    return isNaN(Number(item));
-  });
+  const keys = Object.keys(SortTypes).filter((item) => isNaN(Number(item)));
   return keys.map(k => [k, SortTypes[k]]);
 }

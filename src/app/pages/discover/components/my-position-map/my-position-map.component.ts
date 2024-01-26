@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Circle, Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, TileLayer} from "leaflet";
-import {Geocoder} from "leaflet-control-geocoder";
+import {Circle, Control, control, ErrorEvent, LatLng, LayerGroup, LocationEvent, Map, Marker, TileLayer} from 'leaflet';
+import {Geocoder} from 'leaflet-control-geocoder';
 
-import {ImageService} from "../../../../services/image.service";
-import {ToastController} from "@ionic/angular";
-import {PoimaniaLeafletControl} from "./poimania-leaflet.control";
-import {LatLon} from "../../../../data/lat-lon";
-import {SearchDistance} from "../../../../data/search-distance";
+import {ImageService} from '../../../../services/image.service';
+import {ToastController} from '@ionic/angular';
+import {PoimaniaLeafletControl} from './poimania-leaflet.control';
+import {LatLon} from '../../../../data/lat-lon';
+import {SearchDistance} from '../../../../data/search-distance';
 
 const osmAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
 const MAP_ZOOM = 13;
@@ -71,7 +71,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     control.scale().addTo(this.myPositionMap);
 
     this.myPositionMarker = new Marker(mapCenterAsLeaflet, {
-      title: "Mein Standort",
+      title: 'Mein Standort',
       draggable: true,
       icon: this.imageService.loadMarkerIcon()
     });
@@ -84,7 +84,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     const updateMyPositionAndCenterMapLocal = (pos) => this.updateMyPositionAndCenterMap(pos);
     new Geocoder({
       defaultMarkGeocode: false
-    }).on('markgeocode', function (e) {
+    }).on('markgeocode', function(e) {
       updateMyPositionAndCenterMapLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
     }).addTo(this.myPositionMap);
 
@@ -108,7 +108,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
       const message: string = err.message;
       const toast: Promise<HTMLIonToastElement> = this.toastController.create({
         header: 'Fehler bei Standort-Ermittlung',
-        message: message,
+        message,
         position: 'bottom',
         duration: 3000,
         buttons: [{text: 'Ok', role: 'cancel'}]

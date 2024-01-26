@@ -12,7 +12,7 @@ export class LatLon {
     return {
       lat: this.lat,
       lng: this.lon
-    }
+    };
   }
 
   toString(): string {

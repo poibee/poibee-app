@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {LatLon} from "../data/lat-lon";
-import {Poi} from "../data/poi";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {environment} from "../../environments/environment";
-import {Contact} from "../data/contact";
-import {References} from "../data/references";
-import {Attributes} from "../data/attributes";
-import {GeoService} from "./geo.service";
-import {OwnPosition} from "../data/own-position";
-import {directionToPoi} from "../data/direction";
-import {Cuisine} from "../data/cuisine";
-import {Feature, Geometry} from "geojson";
-import {PoiId} from "../data/poi-id";
-import {SearchAttributes} from "../data/search-attributes";
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {LatLon} from '../data/lat-lon';
+import {Poi} from '../data/poi';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {Contact} from '../data/contact';
+import {References} from '../data/references';
+import {Attributes} from '../data/attributes';
+import {GeoService} from './geo.service';
+import {OwnPosition} from '../data/own-position';
+import {directionToPoi} from '../data/direction';
+import {Cuisine} from '../data/cuisine';
+import {Feature, Geometry} from 'geojson';
+import {PoiId} from '../data/poi-id';
+import {SearchAttributes} from '../data/search-attributes';
 
 @Injectable({
   providedIn: 'root'
@@ -97,9 +97,9 @@ export class PoisOverpassService {
     let wikipediaUrl: string;
     const wikipediaValue = p.tags['wikipedia'];
     if (wikipediaValue) {
-      const parts = wikipediaValue.split(":");
+      const parts = wikipediaValue.split(':');
       if (parts.length === 2) {
-        wikipediaUrl = `https://${parts[0]}.wikipedia.org/wiki/${parts[1]}`
+        wikipediaUrl = `https://${parts[0]}.wikipedia.org/wiki/${parts[1]}`;
       }
     }
 
@@ -118,9 +118,9 @@ export class PoisOverpassService {
   }
 
   private calculateAddress(p: PoiJson) {
-    const streetString = [p.tags['addr:street'], p.tags['addr:housenumber']].filter(p => p).join(" ");
-    const cityString = [p.tags['addr:postcode'], p.tags['addr:city']].filter(p => p).join(" ");
-    const addressString = [streetString, cityString].filter(p => p).join(", ");
+    const streetString = [p.tags['addr:street'], p.tags['addr:housenumber']].filter(p => p).join(' ');
+    const cityString = [p.tags['addr:postcode'], p.tags['addr:city']].filter(p => p).join(' ');
+    const addressString = [streetString, cityString].filter(p => p).join(', ');
     return addressString;
   }
 
@@ -133,7 +133,7 @@ export interface PoiJson {
   id: string;
   name: string;
   categories: string[];
-  coordinates: { lat: number, lon: number };
-  tags: { key: string, value: string } [];
+  coordinates: { lat: number; lon: number };
+  tags: { key: string; value: string } [];
   original: Feature<Geometry, { [p: string]: string }>;
 }

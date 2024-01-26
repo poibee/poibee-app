@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Poi} from "../data/poi";
+import {Poi} from '../data/poi';
 
 @Injectable({
   providedIn: 'root'

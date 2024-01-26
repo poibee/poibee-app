@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {CategoryEntry} from "../../../../data/category-entry";
+import {CategoryEntry} from '../../../../data/category-entry';
 
 @Component({
   selector: 'app-category-modal-main-item',
