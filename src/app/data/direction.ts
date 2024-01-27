@@ -12,7 +12,7 @@ export enum DirectionTypes {
   nw = 'northwest',
 }
 
-export function directionToPoi(myPosition: LatLon, poiPosition: LatLon): DirectionTypes {
+export const directionToPoi = (myPosition: LatLon, poiPosition: LatLon): DirectionTypes => {
   const latitudeDifference = (myPosition.lat - poiPosition.lat) * 2;
   const longitudeDifference = myPosition.lon - poiPosition.lon;
   const quotient = Math.abs(latitudeDifference) > Math.abs(longitudeDifference) ? Math.abs(latitudeDifference) : Math.abs(longitudeDifference);
@@ -41,4 +41,4 @@ export function directionToPoi(myPosition: LatLon, poiPosition: LatLon): Directi
       }
     }
   }
-}
+};

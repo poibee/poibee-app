@@ -86,44 +86,38 @@ export const reducer = createReducer(
   }),
 
   on(DiscoverActions.selectPreviousPoi, (state: State) => {
-    const selectedPoiIndex = hasPreviousPoiFc(state) ? state.selectedPoiIndex - 1 : state.selectedPoiIndex;
+    const selectedPoiIndex = hasPreviousPoiFunction(state) ? state.selectedPoiIndex - 1 : state.selectedPoiIndex;
     const selectedPoi = state.filteredPois[selectedPoiIndex];
     return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
   on(DiscoverActions.selectNextPoi, (state) => {
-    const selectedPoiIndex = hasNextPoiFc(state) ? state.selectedPoiIndex + 1 : state.selectedPoiIndex;
+    const selectedPoiIndex = hasNextPoiFunction(state) ? state.selectedPoiIndex + 1 : state.selectedPoiIndex;
     const selectedPoi = state.filteredPois[selectedPoiIndex];
     return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
 );
 
-function hasPreviousPoiFc(state: State) {
-  return state.selectedPoiIndex > 0;
-}
+const hasPreviousPoiFunction = (state: State) => state.selectedPoiIndex > 0;
 
-function hasNextPoiFc(state) {
-  return state.selectedPoiIndex < state.filteredPois.length - 1;
-}
+const hasNextPoiFunction = state => state.selectedPoiIndex < state.filteredPois.length - 1;
 
-function calculateSelectedPoiText(numberOfPois: number, selectedPoiIndex: number) {
-  return numberOfPois === 0 ? '0 / 0': ((selectedPoiIndex + 1) + ' / ' + numberOfPois);
-}
+const calculateSelectedPoiText = (numberOfPois: number, selectedPoiIndex: number) => numberOfPois === 0 ? '0 / 0' : ((selectedPoiIndex + 1) + ' / ' + numberOfPois);
 
-function recalculatStateOfSelectedPoi(state: State, selectedPoiIndex: number, selectedPoi: Poi) {
+const recalculatStateOfSelectedPoi = (state: State, selectedPoiIndex: number, selectedPoi: Poi) => {
   const selectedPoiText = calculateSelectedPoiText(state.filteredPois.length, selectedPoiIndex);
   return {
     ...state,
     selectedPoiIndex,
     selectedPoi,
     selectedPoiText,
-    hasNextPoi: hasNextPoiFc(state),
-    hasPreviousPoi: hasPreviousPoiFc(state)
+    hasNextPoi: hasNextPoiFunction(state),
+    hasPreviousPoi: hasPreviousPoiFunction(state)
   };
-}
+};
 
-function recalculatePoiValues(newState: State): State {
+const recalculatePoiValues = (newState: State): State => {
   const poisFilterService = new PoisFilterService();
   const poisSorterService = new PoisSorterService();
 
@@ -143,4 +137,4 @@ function recalculatePoiValues(newState: State): State {
     hasNextPoi,
     hasPreviousPoi: false
   };
-}
+};

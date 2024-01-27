@@ -8,7 +8,7 @@ export class MyPositionFromGeocoderControl {
     const onUpdatePositionLocal = (pos: LatLon) => this.onUpdatePosition(pos);
     new Geocoder({
       defaultMarkGeocode: false
-    }).on('markgeocode', function(e) {
+    }).on('markgeocode', (e) => {
       onUpdatePositionLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
     }).addTo(this.leafletMap);
   }
