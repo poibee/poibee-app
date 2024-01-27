@@ -49,7 +49,7 @@ class PoiNavigatorPreviousControl extends Control {
     const container = DomUtil.create('div', 'leaflet-bar leaflet-control poiNavigatorLeafletControl noMarginRight adjustMarginBottom');
     container.setAttribute('data-cy', 'buttonSelectPreviousPoi');
     container.innerHTML = '<a style="background-image: url(svg/play-skip-back-outline.svg); background-size: 20px 20px;" href="#" title="Previous POI" role="button" aria-label="Previous POI"></a>';
-    container.onclick = function() {
+    container.onclick = () => {
       onClickButtonLocal.emit();
       return false;
     };
@@ -68,7 +68,7 @@ class PoiNavigatorNextControl extends Control {
     const container = DomUtil.create('div', 'leaflet-bar leaflet-control poiNavigatorLeafletControl adjustMarginBottom');
     container.setAttribute('data-cy', 'buttonSelectNextPoi');
     container.innerHTML = '<a style="background-image: url(svg/play.svg); background-size: 20px 20px;" href="#" title="Next POI" role="button" aria-label="Next POI"></a>';
-    container.onclick = function() {
+    container.onclick = () => {
       onClickButtonLocal.emit();
       return false;
     };

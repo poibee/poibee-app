@@ -16,7 +16,6 @@
       "rules": {
         "@typescript-eslint/dot-notation": "off",
         "max-len": "off",
-        "prefer-arrow/prefer-arrow-functions": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {

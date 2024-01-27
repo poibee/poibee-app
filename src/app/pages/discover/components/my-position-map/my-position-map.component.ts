@@ -84,7 +84,7 @@ export class MyPositionMapComponent implements OnInit, OnChanges {
     const updateMyPositionAndCenterMapLocal = (pos) => this.updateMyPositionAndCenterMap(pos);
     new Geocoder({
       defaultMarkGeocode: false
-    }).on('markgeocode', function(e) {
+    }).on('markgeocode', (e) => {
       updateMyPositionAndCenterMapLocal(new LatLon(e.geocode.center.lat, e.geocode.center.lng));
     }).addTo(this.myPositionMap);
 

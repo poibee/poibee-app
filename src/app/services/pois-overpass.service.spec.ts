@@ -68,11 +68,7 @@ describe('PoisOverpassService', () => {
       expect(httpMock.get).toHaveBeenCalledWith('http://localhost:3000/pois', httpParamsMatcher('lat=1&lon=2&category=restaurant&distance=10'));
     }));
 
-  function httpParamsMatcher(expectedParamsQuery: string): AsymmetricMatcher<HttpRequest<null>> {
-    return {
-      asymmetricMatch(actual: HttpRequest<null>) {
-        return actual.params.toString() === expectedParamsQuery;
-      }
-    };
-  }
+  const httpParamsMatcher = (expectedParamsQuery: string): AsymmetricMatcher<HttpRequest<null>> => ({
+    asymmetricMatch: (actual: HttpRequest<null>) => actual.params.toString() === expectedParamsQuery
+  });
 });
