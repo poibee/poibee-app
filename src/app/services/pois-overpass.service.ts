@@ -15,6 +15,7 @@ import {Cuisine} from '../data/cuisine';
 import {Feature, Geometry} from 'geojson';
 import {PoiId} from '../data/poi-id';
 import {SearchAttributes} from '../data/search-attributes';
+import {Url} from '../data/url';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,7 @@ export class PoisOverpassService {
     const phone = p.tags['phone'];
     const fax = p.tags['fax'];
     const email = p.tags['email'];
-    const website = p.tags['website'];
+    const website = Url.of(p.tags['website']);
     const contact = new Contact(name, address, phone, fax, email, website);
 
     const poiId = PoiId.ofOsm(p.id);
