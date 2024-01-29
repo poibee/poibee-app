@@ -6,6 +6,7 @@ import {Poi} from '../../../../data/poi';
 import {Contact} from '../../../../data/contact';
 import {OwnPosition} from '../../../../data/own-position';
 import {PoiId} from '../../../../data/poi-id';
+import {Url} from '../../../../data/url';
 
 describe('PoiContactComponent', () => {
   let component: PoiContactComponent;
@@ -20,7 +21,7 @@ describe('PoiContactComponent', () => {
     fixture = TestBed.createComponent(PoiContactComponent);
     component = fixture.componentInstance;
 
-    const contact = new Contact('a', 'b', 'c', 'd', 'e', 'f');
+    const contact = new Contact('a', 'b', 'c', 'd', 'e', Url.of('f'));
     component.poi = new Poi(PoiId.of('node-1'), ['myCategory'], null, new OwnPosition(null, 0, null), null, contact, null, 1, '{}', null);
 
     fixture.detectChanges();

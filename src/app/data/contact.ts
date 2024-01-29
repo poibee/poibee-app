@@ -1,3 +1,5 @@
+import {Url} from './url';
+
 export class Contact {
 
   constructor(
@@ -6,7 +8,7 @@ export class Contact {
     public readonly phone: string,
     public readonly fax: string,
     public readonly email: string,
-    public readonly website: string
+    public readonly website: Url
   ) {
   }
 
