@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PoisFilterService } from './pois-filter.service';
-import {PoisSorterService} from './pois-sorter.service';
 import {Poi} from '../data/poi';
 import {PoiId} from '../data/poi-id';
 import {Contact} from '../data/contact';

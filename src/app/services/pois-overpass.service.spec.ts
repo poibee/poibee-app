@@ -7,6 +7,8 @@ import {Poi} from '../data/poi';
 import {LatLon} from '../data/lat-lon';
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
 import {PoiId} from '../data/poi-id';
+import {JsonToPoiConverterService} from './json-to-poi-converter.service';
+import {GeoService} from './geo.service';
 
 describe('PoisOverpassService', () => {
 
@@ -43,8 +45,9 @@ describe('PoisOverpassService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: HttpClient, useValue: httpMock},
-        PoisOverpassService
+          { provide: HttpClient, useValue: httpMock},
+          { provide: JsonToPoiConverterService, useValue: new JsonToPoiConverterService(new GeoService()) },
+          PoisOverpassService
       ]
     });
   });
