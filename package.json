@@ -13,6 +13,7 @@
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
     "cypress:app:start": "ng serve &",

@@ -72,7 +72,7 @@ describe('POI detail page', () => {
       poiPage.content().contactItemPhone().assertIsVisible(true).assertText('+49 4244 1008')
       poiPage.content().contactItemFax().assertIsVisible(true).assertText('+49 4244 1009')
       poiPage.content().contactItemEmail().assertIsVisible(true).assertText('info@zur-wasserburg.de').assertLinkUrl('mailto:info@zur-wasserburg.de')
-      poiPage.content().contactItemWebsite().assertIsVisible(true).assertText('https://www.zur-wasserburg.de').assertLinkUrl('https://www.zur-wasserburg.de')
+      poiPage.content().contactItemWebsite().assertIsVisible(true).assertText('http://www.zur-wasserburg.de').assertLinkUrl('http://www.zur-wasserburg.de')
     })
 
     it('without every contact attribute', () => {
