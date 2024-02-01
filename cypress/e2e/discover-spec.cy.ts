@@ -133,8 +133,8 @@ describe('Discover page', () => {
 
       cy.get('@christuskircheItem').find('[data-cy=chipWikipedia]').should('have.text', 'Wikipedia')
       cy.get('@christuskircheItem').find('[data-cy=chipWikipedia]').click()
-      cy.get('[data-cy=popoverChipWikipedia]').should('have.text', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
-      cy.get('[data-cy=popoverChipWikipedia] a').should('have.attr', 'href', 'https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
+      cy.get('[data-cy=popoverChipWikipedia]').should('have.text', 'https://de.wikipedia.org/wiki/Christuskirche_(Harpstedt)')
+      cy.get('[data-cy=popoverChipWikipedia] a').should('have.attr', 'href', 'https://de.wikipedia.org/wiki/Christuskirche_(Harpstedt)')
     });
 
     it('navigates to poi details after poi click', () => {

@@ -96,7 +96,7 @@ describe('POI detail page', () => {
       poiPage.content().referencesChipOsmDataset().assertIsVisible(true).assertText('OSM-Datensatz').assertLinkUrl('https://www.openstreetmap.org/way/45666704')
       poiPage.content().referencesChipOsmLocation().assertIsVisible(true).assertText('OSM-Karte').assertLinkUrl('https://www.openstreetmap.org/#map=19/52.9082584/8.5886623')
       poiPage.content().referencesChipGoogleLocation().assertIsVisible(true).assertText('Google-Maps').assertLinkUrl('https://www.google.de/maps/@52.9082584,8.5886623,18z')
-      poiPage.content().referencesChipWikipedia().assertIsVisible(true).assertText('Wikipedia').assertLinkUrl('https://de.wikipedia.org/wiki/Christuskirche (Harpstedt)')
+      poiPage.content().referencesChipWikipedia().assertIsVisible(true).assertText('Wikipedia').assertLinkUrl('https://de.wikipedia.org/wiki/Christuskirche_(Harpstedt)')
       poiPage.content().referencesChipWikidata().assertIsVisible(true).assertText('Wikidata').assertLinkUrl('https://www.wikidata.org/wiki/Q1087325')
     })
 

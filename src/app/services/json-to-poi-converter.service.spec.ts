@@ -44,7 +44,7 @@ describe('JsonToPoiConverterService', () => {
 
             const receivedPoi = service.convert(data);
 
-            expect(receivedPoi.contact.website.text).toEqual('http://my-contact-website.de');
+            expect(receivedPoi.contact.website.value).toEqual('http://my-contact-website.de');
         });
 
         it('should use attribute "website" as website', () => {
@@ -55,7 +55,7 @@ describe('JsonToPoiConverterService', () => {
 
             const receivedPoi = service.convert(data);
 
-            expect(receivedPoi.contact.website.text).toEqual('http://my-website.de');
+            expect(receivedPoi.contact.website.value).toEqual('http://my-website.de');
         });
 
         it('should use attribute "url" as website', () => {
@@ -65,7 +65,7 @@ describe('JsonToPoiConverterService', () => {
 
             const receivedPoi = service.convert(data);
 
-            expect(receivedPoi.contact.website.text).toEqual('http://my-url.de');
+            expect(receivedPoi.contact.website.value).toEqual('http://my-url.de');
         });
 
         it('should work, when no attribute is set', () => {
@@ -74,4 +74,43 @@ describe('JsonToPoiConverterService', () => {
             expect(receivedPoi.contact.website).toBe(undefined);
         });
     });
+
+
+  describe('converts reference wikipedia website', () => {
+
+    it('should use attribute "url" as website', () => {
+      const data = {...jsonData, tags: {
+          wikipedia: 'de:Bremer Roland'
+        }} as unknown as PoiJson;
+
+      const receivedPoi = service.convert(data);
+
+      expect(receivedPoi.references.wikipediaUrl.url).toEqual('https://de.wikipedia.org/wiki/Bremer_Roland');
+    });
+
+    it('should work, when no attribute is set', () => {
+      const receivedPoi = service.convert(jsonData);
+
+      expect(receivedPoi.references.wikipediaUrl).toBe(undefined);
+    });
+  });
+
+  describe('converts reference wikidata website', () => {
+
+    it('should use attribute "url" as website', () => {
+      const data = {...jsonData, tags: {
+          wikidata: '42'
+        }} as unknown as PoiJson;
+
+      const receivedPoi = service.convert(data);
+
+      expect(receivedPoi.references.wikidataUrl.url).toEqual('https://www.wikidata.org/wiki/42');
+    });
+
+    it('should work, when no attribute is set', () => {
+      const receivedPoi = service.convert(jsonData);
+
+      expect(receivedPoi.references.wikidataUrl).toBe(undefined);
+    });
+  });
 });
