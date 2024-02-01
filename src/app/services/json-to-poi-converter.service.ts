@@ -11,6 +11,8 @@ import {Cuisine} from '../data/cuisine';
 import {PoiId} from '../data/poi-id';
 import {Url} from '../data/url';
 import {PoiJson} from './poi-json';
+import {WikipediaEntry} from '../data/wikipedia-entry';
+import {WikidataEntry} from '../data/wikidata-entry';
 
 @Injectable({
   providedIn: 'root'
@@ -47,27 +49,15 @@ export class JsonToPoiConverterService {
     const fax = p.tags['fax'];
     const email = p.tags['email'];
     const website = Url.of(['contact:website', 'website', 'url'].map(k => p.tags[k]).find(v => v !== null && v !== undefined));
-    // .    Url.of(p.tags['website']);
     const contact = new Contact(name, address, phone, fax, email, website);
 
     const poiId = PoiId.ofOsm(p.id);
     const osmDatasetUrl = `https://www.openstreetmap.org/${poiId.toOsm()}`;
     const osmLocationUrl = `https://www.openstreetmap.org/#map=19/${coordinates.lat}/${coordinates.lon}`;
     const googleLocationUrl = `https://www.google.de/maps/@${coordinates.lat},${coordinates.lon},18z`;
-
-    let wikipediaUrl: string;
-    const wikipediaValue = p.tags['wikipedia'];
-    if (wikipediaValue) {
-      const parts = wikipediaValue.split(':');
-      if (parts.length === 2) {
-        wikipediaUrl = `https://${parts[0]}.wikipedia.org/wiki/${parts[1]}`;
-      }
-    }
-
-    const wikidataEntity = p.tags['wikidata'];
-    const wikidataUrl = wikidataEntity != null ? `https://www.wikidata.org/wiki/${wikidataEntity}` : null;
-
-    const references = new References(osmDatasetUrl, osmLocationUrl, googleLocationUrl, wikipediaUrl, wikidataUrl);
+    const wikipediaEntry = WikipediaEntry.of(p.tags['wikipedia']);
+    const wikidataEntry = WikidataEntry.of(p.tags['wikidata']);
+    const references = new References(osmDatasetUrl, osmLocationUrl, googleLocationUrl, wikipediaEntry, wikidataEntry);
 
     const relevance = Object.keys(p.tags).length;
 

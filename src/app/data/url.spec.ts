@@ -6,17 +6,17 @@ describe('Url', () => {
 
     it('should work for a given value with http schema', () => {
       const url = Url.of('http://my-poi.com');
-      expect(url.text).toBe('http://my-poi.com');
+      expect(url.value).toBe('http://my-poi.com');
     });
 
     it('should work for a given value with https schema', () => {
       const url = Url.of('https://my-poi.com');
-      expect(url.text).toBe('https://my-poi.com');
+      expect(url.value).toBe('https://my-poi.com');
     });
 
     it('should add http schema if there is no http/https schema', () => {
       const url = Url.of('www.my-poi.com');
-      expect(url.text).toBe('http://www.my-poi.com');
+      expect(url.value).toBe('http://www.my-poi.com');
     });
 
     it('should return null for null', () => {

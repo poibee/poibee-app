@@ -1,6 +1,6 @@
 export class Url {
 
-  private constructor(public readonly text: string) {
+  private constructor(public readonly value: string) {
   }
 
   static of(text: string): Url {
@@ -11,6 +11,6 @@ export class Url {
     return new Url(schemaExist ? text : 'http://' + text);
   }
 
-  toString = (): string => this.text;
+  toString = (): string => this.value;
 
 }
