@@ -27,6 +27,18 @@ abstract class BasePage {
     return new ContentComponent()
   }
 
+  // https://sqa.stackexchange.com/questions/46912/how-to-simulate-a-simple-keypress-in-cypress
+  pressEscape(): void {
+    // first method
+    cy.get('body').trigger('keydown', {keyCode: 27});
+    cy.wait(500);
+    cy.get('body').trigger('keyup', {keyCode: 27});
+    cy.wait(500);
+    // next method
+    cy.get('body').type('{esc}');
+    cy.wait(500)
+  }
+
   abstract url(): string
 
   assertUrl(url: string): void {
