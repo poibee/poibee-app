@@ -10,6 +10,10 @@ class DiscoverPage extends BasePage {
     return new MapComponent()
   }
 
+  list(): ListComponent {
+    return new ListComponent()
+  }
+
   search(): SearchDialog {
     return new SearchDialog()
   }
@@ -73,6 +77,88 @@ class MapComponent {
   }
 }
 
+
+class ListComponent {
+
+  private static CY_LOCATOR = 'app-discover-list ion-list'
+
+  assertEmpty() {
+    this.findItemsLocator().should('not.exist')
+  }
+
+  assertCount(count: number) {
+    this.findItemsLocator().should('have.length', count)
+  }
+
+  item(index: number): ListItemComponent {
+    const locatorFunction = () => this.findItemsLocator().eq(index);
+    return new ListItemComponent(locatorFunction);
+  }
+
+  private findItemsLocator() {
+    return cy.get(ListComponent.CY_LOCATOR).first().find('ion-item');
+  }
+}
+
+class ListItemComponent {
+
+  constructor(private parentLocator: () => Cypress.Chainable<JQuery<HTMLElement>>) {
+  }
+
+  click() {
+    this.parentLocator().click()
+  }
+
+  assertLabel(label: string) {
+    this.parentLocator().find('[data-cy=detailToolbarLabelName]').should('have.text', label)
+  }
+
+  assertCategory(label: string) {
+    this.parentLocator().find('[data-cy=detailToolbarLabelCategory]').should('have.text', label)
+  }
+
+  assertHasCategoryImage(imagePath: string) {
+    this.parentLocator().first().find('ion-thumbnail img').should('have.attr', 'src', imagePath)
+    this.parentLocator().first().find('img').last().should('have.attr', 'src', imagePath)
+  }
+
+  chipCuisine(): Chip {
+    return this.chipLocator('[data-cy=chipCuisine]', '[data-cy=popoverChipCuisine]')
+  }
+
+  chipDistance(): Chip {
+    return this.chipLocator('[data-cy=chipDistance]', null)
+  }
+
+  chipDirection(): Chip {
+    return this.chipLocator('[data-cy=chipDirection]', null)
+  }
+
+  chipOpeningHours(): Chip {
+    return this.chipLocator('[data-cy=chipOpeningHours]', '[data-cy=popoverChipOpeningHours]')
+  }
+
+  chipWebsite(): Chip {
+    return this.chipLocator('[data-cy=chipWebsite]', '[data-cy=popoverChipWebsite]')
+  }
+
+  chipWikidata(): Chip {
+    return this.chipLocator('[data-cy=chipWikidata]', '[data-cy=popoverChipWikidata]')
+  }
+
+  chipWikipedia(): Chip {
+    return this.chipLocator('[data-cy=chipWikipedia]', '[data-cy=popoverChipWikipedia]')
+  }
+
+  chipVending(): Chip {
+    return this.chipLocator('[data-cy=chipVending]', '[data-cy=popoverChipVending]')
+  }
+
+  private chipLocator(selector: string, popoverSelector: string) {
+    return new Chip(() => this.parentLocator().first().find(selector), popoverSelector);
+  }
+}
+
 class SearchDialog {
 
   openDialog(): void {
@@ -123,6 +209,14 @@ class SortSelection {
 
   open() {
     cy.get(SortSelection.CY_LOCATOR_OPEN).click()
+  }
+
+  assertCount(count: number) {
+    cy.get(SortSelection.CY_LOCATOR_POPOVER_RADIO_ITEM).should('have.length', count)
+  }
+
+  assertSelectedElement(label: string) {
+    cy.get(SortSelection.CY_LOCATOR_POPOVER_RADIO_ITEM + '.item-radio-checked').should('have.text', label)
   }
 
   clickElement(index: number) {
@@ -329,18 +423,6 @@ class MarkersLayerComponent {
     cy.get(this.locator).first().find('img').should('have.length', numberOfMarkers)
   }
 
-  assertHasCssClass(cssClass: string) {
-    cy.get(this.locator).first().find('img').first().should('have.class', cssClass)
-  }
-
-  assertHasMarkerImage(imagePath: string) {
-    cy.get(this.locator).first().find('img').first().should('have.attr', 'src', imagePath)
-  }
-
-  assertHasCategoryImage(imagePath: string) {
-    cy.get(this.locator).last().find('img').last().should('have.attr', 'src', imagePath)
-  }
-
   marker(index: number): Marker {
     const locatorFunction = () => cy.get(this.locator).first().find('img').eq(index);
     return new Marker(locatorFunction);
@@ -366,6 +448,45 @@ class Marker {
 
   zindex(): Zindex {
     return new Zindex(this.parentLocator().invoke('css', 'z-index'));
+  }
+}
+
+class Popover {
+  constructor(private popoverLocator: string) {
+  }
+
+  assertText(text: string) {
+    cy.get(this.popoverLocator).should('have.text', text)
+  }
+
+  assertLink(href: string) {
+    cy.get(this.popoverLocator + ' a').should('have.attr', 'href', href)
+  }
+}
+
+class Chip {
+
+  constructor(private locator: () => Cypress.Chainable<JQuery<HTMLElement>>, private popoverLocator: string) {
+  }
+
+  popover(): Popover {
+    return new Popover(this.popoverLocator);
+  }
+
+  click() {
+    this.locator().click()
+  }
+
+  assertCssClass(cssClass: string) {
+    this.locator().should('have.class', cssClass)
+  }
+
+  assertText(text: string) {
+    this.locator().should('have.text', text)
+  }
+
+  assertIsExistent(existent: boolean): void {
+    this.locator().should(existent ? 'exist' : 'not.exist')
   }
 }
 

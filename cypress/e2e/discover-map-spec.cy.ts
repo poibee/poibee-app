@@ -315,7 +315,7 @@ describe('Discover page shows map', () => {
 
   describe('with sort control', () => {
 
-    it('should update selected poi after sort selection', () => {
+    it('should sort items by distance, name, category and relevance and update selected poi', () => {
       discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
 
       discoverPage.search().openDialog()
