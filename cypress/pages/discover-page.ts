@@ -39,6 +39,10 @@ class MapComponent {
 
   private static CY_LOCATOR = "[data-cy=componentDiscoverMap] .map"
 
+  assertIsVisible(visible: boolean): void {
+    cy.get(MapComponent.CY_LOCATOR).should(visible ? 'exist' : 'not.exist')
+  }
+
   assertPosition(lat: number, lon: number) {
     cy.get(MapComponent.CY_LOCATOR).should('have.attr', 'data-cy-map-lat', lat)
     cy.get(MapComponent.CY_LOCATOR).should('have.attr', 'data-cy-map-lon', lon)
@@ -81,6 +85,10 @@ class MapComponent {
 class ListComponent {
 
   private static CY_LOCATOR = 'app-discover-list ion-list'
+
+  assertIsVisible(visible: boolean): void {
+    cy.get(ListComponent.CY_LOCATOR).should(visible ? 'exist' : 'not.exist')
+  }
 
   assertEmpty() {
     this.findItemsLocator().should('not.exist')
@@ -182,10 +190,68 @@ class SearchDialog {
   }
 }
 
+class SearchCategoryDialog {
+
+  executeSelection(): void {
+    cy.get('[data-cy=buttonSelectCategory]').click()
+  }
+
+  assertTitle(title: string) {
+    cy.get('app-category-modal ion-title').should('have.text', title)
+  }
+
+  mainItemsAssertCount(count: number) {
+    cy.get('app-category-modal app-category-modal-main-item').should('have.length', count)
+  }
+
+  mainItemsAssertChecked(label: string) {
+    cy.get('app-category-modal app-category-modal-main-item ion-item.item-radio-checked ion-label').should('have.text', label)
+  }
+
+  mainItemsAssertLabel(mainIndex: number, label: string) {
+    cy.get('app-category-modal app-category-modal-main-item ion-item ion-label').eq(mainIndex).should('have.text', label)
+  }
+
+  mainItemsClick(mainIndex: number) {
+    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).click()
+  }
+
+  subItemsAssertCount(mainIndex: number, count: number) {
+    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).find('ion-item').should('have.length', count)
+  }
+
+  subItemsAssertLabel(mainIndex: number, subIndex: number, label: string) {
+    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).find('ion-item ion-label').eq(subIndex).should('have.text', label)
+  }
+
+  subItemsClick(mainIndex: number, subIndex: number) {
+    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).find('ion-item').eq(subIndex).click()
+  }
+}
+
 class SearchDistanceComponent {
 
+  private static CY_LOCATOR = '[data-cy=selectDistance]'
+  private static CY_LOCATOR_POPOVER_RADIO_ITEM = 'ion-select-popover ion-item'
+
   assertDistance(value: string) {
-    cy.get('[data-cy=selectDistance]').should('have.attr', 'aria-label', value)
+    cy.get(SearchDistanceComponent.CY_LOCATOR).should('have.attr', 'aria-label', value)
+  }
+
+  click() {
+    cy.get(SearchDistanceComponent.CY_LOCATOR).click()
+  }
+
+  popupAssertCount(count: number) {
+    cy.get(SearchDistanceComponent.CY_LOCATOR_POPOVER_RADIO_ITEM).should('have.length', count)
+  }
+
+  assertSelectedElement(label: string) {
+    cy.get(SearchDistanceComponent.CY_LOCATOR_POPOVER_RADIO_ITEM + '.item-radio-checked').should('have.text', label)
+  }
+
+  clickElement(index: number) {
+    cy.get(SearchDistanceComponent.CY_LOCATOR_POPOVER_RADIO_ITEM).eq(index).find('ion-radio').click()
   }
 }
 
@@ -231,19 +297,67 @@ class ToggleViewComponent {
   toggle() {
     cy.get(ToggleViewComponent.CY_LOCATOR).click()
   }
+
+  assertMap() {
+    cy.get(ToggleViewComponent.CY_LOCATOR).should('have.text', 'Karte')
+    cy.get(ToggleViewComponent.CY_LOCATOR).should('not.have.text', 'Liste')
+  }
+
+  assertList() {
+    cy.get(ToggleViewComponent.CY_LOCATOR).should('have.text', 'Liste')
+    cy.get(ToggleViewComponent.CY_LOCATOR).should('not.have.text', 'Karte')
+  }
 }
 
 class SearchCategoryComponent {
 
-  assertCategory(value: string) {
+  assertButtonCategory(value: string) {
     cy.get('[data-cy=buttonCategoryModal').should('have.text', value)
+  }
+
+  openDialog() {
+    cy.get('[data-cy=buttonCategoryModal]').click()
+  }
+
+  assertFavoriteButtonsCount(count: number) {
+    cy.get('[data-cy=itemFavoriteCategory] ion-button').should('have.length', count)
+  }
+
+  clickFavoriteButtonsElement(index: number) {
+    cy.get('[data-cy=itemFavoriteCategory] ion-button').eq(index).click()
+  }
+
+  dialog(): SearchCategoryDialog {
+    return new SearchCategoryDialog()
   }
 }
 
 class SearchMapComponent {
 
+  private static CY_LOCATOR = "[data-cy=componentMyPositionMap]"
+
   assertCenter(value: string) {
-    cy.get('[data-cy=componentMyPositionMap]').should('have.attr', 'ng-reflect-my-position', value)
+    cy.get(SearchMapComponent.CY_LOCATOR).should('have.attr', 'ng-reflect-my-position', value)
+  }
+
+  assertNumberOfGemetries(numberOfGemetries: number) {
+    cy.get(SearchMapComponent.CY_LOCATOR).find('path').should('have.length', numberOfGemetries)
+  }
+
+  assertGeometryColor(color: string) {
+    cy.get(SearchMapComponent.CY_LOCATOR).find('path.leaflet-interactive').should('have.attr', 'fill', color)
+  }
+
+  assertGeometryValues(values: RegExp) {
+    cy.get(SearchMapComponent.CY_LOCATOR).find('path').first().should("have.attr", 'd').and("match", values)
+  }
+
+  assertZoomStyle(zoomStyle: string) {
+    cy.get(SearchMapComponent.CY_LOCATOR + ' .leaflet-zoom-animated').should('have.attr', 'style', zoomStyle)
+  }
+
+  zoomOutClick() {
+    cy.get(SearchMapComponent.CY_LOCATOR + ' a.leaflet-control-zoom-out').click()
   }
 }
 
