@@ -22,7 +22,7 @@ describe('Discover page evaluates URL query parameters', () => {
       discoverPage.search().openDialog()
       discoverPage.search().map().assertCenter('{"lat":52.908,"lon":8.588}')
       discoverPage.search().distance().assertDistance('0,25 km, Maximale Entfernung')
-      discoverPage.search().category().assertCategory('Alles')
+      discoverPage.search().category().assertButtonCategory('Alles')
     })
 
     it('does not start search', () => {
@@ -91,7 +91,7 @@ describe('Discover page evaluates URL query parameters', () => {
       discoverPage.openWithQueryParameter('?category=restaurant')
 
       discoverPage.search().openDialog()
-      discoverPage.search().category().assertCategory('Restaurant')
+      discoverPage.search().category().assertButtonCategory('Restaurant')
     })
 
     it('does start search with given category', () => {
@@ -104,7 +104,7 @@ describe('Discover page evaluates URL query parameters', () => {
       discoverPage.openWithQueryParameter('?category=invalid')
 
       discoverPage.search().openDialog()
-      discoverPage.search().category().assertCategory('Alles')
+      discoverPage.search().category().assertButtonCategory('Alles')
     })
   })
 
