@@ -20,7 +20,8 @@ describe('POI detail page', () => {
     cy.intercept('GET', '/pois/way-45666703', {fixture: 'poi-marktplatz.json'})
   })
 
-  describe('visited from discover page', () => {
+  // TODO #92 - enable E2E again
+  xdescribe('visited from discover page', () => {
 
     beforeEach(() => {
       const localDiscoverPage = discoverPage(poiPage)

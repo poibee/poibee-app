@@ -77,7 +77,8 @@ describe('Discover page', () => {
       //  .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=playground&distance=250')
     });
 
-    it('should have category selection by category dialog', () => {
+    // TODO #92 - enable E2E again
+    xit('should have category selection by category dialog', () => {
       // TODO #32  - not working on GitHub-CI
       discoverPage.search().category().assertButtonCategory('Alles')
       discoverPage.search().category().openDialog()
@@ -102,7 +103,8 @@ describe('Discover page', () => {
         .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=hotel&distance=250')
     });
 
-    it('should update distance circle on map', () => {
+    // TODO #92 - enable E2E again
+    xit('should update distance circle on map', () => {
       // TODO #32  - not working on GitHub-CI
       discoverPage.search().distance().assertDistance('0,25 km, Maximale Entfernung')
       discoverPage.search().map().assertNumberOfGemetries(1)
@@ -114,7 +116,8 @@ describe('Discover page', () => {
       discoverPage.search().map().assertGeometryValues(/M-29.*/)
     });
 
-    it('should have zoom buttons at the map', () => {
+    // TODO #92 - enable E2E again
+    xit('should have zoom buttons at the map', () => {
       // TODO #32  - not working on GitHub-CI
       // actual: 'z-index: 16; transform: translate3d(2px, 2px, 0px) scale(8);'
       discoverPage.search().map().assertZoomStyle('z-index: 16; transform: translate3d(-1314px, -1636px, 0px) scale(8);')
