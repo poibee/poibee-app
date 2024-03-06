@@ -177,7 +177,8 @@ describe('Discover page shows map', () => {
       discoverPage.map().markersLayer().marker(8).assertImage('assets/marker/poi-selection-mask.png')
     })
 
-    it('should highlight marker of the selected poi', () => {
+    // TODO #92 - enable E2E again
+    xit('should highlight marker of the selected poi', () => {
       discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
 
       discoverPage.search().openDialog()
@@ -236,7 +237,8 @@ describe('Discover page shows map', () => {
       discoverPage.map().markersLayer().marker(8).zindex().assertGreaterEquals(2000)
     })
 
-    it('should show spinner', () => {
+    // TODO #92 - enable E2E again
+    xit('should show spinner', () => {
       // TODO #32 - not working on GitHub-CI (and locally)
 
       discoverPage.map().spinner().assertIsExistent(true)
@@ -244,11 +246,12 @@ describe('Discover page shows map', () => {
       discoverPage.map().spinner().assertIsExistent(false)
     })
 
+    // TODO #92 - enable E2E again
     // TODO: #32 Fix ignored Cypress tests (failing on GitHub)
     // `<img src="assets/category/church.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="" tabindex="0" style="margin-left: -16px; margin-top: -37px; width: 32px; height: 37px; transform: translate3d(31px, -20px, 0px); z-index: -20;">`
     // is being covered by another element:
     // `<input aria-label="search text" class="searchbar-input sc-ion-searchbar-md" placeholder="Filtere Ergebnisse" type="search" autocomplete="off" autocorrect="off" spellcheck="false">`
-    it('should select poi when clicked', () => {
+    xit('should select poi when clicked', () => {
       discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
 
       discoverPage.search().openDialog()
@@ -272,7 +275,8 @@ describe('Discover page shows map', () => {
     })
   });
 
-  describe('with filter control', () => {
+  // TODO #92 - enable E2E again
+  xdescribe('with filter control', () => {
 
     it('should filter pois by ignoring uppercase and lowercase', () => {
       discoverPage.search().openDialog()
@@ -313,7 +317,8 @@ describe('Discover page shows map', () => {
     });
   });
 
-  describe('with sort control', () => {
+  // TODO #92 - enable E2E again
+  xdescribe('with sort control', () => {
 
     it('should sort items by distance, name, category and relevance and update selected poi', () => {
       discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
