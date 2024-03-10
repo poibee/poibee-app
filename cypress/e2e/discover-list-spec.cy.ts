@@ -133,8 +133,7 @@ describe('Discover page shows list', () => {
     });
   });
 
-  // TODO #92 - enable E2E again
-  xdescribe('with filter control', () => {
+  describe('with filter control', () => {
 
     it('should filter pois by ignoring uppercase and lowercase', () => {
       discoverPage.list().assertCount(7)
@@ -157,8 +156,7 @@ describe('Discover page shows list', () => {
     });
   });
 
-  // TODO #92 - enable E2E again
-  xdescribe('with sort control', () => {
+  describe('with sort control', () => {
 
     it('should sort items by distance, name, category and relevance', () => {
       discoverPage.list().assertCount(7)
@@ -177,7 +175,7 @@ describe('Discover page shows list', () => {
       discoverPage.sort().assertSelectedElement('Entfernung')
 
       // sort by name
-      discoverPage.pressEscape();
+      discoverPage.pressEscape()
       discoverPage.sort().open()
       discoverPage.sort().clickElement(1)
       discoverPage.list().item(0).assertLabel('Akzent Hotel Zur Wasserburg')
@@ -189,7 +187,6 @@ describe('Discover page shows list', () => {
       discoverPage.list().item(6).assertLabel('')
 
       // sort by relevance
-      discoverPage.pressEscape();
       discoverPage.sort().open()
       discoverPage.sort().clickElement(2)
       discoverPage.list().item(0).assertCategory('Church')
@@ -201,7 +198,6 @@ describe('Discover page shows list', () => {
       discoverPage.list().item(6).assertCategory('Information')
 
       // sort by category
-      discoverPage.pressEscape();
       discoverPage.sort().open()
       discoverPage.sort().clickElement(3)
       discoverPage.list().item(0).assertCategory('Amenity')
@@ -213,7 +209,6 @@ describe('Discover page shows list', () => {
       discoverPage.list().item(6).assertCategory('Restaurant')
 
       // sort by distance
-      discoverPage.pressEscape();
       discoverPage.sort().open()
       discoverPage.sort().clickElement(0)
       discoverPage.list().item(0).assertCategory('Information')
