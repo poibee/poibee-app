@@ -205,7 +205,11 @@ class SearchCategoryDialog {
   }
 
   mainItemsAssertChecked(label: string) {
-    cy.get('app-category-modal app-category-modal-main-item ion-item.item-radio-checked ion-label').should('have.text', label)
+    cy
+      .get('app-category-modal app-category-modal-main-item ion-item ion-radio.radio-checked')
+      .parent('ion-item')
+      .find('ion-label')
+      .should('have.text', label)
   }
 
   mainItemsAssertLabel(mainIndex: number, label: string) {
@@ -274,7 +278,7 @@ class SortSelection {
   private static CY_LOCATOR_POPOVER_RADIO_ITEM = 'ion-select-popover ion-item'
 
   open() {
-    cy.wait(250)
+    cy.wait(500)
     cy.get(SortSelection.CY_LOCATOR_OPEN).click()
   }
 
