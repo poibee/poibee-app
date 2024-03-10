@@ -77,8 +77,7 @@ describe('Discover page', () => {
       //  .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=playground&distance=250')
     });
 
-    // TODO #92 - enable E2E again
-    xit('should have category selection by category dialog', () => {
+    it('should have category selection by category dialog', () => {
       // TODO #32  - not working on GitHub-CI
       discoverPage.search().category().assertButtonCategory('Alles')
       discoverPage.search().category().openDialog()
