@@ -264,7 +264,7 @@ class FilterComponent {
   }
 
   clear() {
-    cy.get(FilterComponent.CY_LOCATOR).clear()
+    cy.get(FilterComponent.CY_LOCATOR).type('{selectall}{backspace}')
   }
 }
 
@@ -274,6 +274,7 @@ class SortSelection {
   private static CY_LOCATOR_POPOVER_RADIO_ITEM = 'ion-select-popover ion-item'
 
   open() {
+    cy.wait(250)
     cy.get(SortSelection.CY_LOCATOR_OPEN).click()
   }
 
