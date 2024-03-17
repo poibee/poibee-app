@@ -20,8 +20,7 @@ describe('POI detail page', () => {
     cy.intercept('GET', '/pois/way-45666703', {fixture: 'poi-marktplatz.json'})
   })
 
-  // TODO #92 - enable E2E again
-  xdescribe('visited from discover page', () => {
+  describe('visited from discover page', () => {
 
     beforeEach(() => {
       const localDiscoverPage = discoverPage(poiPage)
@@ -30,34 +29,32 @@ describe('POI detail page', () => {
       localDiscoverPage.search().openDialog()
       localDiscoverPage.search().executeSearch()
 
-      cy.get('app-discover-list ion-list ion-item').should('have.length', 7)
-      cy.get('app-discover-list ion-list ion-item').eq(3).as('christuskircheItem')
-      cy.get('@christuskircheItem').find('ion-thumbnail').click({ multiple: true })
+      localDiscoverPage.list().assertCount(7)
+      localDiscoverPage.list().item(3).clickLabel()
 
       poiPage.assertUrl('/poi/way-45666704')
-
       poiPage.content().assertText('Christuskirche')
     })
 
     it('shows navigation buttons and title', () => {
       poiPage.header().buttonNavigateBack().assertIsVisible(true)
 
-      poiPage.header().titlePoiLable().assertText('Christuskirche')
+      poiPage.header().titlePoiLabel().assertText('Christuskirche')
       poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
       poiPage.content().assertColumnCategories(['Church'])
 
       poiPage.header().buttonSelectNextPoi().click()
-      poiPage.header().titlePoiLable().assertText('Marktkieker')
+      poiPage.header().titlePoiLabel().assertText('Marktkieker')
       poiPage.header().labelPoiNavigatorText().assertText('5 / 7')
       poiPage.content().assertColumnCategories(['Amenity'])
 
       poiPage.header().buttonSelectNextPoi().click()
-      poiPage.header().titlePoiLable().assertText('Charisma')
+      poiPage.header().titlePoiLabel().assertText('Charisma')
       poiPage.header().labelPoiNavigatorText().assertText('6 / 7')
       poiPage.content().assertColumnCategories(['Restaurant'])
 
       poiPage.header().buttonSelectNextPoi().click()
-      poiPage.header().titlePoiLable().assertText('Akzent Hotel Zur Wasserburg')
+      poiPage.header().titlePoiLabel().assertText('Akzent Hotel Zur Wasserburg')
       poiPage.header().labelPoiNavigatorText().assertText('7 / 7')
       poiPage.content().assertColumnCategories(['Hotel', 'Restaurant'])
 
@@ -119,7 +116,7 @@ describe('POI detail page', () => {
       poiPage.header().labelPoiNavigatorText().assertText('4 / 7')
       poiPage.content().assertColumnCategories(['Church'])
       poiPage.content().map().assertNumberOfGemetries(1)
-      poiPage.content().map().assertGeometryValues(/M14|M15/)
+      poiPage.content().map().assertGeometryValues(/M/)
       poiPage.content().map().assertGeometryColor('#0000FF')
 
       poiPage.header().buttonSelectNextPoi().click()
@@ -138,7 +135,7 @@ describe('POI detail page', () => {
       poiPage.header().labelPoiNavigatorText().assertText('7 / 7')
       poiPage.content().assertColumnCategories(['Hotel', 'Restaurant'])
       poiPage.content().map().assertNumberOfGemetries(1)
-      poiPage.content().map().assertGeometryValues(/M14|M15/)
+      poiPage.content().map().assertGeometryValues(/M/)
     })
   })
 

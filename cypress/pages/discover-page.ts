@@ -121,6 +121,10 @@ class ListItemComponent {
     this.parentLocator().find('[data-cy=detailToolbarLabelName]').should('have.text', label)
   }
 
+  clickLabel() {
+    this.parentLocator().find('[data-cy=detailToolbarLabelName]').click()
+  }
+
   assertCategory(label: string) {
     this.parentLocator().find('[data-cy=detailToolbarLabelCategory]').should('have.text', label)
   }
