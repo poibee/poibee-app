@@ -65,7 +65,7 @@ describe('POI detail page', () => {
       poiPage.openWithUrlParameter('/way-12345678')
       poiPage.assertUrl('/poi/way-12345678')
 
-      poiPage.header().titlePoiLable().assertText('Akzent Hotel Zur Wasserburg')
+      poiPage.header().titlePoiLabel().assertText('Akzent Hotel Zur Wasserburg')
 
       poiPage.content().contactItemName().assertIsVisible(true).assertText('Akzent Hotel Zur Wasserburg')
       poiPage.content().contactItemAddress().assertIsVisible(true).assertText('Amtsfreiheit 4, 27243 Harpstedt')
@@ -79,7 +79,7 @@ describe('POI detail page', () => {
       poiPage.openWithUrlParameter('/node-1628573037')
       poiPage.assertUrl('/poi/node-1628573037')
 
-      poiPage.header().titlePoiLable().assertText('Information')
+      poiPage.header().titlePoiLabel().assertText('Information')
 
       poiPage.content().contactItemName().assertIsVisible(false)
       poiPage.content().contactItemAddress().assertIsVisible(false)
