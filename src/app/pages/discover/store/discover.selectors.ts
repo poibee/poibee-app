@@ -42,6 +42,11 @@ export const getSelectedPoiText = createSelector(
   state => state.selectedPoiText
 );
 
+export const getPoisViewMode = createSelector(
+    selectDiscoverState,
+    state => state.poisViewMode
+);
+
 export const getPoiPageData: MemoizedSelector<object, { navigatorLabel: string; searchCenter: LatLon; hasNextPoi: boolean; showNavigationButtons: boolean; hasPreviousPoi: boolean; poi: Poi }> = createSelector(
   selectDiscoverState,
   state => {

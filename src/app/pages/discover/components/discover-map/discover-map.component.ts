@@ -54,7 +54,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private poisLayer: LayerGroup;
   private selectedPoiMaskLayer: LayerGroup;
   private poiNavigatorControl: PoiNavigatorControl;
-  private isMapInitialized: boolean;
+  private isMapInitialized = false;
   private changesTillCallNgOnInit: SimpleChanges[] = [];
 
   constructor(
@@ -70,7 +70,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       this.showProgress = false;
       this.isMapInitialized = true;
       // replay missing changes, to display map items correctly (maybe only needed for e2e tests)
-      this.changesTillCallNgOnInit.forEach(c => this.evaluateChanges(c));
+      this.changesTillCallNgOnInit.forEach(c => this.updateDependingComponentsOfChanges(c));
 
       const updatePosition = (pos: LatLon) => {
         this.changePositionOutput.emit(pos);
@@ -83,15 +83,19 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.isMapInitialized) {
-      this.evaluateChanges(changes);
+      this.updateDependingComponentsOfChanges(changes);
     } else {
       this.changesTillCallNgOnInit.push(changes);
     }
   }
 
-  private evaluateChanges(changes: SimpleChanges) {
+  private updateDependingComponentsOfChanges(changes: SimpleChanges) {
+    // TODO - check all the "isFirstChange()" methode
+    // TODO - update text of Navigation-Panel
+    this.selectedPoiTextUpdated(); // :-)
+
     const poisChange: SimpleChange = changes['pois'];
-    if (poisChange && !poisChange.isFirstChange()) {
+    if (poisChange /* && !poisChange.isFirstChange() */) {
       this.poisUpdated();
     }
 

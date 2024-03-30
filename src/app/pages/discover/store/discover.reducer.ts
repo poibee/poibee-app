@@ -5,10 +5,12 @@ import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../data/search-
 import {sortTypesAsArray} from '../../../data/sort-types';
 import {PoisFilterService} from '../../../services/pois-filter.service';
 import {PoisSorterService} from '../../../services/pois-sorter.service';
+import {PoisViewMode} from "../../../data/pois-view-mode";
 
 export const discoverFeatureKey = 'discover';
 
 export interface State {
+  poisViewMode: PoisViewMode;
   searchAttributes: SearchAttributes;
   searchActive: boolean;
   allPois: Poi[];
@@ -23,6 +25,7 @@ export interface State {
 }
 
 export const initialState: State = {
+  poisViewMode: PoisViewMode.MAP,
   searchAttributes: undefined,
   searchActive: false,
   allPois: [],
@@ -97,6 +100,10 @@ export const reducer = createReducer(
     return recalculatStateOfSelectedPoi(state, selectedPoiIndex, selectedPoi);
   }),
 
+  on(DiscoverActions.selectPoisViewMode, (state: State, { poisViewMode}) => ({
+    ...state,
+    poisViewMode: poisViewMode
+  })),
 );
 
 const hasPreviousPoiFunction = (state: State) => state.selectedPoiIndex > 0;
