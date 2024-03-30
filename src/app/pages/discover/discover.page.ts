@@ -1,14 +1,13 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Poi} from '../../data/poi';
 import {Observable, Subscription} from 'rxjs';
-import {PoisOverpassService} from '../../services/pois-overpass.service';
 import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../data/search-attributes';
-import {ResultViewType} from '../../data/result-view-type';
+import {PoisViewMode} from '../../data/pois-view-mode';
 import {State} from './store/discover.reducer';
 import {select, Store} from '@ngrx/store';
 import {
   getFilterValue,
-  getFoundPois,
+  getFoundPois, getPoisViewMode,
   getSearchActive,
   getSearchAttributes,
   getSelectedPoi,
@@ -21,13 +20,12 @@ import {
   searchPois,
   selectNextPoi,
   selectPoi,
-  selectPreviousPoi,
+  selectPreviousPoi, selectPoisViewMode,
   updateFilterValue,
   updateSelectedSort
 } from './store/discover.actions';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {LatLon} from '../../data/lat-lon';
-import {CategoryService} from '../../services/category.service';
 
 @Component({
   selector: 'app-discover',
@@ -36,9 +34,8 @@ import {CategoryService} from '../../services/category.service';
 })
 export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
-
   searchActive$: Observable<boolean>;
-  resultViewType: ResultViewType = 'MAP';
+  poisViewMode: PoisViewMode = PoisViewMode.MAP;
   initialMapCenter: LatLon;
   searchAttributes: SearchAttributes;
   filterValue: string;
@@ -51,8 +48,6 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private poisOverpassService: PoisOverpassService,
-    private categoryService: CategoryService,
     private discoverStore: Store<{ discoverState: State }>) {
   }
 
@@ -94,6 +89,11 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
       this.selectedPoiText = value;
     });
 
+    // TODO unregister subscription
+    const poisViewMode$ = this.discoverStore.pipe(select(getPoisViewMode)).subscribe(value => {
+      this.poisViewMode = value;
+    });
+
     this.discoverStore.dispatch(initializeDiscoverPage(parameters));
   }
 
@@ -125,8 +125,8 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
     this.discoverStore.dispatch(searchPois({searchAttributes: value}));
   }
 
-  changeView(value: ResultViewType) {
-    this.resultViewType = value;
+  changePoisViewMode(value: PoisViewMode) {
+    this.discoverStore.dispatch(selectPoisViewMode({poisViewMode: value}));
   }
 
   selectPoi(selectedPoi: Poi): void {
@@ -156,4 +156,6 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
       return undefined;
     }
   }
+
+  protected readonly PoisViewMode = PoisViewMode;
 }

@@ -378,8 +378,8 @@ class DetailToolbarComponent {
     cy.get(DetailToolbarComponent.CY_LOCATOR).should(visible ? 'exist' : 'not.exist')
   }
 
-  assertText(text: string) {
-    cy.get(DetailToolbarComponent.CY_LOCATOR).should('have.text', text)
+  assertTextNoPois() {
+    cy.get(DetailToolbarComponent.CY_LOCATOR).should('have.text', 'Kein POI ausgewählt')
   }
 
   assertCategory(category: string) {
@@ -388,6 +388,10 @@ class DetailToolbarComponent {
 
   assertName(name: string) {
     cy.get(DetailToolbarComponent.CY_LOCATOR+ ' [data-cy=detailToolbarLabelName]').should('have.text', name)
+  }
+
+  click() {
+    cy.get(DetailToolbarComponent.CY_LOCATOR+ ' [data-cy=detailToolbarLabelName]').click()
   }
 }
 

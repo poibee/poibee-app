@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import {Poi} from '../../../data/poi';
 import {SearchAttributes} from '../../../data/search-attributes';
 import {LatLon} from '../../../data/lat-lon';
+import {PoisViewMode} from "../../../data/pois-view-mode";
 
 export const initializeDiscoverPage = createAction(
   '[Discover] Initialize Page',
@@ -57,4 +58,9 @@ export const selectNextPoi = createAction(
 
 export const selectPreviousPoi = createAction(
   '[Discover] Select Previous POI'
+);
+
+export const selectPoisViewMode = createAction(
+    '[Discover] Select Pois View Mode',
+    props<{ poisViewMode: PoisViewMode }>()
 );

@@ -98,7 +98,7 @@ describe('Discover page shows list', () => {
     });
   });
 
-  describe('offers navigation', () => {
+  describe('with navigation control', () => {
 
     it('should navigate to poi details after poi click', () => {
       discoverPage.list().assertCount(7)
@@ -124,9 +124,7 @@ describe('Discover page shows list', () => {
       poiPage.title().assertText('Akzent Hotel Zur Wasserburg')
       poiPage.header().buttonNavigateBack().click()
 
-      // TODO #9 - the list <-> map state should be restored
-      discoverPage.toggleView().toggle()
-
+      discoverPage.toggleView().assertList()
       discoverPage.list().assertCount(3)
       discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
       discoverPage.list().item(2).assertCategory('Hotel')

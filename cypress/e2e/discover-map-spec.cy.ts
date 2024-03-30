@@ -1,4 +1,5 @@
 import {DiscoverPage}  from "../pages/discover-page";
+import {PoiPage} from "../pages/poi-page";
 
 describe('Discover page shows map', () => {
 
@@ -68,12 +69,16 @@ describe('Discover page shows map', () => {
 
   describe('with navigation control', () => {
 
-    it('should allow to navigate through pois', () => {
+    beforeEach(() => {
       discoverPage.detailToolbar().assertIsVisible(true)
-      discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
+      discoverPage.detailToolbar().assertTextNoPois()
 
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()
+    });
+
+    it('should allow to navigate through pois', () => {
+      discoverPage.title().assertText('Gefundene POIs: 7 mit Filter, 7 insgesamt')
 
       discoverPage.map().navigator().assertText('1 / 7')
       discoverPage.detailToolbar().assertCategory('Information')
@@ -126,12 +131,57 @@ describe('Discover page shows map', () => {
       discoverPage.map().navigator().previousClick()
       discoverPage.map().navigator().assertText('1 / 7')
     })
+
+    it('should navigate to poi details after poi click', () => {
+      discoverPage.title().assertText('Gefundene POIs: 7 mit Filter, 7 insgesamt')
+
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().assertText('7 / 7')
+      discoverPage.detailToolbar().assertCategory('Hotel')
+      discoverPage.detailToolbar().click()
+
+      const poiPage = new PoiPage();
+      poiPage.assertUrl('/poi/way-12345678')
+      poiPage.title().assertText('Akzent Hotel Zur Wasserburg')
+    });
+
+    it('should restore state after poi selection and back', () => {
+      discoverPage.title().assertText('Gefundene POIs: 7 mit Filter, 7 insgesamt')
+      discoverPage.filter().type('er');
+      discoverPage.map().poiMarkers().assertCount(3)
+      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().nextClick()
+      discoverPage.map().navigator().assertText('3 / 3')
+      discoverPage.detailToolbar().assertCategory('Hotel')
+      discoverPage.detailToolbar().assertName('Akzent Hotel Zur Wasserburg')
+      discoverPage.detailToolbar().click()
+
+      const poiPage = new PoiPage();
+      poiPage.assertUrl('/poi/way-12345678')
+      poiPage.title().assertText('Akzent Hotel Zur Wasserburg')
+      poiPage.header().buttonNavigateBack().click()
+
+      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      discoverPage.toggleView().assertMap()
+      discoverPage.detailToolbar().assertIsVisible(true)
+      discoverPage.detailToolbar().assertCategory('Hotel')
+      discoverPage.detailToolbar().assertName('Akzent Hotel Zur Wasserburg')
+      discoverPage.map().poiMarkers().assertCount(3)
+    });
   });
 
   describe('with poi detail toolbar', () => {
 
     it('should shows poi details', () => {
-      discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
+      discoverPage.detailToolbar().assertTextNoPois()
 
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()
@@ -179,7 +229,7 @@ describe('Discover page shows map', () => {
 
     // TODO #92 - enable E2E again
     xit('should highlight marker of the selected poi', () => {
-      discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
+      discoverPage.detailToolbar().assertTextNoPois()
 
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()
@@ -252,7 +302,7 @@ describe('Discover page shows map', () => {
     // is being covered by another element:
     // `<input aria-label="search text" class="searchbar-input sc-ion-searchbar-md" placeholder="Filtere Ergebnisse" type="search" autocomplete="off" autocorrect="off" spellcheck="false">`
     xit('should select poi when clicked', () => {
-      discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
+      discoverPage.detailToolbar().assertTextNoPois()
 
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()
@@ -321,7 +371,7 @@ describe('Discover page shows map', () => {
   xdescribe('with sort control', () => {
 
     it('should sort items by distance, name, category and relevance and update selected poi', () => {
-      discoverPage.detailToolbar().assertText('Kein POI ausgewählt')
+      discoverPage.detailToolbar().assertTextNoPois()
 
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()

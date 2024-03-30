@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backendUrlOverpass: 'http://localhost:3000'
+  // backendUrlOverpass: 'https://poibee.de/api/overpass/'
 };
 
 /*

@@ -3,9 +3,10 @@
     [numberOfFilterResults]="filteredPois.length"
     [numberOfSearchResults]="allPois.length"
     [searchAttributes]="searchAttributes"
+    [poisViewMode]="poisViewMode"
     [searchActive]="searchActive$ | async"
     (searchUpdated)="executeSearch($event)"
-    (resultViewTypeUpdated)="changeView($event)"
+    (poisViewModeUpdated)="changePoisViewMode($event)"
     data-cy="componentDiscoverSearchToolbar">
   </app-discover-search-toolbar>
 
@@ -19,7 +20,7 @@
 
 <ion-content>
   <app-discover-map
-    *ngIf="resultViewType === 'MAP'"
+    *ngIf="poisViewMode === PoisViewMode.MAP"
     [initialMapCenter]="initialMapCenter"
     [pois]="filteredPois"
     [searchAttributes]="searchAttributes"
@@ -32,7 +33,7 @@
     data-cy="componentDiscoverMap">
   </app-discover-map>
   <app-discover-list
-    *ngIf="resultViewType === 'LIST'"
+    *ngIf="poisViewMode === PoisViewMode.LIST"
     [pois]="filteredPois"
     (selectPoiOutput)="selectPoi($event)"
     data-cy="componentDiscoverList">
@@ -40,7 +41,7 @@
 </ion-content>
 
 <ion-footer
-  *ngIf="resultViewType === 'MAP'">
+  *ngIf="poisViewMode === PoisViewMode.MAP">
   <app-discover-poi-detail-toolbar
     [poi]="selectedPoi"
     data-cy="componentDiscoverPoiDetailToolbar">
