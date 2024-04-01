@@ -151,11 +151,21 @@ describe('Discover page shows map', () => {
     });
 
     it('should restore state after poi selection and back', () => {
+      // filter POIs
       discoverPage.title().assertText('Gefundene POIs: 7 mit Filter, 7 insgesamt')
       discoverPage.filter().type('er');
+
+      // assert current state
+      discoverPage.toggleView().assertMap()
+      discoverPage.detailToolbar().assertIsVisible(true)
       discoverPage.map().poiMarkers().assertCount(3)
       discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      discoverPage.map().assertPosition(52.908, 8.588)
+      discoverPage.map().assertZoom(16)
+      discoverPage.map().distanceMarker().assertPosition(52.908, 8.588)
+      discoverPage.map().distanceMarker().assertRadius(250)
 
+      // navigate the page of the 3rd POI
       discoverPage.map().navigator().nextClick()
       discoverPage.map().navigator().nextClick()
       discoverPage.map().navigator().nextClick()
@@ -164,17 +174,26 @@ describe('Discover page shows map', () => {
       discoverPage.detailToolbar().assertName('Akzent Hotel Zur Wasserburg')
       discoverPage.detailToolbar().click()
 
+      // assert POI details
       const poiPage = new PoiPage();
       poiPage.assertUrl('/poi/way-12345678')
       poiPage.title().assertText('Akzent Hotel Zur Wasserburg')
       poiPage.header().buttonNavigateBack().click()
 
-      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      // navigate back and assert map state
       discoverPage.toggleView().assertMap()
       discoverPage.detailToolbar().assertIsVisible(true)
+      discoverPage.map().poiMarkers().assertCount(3)
+      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      discoverPage.map().assertPosition(52.908, 8.588)
+      // TODO #112 fix this
+      // discoverPage.map().assertZoom(16)
+      discoverPage.map().distanceMarker().assertPosition(52.908, 8.588)
+      // discoverPage.map().distanceMarker().assertRadius(250)
+
+      discoverPage.map().navigator().assertText('3 / 3')
       discoverPage.detailToolbar().assertCategory('Hotel')
       discoverPage.detailToolbar().assertName('Akzent Hotel Zur Wasserburg')
-      discoverPage.map().poiMarkers().assertCount(3)
     });
   });
 

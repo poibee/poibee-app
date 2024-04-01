@@ -32,7 +32,6 @@ const MAP_ZOOM = 13;
 })
 export class DiscoverMapComponent implements OnInit, OnChanges {
 
-  @Input() initialMapCenter: LatLon;
   @Input() pois: Poi[];
   @Input() searchAttributes: SearchAttributes;
   @Input() selectedPoi: Poi;
@@ -160,7 +159,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   }
 
   private constructMap() {
-    const mapCenterAsLeaflet = this.initialMapCenter.asLatLng();
+    const mapCenterAsLeaflet = this.searchAttributes.position.asLatLng();
 
     this.poisLayer = new LayerGroup();
     this.selectedPoiMaskLayer = new LayerGroup();

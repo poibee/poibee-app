@@ -19,7 +19,7 @@ describe('DiscoverMapComponent', () => {
     fixture = TestBed.createComponent(DiscoverMapComponent);
     component = fixture.componentInstance;
 
-    component.initialMapCenter = new LatLon(52.908, 8.588);
+    component.searchAttributes = new SearchAttributes(new LatLon(52.908, 8.588), 250, new CategoryEntry('all', 'Alles', []));
 
     fixture.detectChanges();
   }));
