@@ -26,6 +26,8 @@ import {
 } from './store/discover.actions';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {LatLon} from '../../data/lat-lon';
+import {DiscoverPageQueryParameter} from "../../data/discover-page-query-parameter";
+import {QueryParameterParserService} from "../../services/query-parameter-parser.service";
 
 @Component({
   selector: 'app-discover',
@@ -35,8 +37,7 @@ import {LatLon} from '../../data/lat-lon';
 export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   searchActive$: Observable<boolean>;
-  poisViewMode: PoisViewMode = PoisViewMode.MAP;
-  initialMapCenter: LatLon;
+  poisViewMode: PoisViewMode;
   searchAttributes: SearchAttributes;
   filterValue: string;
   allPois: Poi[];
@@ -48,12 +49,18 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private queryParameterParserService: QueryParameterParserService,
     private discoverStore: Store<{ discoverState: State }>) {
   }
 
   ngOnInit() {
-    const parameters = this.queryParameters(this.route.snapshot.queryParamMap);
-    this.initialMapCenter = parameters.position ? parameters.position : INITIAL_SEARCH_ATTRIBUTES.position;
+    const parameters: DiscoverPageQueryParameter = this.queryParameterParserService.queryParameters(this.route.snapshot.queryParamMap)
+    this.discoverStore.dispatch(initializeDiscoverPage({parameters: parameters }));
+
+    // TODO unregister subscription
+    const poisViewMode$ = this.discoverStore.pipe(select(getPoisViewMode)).subscribe(value => {
+      this.poisViewMode = value;
+    });
 
     // TODO unregister subscription
     const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
@@ -88,13 +95,6 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
     const selectedPoiText$ = this.discoverStore.pipe(select(getSelectedPoiText)).subscribe(value => {
       this.selectedPoiText = value;
     });
-
-    // TODO unregister subscription
-    const poisViewMode$ = this.discoverStore.pipe(select(getPoisViewMode)).subscribe(value => {
-      this.poisViewMode = value;
-    });
-
-    this.discoverStore.dispatch(initializeDiscoverPage(parameters));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -139,22 +139,6 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   selectPreviousPoi(): void {
     this.discoverStore.dispatch(selectPreviousPoi());
-  }
-
-  // https://poibee.de/discover?category=playground&position=52.908,8.588&distance=5000
-  private queryParameters(paramMap: ParamMap) {
-    const distance: number = this.parseValue(() => Number.parseInt(paramMap.get('distance'), 10));
-    const category: string = this.parseValue(() => paramMap.get('category'));
-    const position: LatLon = this.parseValue(() => LatLon.ofPosition(paramMap.get('position')));
-    return {position, category, distance};
-  }
-
-  private parseValue<Type>(parseFunction: () => Type): Type {
-    try {
-      return parseFunction();
-    } catch (error) {
-      return undefined;
-    }
   }
 
   protected readonly PoisViewMode = PoisViewMode;
