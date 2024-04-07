@@ -5,10 +5,6 @@ import {LatLon} from '../../../data/lat-lon';
 import {PoisViewMode} from "../../../data/pois-view-mode";
 import {DiscoverPageQueryParameter} from "../../../data/discover-page-query-parameter";
 
-export const doNothing = createAction(
-    '[Discover] Do nothing'
-);
-
 export const initializeDiscoverPage = createAction(
   '[Discover] Initialize Page',
     props<{ parameters: DiscoverPageQueryParameter }>()

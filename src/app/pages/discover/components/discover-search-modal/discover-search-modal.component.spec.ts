@@ -32,7 +32,7 @@ describe('DiscoverSearchModalComponent', () => {
     fixture = TestBed.createComponent(DiscoverSearchModalComponent);
     component = fixture.componentInstance;
 
-    component.searchAttributes = new SearchAttributes(new LatLon(1,2), 100, new CategoryEntry('bench', 'bench', []));
+    component.searchAttributes = new SearchAttributes(new LatLon(1,2), 100, new CategoryEntry('bench', 'bench', []), false);
 
     fixture.detectChanges();
   }));

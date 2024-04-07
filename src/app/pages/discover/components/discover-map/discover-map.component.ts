@@ -9,7 +9,17 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Circle, Control, control, Layer, LayerGroup, Map, Marker, MarkerOptions, TileLayer} from 'leaflet';
+import {
+  Circle,
+  Control,
+  control,
+  Layer,
+  LayerGroup,
+  Map,
+  Marker,
+  MarkerOptions,
+  TileLayer
+} from 'leaflet';
 
 import {ImageService} from '../../../../services/image.service';
 import {SearchDistance} from '../../../../data/search-distance';
@@ -23,7 +33,9 @@ import {MyPositionFromGeocoderControl} from '../map/my-position-from-geocoder.co
 import {ToastController} from '@ionic/angular';
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
+// TODO #112 - replace this constants by init state
 const MAP_ZOOM = 13;
+const DISTANCE_CIRCLE_RADIUS = 1;
 
 @Component({
   selector: 'app-discover-map',
@@ -91,6 +103,9 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   private updateDependingComponentsOfChanges(changes: SimpleChanges) {
     // TODO - check all the "isFirstChange()" methode
     // TODO - update text of Navigation-Panel
+
+    // TODO - POI muss noch auf Karte "selected" werden !
+    // TODO - Radius bei ohne Suche auf 1 setzen
     this.selectedPoiTextUpdated(); // :-)
 
     const poisChange: SimpleChange = changes['pois'];
@@ -99,7 +114,8 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     }
 
     const searchAttributesChange: SimpleChange = changes['searchAttributes'];
-    if (searchAttributesChange && !searchAttributesChange.isFirstChange()) {
+    // if (searchAttributesChange && !searchAttributesChange.isFirstChange()) {
+    if (searchAttributesChange) {
       this.selectedSearchAttributesUpdated();
     }
 
@@ -119,8 +135,9 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     const searchCenterPositionAsLeaflet = searchAttributes.position.asLatLng();
     this.searchPositionMarker.setLatLng(searchCenterPositionAsLeaflet);
     this.searchDistanceCircle.setLatLng(searchCenterPositionAsLeaflet);
-    this.searchDistanceCircle.setRadius(searchAttributes.distance);
-    this.discoverMap.flyTo(searchCenterPositionAsLeaflet, SearchDistance.kmAsZoomLevel(searchAttributes.distance));
+    this.searchDistanceCircle.setRadius(searchAttributes.hasEverSearched ? searchAttributes.distance : 1);
+    this.discoverMap.setView(searchCenterPositionAsLeaflet, SearchDistance.kmAsZoomLevel(searchAttributes.distance));
+    this.updateDistanceCircleCypressFunction();
   }
 
   private selectedPoiTextUpdated() {
@@ -188,7 +205,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     }).addTo(searchLayer);
 
     this.searchDistanceCircle = new Circle(mapCenterAsLeaflet, {
-      radius: 1,
+      radius: DISTANCE_CIRCLE_RADIUS,
       color: '#ff7777',
       weight: 1
     }).addTo(searchLayer);
@@ -199,34 +216,37 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
   }
 
   private initializeCypressHelpers() {
-    const updateMapCypressFunction = () => {
-      this.discoverMap.getContainer().setAttribute('data-cy-type', 'map');
-      this.discoverMap.getContainer().setAttribute('data-cy-map-zoom', String(this.discoverMap.getZoom()));
-      this.discoverMap.getContainer().setAttribute('data-cy-map-lat', String(this.discoverMap.getCenter().lat));
-      this.discoverMap.getContainer().setAttribute('data-cy-map-lon', String(this.discoverMap.getCenter().lng));
-    };
-    updateMapCypressFunction();
-    this.discoverMap.on('zoom move', () => updateMapCypressFunction());
+    this.updateMapCypressFunction();
+    this.discoverMap.on('zoom move', () => this.updateMapCypressFunction());
 
-    const updatePositionMarkerCypressFunction = () => {
-      this.searchPositionMarker.getElement().setAttribute('data-cy-type', 'position');
-      this.searchPositionMarker.getElement().setAttribute('data-cy-position-lat', String(this.searchPositionMarker.getLatLng().lat));
-      this.searchPositionMarker.getElement().setAttribute('data-cy-position-lon', String(this.searchPositionMarker.getLatLng().lng));
-    };
-    updatePositionMarkerCypressFunction();
-    this.searchPositionMarker.on('move', () => updatePositionMarkerCypressFunction());
+    this.updatePositionMarkerCypressFunction();
+    this.searchPositionMarker.on('move', () => this.updatePositionMarkerCypressFunction());
 
-    const updateDistanceCircleCypressFunction = () => {
-      this.searchDistanceCircle.getElement().setAttribute('data-cy-type', 'distance');
-      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-radius', String(this.searchDistanceCircle.getRadius()));
-      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lat', String(this.searchDistanceCircle.getLatLng().lat));
-      this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lon', String(this.searchDistanceCircle.getLatLng().lng));
-    };
-    updateDistanceCircleCypressFunction();
-    this.searchDistanceCircle.on('move', () => updateDistanceCircleCypressFunction());
+    this.updateDistanceCircleCypressFunction();
+    this.searchDistanceCircle.on('resize', () => this.updateDistanceCircleCypressFunction());
   }
 
-  private sleep(time) {
+  private updatePositionMarkerCypressFunction = () => {
+    this.searchPositionMarker.getElement().setAttribute('data-cy-type', 'position');
+    this.searchPositionMarker.getElement().setAttribute('data-cy-position-lat', String(this.searchPositionMarker.getLatLng().lat));
+    this.searchPositionMarker.getElement().setAttribute('data-cy-position-lon', String(this.searchPositionMarker.getLatLng().lng));
+  };
+
+  private updateMapCypressFunction = () => {
+    this.discoverMap.getContainer().setAttribute('data-cy-type', 'map');
+    this.discoverMap.getContainer().setAttribute('data-cy-map-zoom', String(this.discoverMap.getZoom()));
+    this.discoverMap.getContainer().setAttribute('data-cy-map-lat', String(this.discoverMap.getCenter().lat));
+    this.discoverMap.getContainer().setAttribute('data-cy-map-lon', String(this.discoverMap.getCenter().lng));
+  };
+
+  private updateDistanceCircleCypressFunction = () => {
+    this.searchDistanceCircle.getElement().setAttribute('data-cy-type', 'distance');
+    this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-radius', String(this.searchDistanceCircle.getRadius()));
+    this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lat', String(this.searchDistanceCircle.getLatLng().lat));
+    this.searchDistanceCircle.getElement().setAttribute('data-cy-distance-lon', String(this.searchDistanceCircle.getLatLng().lng));
+  };
+
+  private sleep(time: number) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
 }

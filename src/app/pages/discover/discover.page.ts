@@ -1,7 +1,7 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Poi} from '../../data/poi';
 import {Observable, Subscription} from 'rxjs';
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../data/search-attributes';
+import {SearchAttributes} from '../../data/search-attributes';
 import {PoisViewMode} from '../../data/pois-view-mode';
 import {State} from './store/discover.reducer';
 import {select, Store} from '@ngrx/store';
