@@ -1,36 +1,34 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import * as DiscoverActions from './discover.actions';
-import {doNothing, searchPois} from './discover.actions';
-import {Action} from '@ngrx/store';
+import {searchPois} from './discover.actions';
+import {Action, select, Store} from '@ngrx/store';
 import {PoisOverpassService} from '../../../services/pois-overpass.service';
 import {CategoryService} from '../../../services/category.service';
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../data/search-attributes';
+import {SearchAttributes} from '../../../data/search-attributes';
 import {DiscoverPageQueryParameter} from "../../../data/discover-page-query-parameter";
+import {getSearchAttributes} from "./discover.selectors";
 
 @Injectable()
 export class DiscoverEffects {
 
-    // TODO extend state values by parameter values
-    // wenn store state => keine Suche starten
-    // wenn kein store state + parameter => Suche starten
-    // wenn kein store state + keine parameter => keine Suche starten
-
   initializeDiscoverPage$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(DiscoverActions.initializeDiscoverPage),
-      map(props => {
+      filter((props) => {
+        return !!(props.parameters.position || props.parameters.distance || props.parameters.category);
+      }),
+      withLatestFrom(this.store.pipe(select(getSearchAttributes))), // Replace selectSomeValue with your actual selector
+      map(([props, stateSearchAttributes]) => {
         const parameters: DiscoverPageQueryParameter = props.parameters;
-        if (parameters.position || parameters.distance || parameters.category) {
-          const position = parameters.position ? parameters.position : INITIAL_SEARCH_ATTRIBUTES.position;
-          const distance = parameters.distance ? parameters.distance : INITIAL_SEARCH_ATTRIBUTES.distance;
-          const categoryEntry = this.categoryService.ofKey(parameters.category);
-          const category = categoryEntry ? categoryEntry : INITIAL_SEARCH_ATTRIBUTES.category;
-          return searchPois({searchAttributes: new SearchAttributes(position, distance, category)});
-        }
-        return doNothing();
+        const existingSearchAttributes: SearchAttributes = stateSearchAttributes.searchAttributes;
+        const position = parameters.position ? parameters.position : existingSearchAttributes.position;
+        const distance = parameters.distance ? parameters.distance : existingSearchAttributes.distance;
+        const categoryEntry = this.categoryService.ofKey(parameters.category);
+        const category = categoryEntry ? categoryEntry : existingSearchAttributes.category;
+        return searchPois({searchAttributes: new SearchAttributes(position, distance, category, true)});
       })
     )
   );
@@ -47,6 +45,7 @@ export class DiscoverEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store,
     private categoryService: CategoryService,
     private poisOverpassService: PoisOverpassService) {
   }

@@ -54,7 +54,7 @@ export class DiscoverSearchModalComponent implements OnInit {
   }
 
   startSearch() {
-    const attributes = new SearchAttributes(this.selectedPosition, this.selectedDistance, this.selectedCategory);
+    const attributes = new SearchAttributes(this.selectedPosition, this.selectedDistance, this.selectedCategory, true);
     this.searchAttributes = attributes;
     this.modalController.dismiss(attributes, 'confirm');
   }

@@ -51,19 +51,19 @@ describe('Discover page shows map', () => {
   describe('with zoom control', () => {
 
     it('"Zoom in" should map zoom in', () => {
-      discoverPage.map().assertZoom(13);
+      discoverPage.map().assertZoom(16);
 
       discoverPage.map().buttons().zoomIn().click()
 
-      discoverPage.map().assertZoom(14);
+      discoverPage.map().assertZoom(17);
     })
 
     it('"Zoom out" should map zoom out', () => {
-      discoverPage.map().assertZoom(13);
+      discoverPage.map().assertZoom(16);
 
       discoverPage.map().buttons().zoomOut().click()
 
-      discoverPage.map().assertZoom(12);
+      discoverPage.map().assertZoom(15);
     })
   });
 
@@ -189,7 +189,7 @@ describe('Discover page shows map', () => {
       // TODO #112 fix this
       // discoverPage.map().assertZoom(16)
       discoverPage.map().distanceMarker().assertPosition(52.908, 8.588)
-      // discoverPage.map().distanceMarker().assertRadius(250)
+      discoverPage.map().distanceMarker().assertRadius(250)
 
       discoverPage.map().navigator().assertText('3 / 3')
       discoverPage.detailToolbar().assertCategory('Hotel')
@@ -219,7 +219,10 @@ describe('Discover page shows map', () => {
   describe('with elements on map', () => {
 
     // TODO #32 - test fails at CI pipeline
-    xit('should show search distance circle', () => {
+    it('should show search distance circle', () => {
+      discoverPage.map().distanceMarker().assertRadius(1)
+      discoverPage.map().distanceMarker().assertPosition(52.908, 8.588)
+
       discoverPage.search().openDialog()
       discoverPage.search().executeSearch()
 
