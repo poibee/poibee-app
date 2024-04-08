@@ -12,6 +12,11 @@ export const getSearchAttributes = createSelector(
   state => ({searchAttributes: state.searchAttributes})
 );
 
+export const getMapZoom = createSelector(
+    selectDiscoverState,
+    state => ({mapZoom: state.mapZoom})
+);
+
 export const getFoundPois = createSelector(
   selectDiscoverState,
   state => ({filteredPois: state.filteredPois, allPois: state.allPois})

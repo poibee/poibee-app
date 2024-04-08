@@ -33,8 +33,6 @@ import {MyPositionFromGeocoderControl} from '../map/my-position-from-geocoder.co
 import {ToastController} from '@ionic/angular';
 
 const OSM_ATTRIBUTES = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap-X</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>';
-// TODO #112 - replace this constants by init state
-const MAP_ZOOM = 13;
 const DISTANCE_CIRCLE_RADIUS = 1;
 
 @Component({
@@ -45,11 +43,13 @@ const DISTANCE_CIRCLE_RADIUS = 1;
 export class DiscoverMapComponent implements OnInit, OnChanges {
 
   @Input() pois: Poi[];
+  @Input() initialMapZoom: number;
   @Input() searchAttributes: SearchAttributes;
   @Input() selectedPoi: Poi;
   @Input() selectedPoiText: string;
 
   @Output() changePositionOutput = new EventEmitter<LatLon>();
+  @Output() changeZoomOutput = new EventEmitter<number>();
   @Output() selectPoiOutput = new EventEmitter<Poi>();
   @Output() selectNextPoiOutput = new EventEmitter<void>();
   @Output() selectPreviousPoiOutput = new EventEmitter<void>();
@@ -135,7 +135,7 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
     const searchCenterPositionAsLeaflet = searchAttributes.position.asLatLng();
     this.searchPositionMarker.setLatLng(searchCenterPositionAsLeaflet);
     this.searchDistanceCircle.setLatLng(searchCenterPositionAsLeaflet);
-    this.searchDistanceCircle.setRadius(searchAttributes.hasEverSearched ? searchAttributes.distance : 1);
+    this.searchDistanceCircle.setRadius(searchAttributes.hasEverSearched ? searchAttributes.distance : DISTANCE_CIRCLE_RADIUS);
     this.discoverMap.setView(searchCenterPositionAsLeaflet, SearchDistance.kmAsZoomLevel(searchAttributes.distance));
     this.updateDistanceCircleCypressFunction();
   }
@@ -190,13 +190,14 @@ export class DiscoverMapComponent implements OnInit, OnChanges {
       attributionControl: false,
       doubleClickZoom: false,
       center: mapCenterAsLeaflet,
-      zoom: MAP_ZOOM,
+      zoom: this.initialMapZoom,
       layers: [osmTileLayer, searchLayer, this.poisLayer, this.selectedPoiMaskLayer]
     });
     new Control.Zoom({position: 'topleft'}).addTo(this.discoverMap);
     new Control.Attribution({position: 'bottomleft'}).addTo(this.discoverMap);
     this.discoverMap.attributionControl.addAttribution(OSM_ATTRIBUTES);
     control.scale().addTo(this.discoverMap);
+    this.discoverMap.on('zoom', () => this.changeZoomOutput.emit(this.discoverMap.getZoom()));
 
     this.searchPositionMarker = new Marker(mapCenterAsLeaflet, {
       title: 'Mein Standort',

@@ -15,6 +15,11 @@ export const changePosition = createAction(
   props<{ position: LatLon }>()
 );
 
+export const changeZoom = createAction(
+    '[Discover] Change Zoom',
+    props<{ zoom: number }>()
+);
+
 export const searchPois = createAction(
   '[Discover] Search POIs',
   props<{ searchAttributes: SearchAttributes }>()

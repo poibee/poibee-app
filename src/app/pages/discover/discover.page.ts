@@ -1,13 +1,13 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Poi} from '../../data/poi';
-import {Observable, Subscription} from 'rxjs';
+import {delay, Observable, Subscription} from 'rxjs';
 import {SearchAttributes} from '../../data/search-attributes';
 import {PoisViewMode} from '../../data/pois-view-mode';
 import {State} from './store/discover.reducer';
 import {select, Store} from '@ngrx/store';
 import {
   getFilterValue,
-  getFoundPois, getPoisViewMode,
+  getFoundPois, getMapZoom, getPoisViewMode,
   getSearchActive,
   getSearchAttributes,
   getSelectedPoi,
@@ -16,6 +16,7 @@ import {
 } from './store/discover.selectors';
 import {
   changePosition,
+  changeZoom,
   initializeDiscoverPage,
   searchPois,
   selectNextPoi,
@@ -39,6 +40,7 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
   searchActive$: Observable<boolean>;
   poisViewMode: PoisViewMode;
   searchAttributes: SearchAttributes;
+  mapZoom: number;
   filterValue: string;
   allPois: Poi[];
   filteredPois: Poi[];
@@ -65,6 +67,14 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
     // TODO unregister subscription
     const searchAttributes$ = this.discoverStore.pipe(select(getSearchAttributes)).subscribe(value => {
       this.searchAttributes = value.searchAttributes;
+    });
+
+    // TODO unregister subscription
+    const mapZoom$ = this.discoverStore.pipe(
+        select(getMapZoom),
+        delay(0) // avoid NG0100: ExpressionChangedAfterItHasBeenCheckedError - https://angular.io/errors/NG0100
+    ).subscribe(value => {
+      this.mapZoom = value.mapZoom;
     });
 
     // TODO unregister subscription
@@ -109,6 +119,10 @@ export class DiscoverPage implements OnInit, OnChanges, OnDestroy {
 
   changePosition(value: LatLon) {
     this.discoverStore.dispatch(changePosition({position: value}));
+  }
+
+  changeZoom(value: number) {
+    this.discoverStore.dispatch(changeZoom({zoom: value}));
   }
 
   updateSelectedSort(value: string) {
