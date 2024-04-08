@@ -12,6 +12,7 @@ export const discoverFeatureKey = 'discover';
 export interface State {
   poisViewMode: PoisViewMode;
   searchAttributes: SearchAttributes;
+  mapZoom: number;
   searchActive: boolean;
   allPois: Poi[];
   filteredPois: Poi[];
@@ -27,6 +28,7 @@ export interface State {
 export const initialState: State = {
   poisViewMode: PoisViewMode.MAP,
   searchAttributes: INITIAL_SEARCH_ATTRIBUTES,
+  mapZoom: 13,
   searchActive: false,
   allPois: [],
   filteredPois: [],
@@ -48,6 +50,11 @@ export const reducer = createReducer(
         ...state.searchAttributes,
         position
       }
+    })),
+
+  on(DiscoverActions.changeZoom, (state, {zoom}) => ({
+      ...state,
+      mapZoom: zoom
     })),
 
   on(DiscoverActions.searchPois, (state, {searchAttributes}) => ({

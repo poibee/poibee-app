@@ -20,6 +20,7 @@ describe('DiscoverMapComponent', () => {
     component = fixture.componentInstance;
 
     component.searchAttributes = new SearchAttributes(new LatLon(52.908, 8.588), 250, new CategoryEntry('all', 'Alles', []), false);
+    component.initialMapZoom = 10;
 
     fixture.detectChanges();
   }));

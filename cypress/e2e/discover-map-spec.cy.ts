@@ -183,17 +183,18 @@ describe('Discover page shows map', () => {
       // navigate back and assert map state
       discoverPage.toggleView().assertMap()
       discoverPage.detailToolbar().assertIsVisible(true)
-      discoverPage.map().poiMarkers().assertCount(3)
-      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
       discoverPage.map().assertPosition(52.908, 8.588)
-      // TODO #112 fix this
-      // discoverPage.map().assertZoom(16)
+      discoverPage.map().assertZoom(16)
+
       discoverPage.map().distanceMarker().assertPosition(52.908, 8.588)
       discoverPage.map().distanceMarker().assertRadius(250)
 
+      discoverPage.title().assertText('Gefundene POIs: 3 mit Filter, 7 insgesamt')
+      discoverPage.map().poiMarkers().assertCount(3)
       discoverPage.map().navigator().assertText('3 / 3')
       discoverPage.detailToolbar().assertCategory('Hotel')
       discoverPage.detailToolbar().assertName('Akzent Hotel Zur Wasserburg')
+      // discoverPage.map().poiMarkers() // TODO - check POI is selected on map
     });
   });
 
