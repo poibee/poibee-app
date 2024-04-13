@@ -13,6 +13,9 @@ export class Distance {
 
 export class SearchDistance {
   static all = [
+    new Distance(0.01, 18),
+    new Distance(0.025, 18),
+    new Distance(0.05, 17),
     new Distance(0.1, 17),
     new Distance(0.25, 16),
     new Distance(0.5, 15),
