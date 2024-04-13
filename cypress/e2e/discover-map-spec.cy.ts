@@ -250,7 +250,7 @@ describe('Discover page shows map', () => {
       discoverPage.map().markersLayer().marker(8).assertImage('assets/marker/poi-selection-mask.png')
     })
 
-    // TODO #92 - enable E2E again
+    // TODO #32 - enable E2E again
     xit('should highlight marker of the selected poi', () => {
       discoverPage.detailToolbar().assertTextNoPois()
 
@@ -310,7 +310,7 @@ describe('Discover page shows map', () => {
       discoverPage.map().markersLayer().marker(8).zindex().assertGreaterEquals(2000)
     })
 
-    // TODO #92 - enable E2E again
+    // TODO #32 - enable E2E again
     xit('should show spinner', () => {
       // TODO #32 - not working on GitHub-CI (and locally)
 
@@ -319,7 +319,7 @@ describe('Discover page shows map', () => {
       discoverPage.map().spinner().assertIsExistent(false)
     })
 
-    // TODO #92 - enable E2E again
+    // TODO #32 - enable E2E again
     // TODO: #32 Fix ignored Cypress tests (failing on GitHub)
     // `<img src="assets/category/church.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="" tabindex="0" style="margin-left: -16px; margin-top: -37px; width: 32px; height: 37px; transform: translate3d(31px, -20px, 0px); z-index: -20;">`
     // is being covered by another element:
@@ -348,7 +348,7 @@ describe('Discover page shows map', () => {
     })
   });
 
-  // TODO #92 - enable E2E again
+  // TODO #32 - enable E2E again
   xdescribe('with filter control', () => {
 
     it('should filter pois by ignoring uppercase and lowercase', () => {
@@ -390,7 +390,7 @@ describe('Discover page shows map', () => {
     });
   });
 
-  // TODO #92 - enable E2E again
+  // TODO #32 - enable E2E again
   xdescribe('with sort control', () => {
 
     it('should sort items by distance, name, category and relevance and update selected poi', () => {
