@@ -51,16 +51,16 @@ describe('Discover page', () => {
       discoverPage.search().distance().assertDistance('0,25 km, Maximale Entfernung')
 
       discoverPage.search().distance().click()
-      discoverPage.search().distance().popupAssertCount(11)
+      discoverPage.search().distance().popupAssertCount(14)
       discoverPage.search().distance().assertSelectedElement('0,25 km')
       discoverPage.search().distance().clickElement(5)
-      discoverPage.search().distance().assertDistance('5 km, Maximale Entfernung')
+      discoverPage.search().distance().assertDistance('0,5 km, Maximale Entfernung')
 
       discoverPage.search().executeSearch()
       // TODO #32 - not working on GitHub-CI (and locally)
       cy.get('@search-pois')
         .its('request.url')
-        .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=all&distance=5000')
+        .should('deep.equal','http://localhost:3000/pois?lat=52.908&lon=8.588&category=all&distance=500')
     });
 
     it('should have category selection by favorite buttons', () => {
