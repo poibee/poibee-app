@@ -1,13 +1,13 @@
 # Poimania App
 
 ## Environment
-```nvm use 16```
-```npm install --location=global @ionic/cli --version=6```
+```nvm use 20```
+```npm install --location=global @ionic/cli@7```
 ```npm install```
 
-```npm --version``` ==> 8.19.4
-```node --version``` ==> v16.20.2
-```ionic --version``` ==> 6.20.9
+```npm --version``` ==> 10.2.4
+```node --version``` ==> v20.11.1
+```ionic --version``` ==> 7.2.0
 
 ## Start Ionic local server
 ```ionic serve```
