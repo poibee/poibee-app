@@ -3,7 +3,7 @@ import {Poi} from '../../../../data/poi';
 import {LatLon} from '../../../../data/lat-lon';
 import {ImageService} from '../../../../services/image.service';
 import {GeoJSON, LayerGroup, Map, Marker, TileLayer, CircleMarker} from 'leaflet';
-import {INITIAL_SEARCH_ATTRIBUTES, SearchAttributes} from '../../../../data/search-attributes';
+import {INITIAL_SEARCH_ATTRIBUTES} from '../../../../data/search-attributes';
 
 @Component({
   selector: 'app-poi-map',
@@ -87,7 +87,7 @@ export class PoiMapComponent implements OnInit, OnChanges {
       draggable: false,
       icon: this.imageService.loadCategoryIcon(poi.categories[0].toLowerCase())
     }));
-    this.poiMap.flyTo(poi.coordinates.asLatLng(), this.poiMap.getZoom());
+    this.poiMap.setView(poi.coordinates.asLatLng(), this.poiMap.getZoom());
 
     const poiGeometryAsPoint = { type: 'Feature', geometry: { type: 'Point', coordinates: [ poi.coordinates.lon, poi.coordinates.lat ]}};
     const geometryToRender = poi.id.isNode() ? poiGeometryAsPoint : poi.original as any;
