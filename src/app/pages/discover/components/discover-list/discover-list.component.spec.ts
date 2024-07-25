@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {IonicModule, NavController} from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
 import {DiscoverListComponent} from './discover-list.component';
 import {Poi} from '../../../../data/poi';
@@ -9,6 +9,7 @@ import {Attributes} from '../../../../data/attributes';
 import {Contact} from '../../../../data/contact';
 import {References} from '../../../../data/references';
 import {PoiId} from '../../../../data/poi-id';
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('DiscoverListComponent', () => {
   let component: DiscoverListComponent;
@@ -25,7 +26,8 @@ describe('DiscoverListComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DiscoverListComponent],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      schemas: [ NO_ERRORS_SCHEMA ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DiscoverListComponent);
