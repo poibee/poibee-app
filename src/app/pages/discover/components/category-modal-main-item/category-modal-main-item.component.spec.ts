@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CategoryModalMainItemComponent } from './category-modal-main-item.component';
@@ -8,7 +8,7 @@ describe('CategoryModalMainItemComponent', () => {
   let component: CategoryModalMainItemComponent;
   let fixture: ComponentFixture<CategoryModalMainItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CategoryModalMainItemComponent ],
       imports: [IonicModule.forRoot()]

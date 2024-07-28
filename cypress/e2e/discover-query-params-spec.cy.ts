@@ -21,7 +21,7 @@ describe('Discover page evaluates URL query parameters', () => {
     it('initializes search dialog with default parameters', () => {
       discoverPage.search().openDialog()
       discoverPage.search().map().assertCenter('{"lat":52.908,"lon":8.588}')
-      discoverPage.search().distance().assertDistance('0,25 km, Maximale Entfernung')
+      discoverPage.search().distance().assertDistance('0,25 km')
       discoverPage.search().category().assertButtonCategory('Alles')
     })
 
@@ -63,7 +63,7 @@ describe('Discover page evaluates URL query parameters', () => {
       discoverPage.openWithQueryParameter('?distance=10000')
 
       discoverPage.search().openDialog()
-      discoverPage.search().distance().assertDistance('10 km, Maximale Entfernung')
+      discoverPage.search().distance().assertDistance('10 km')
     })
 
     it('does start search with given distance', () => {
