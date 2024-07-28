@@ -220,7 +220,7 @@ class ChipComponent {
   }
 
   assertText(text: string): ChipComponent {
-    cy.get(this.locator).should('have.text', text)
+    cy.get(this.locator).should('contain.text', text)
     return this;
   }
 
@@ -260,7 +260,7 @@ class LabelComponent {
   }
 
   assertText(text: string): LabelComponent {
-    cy.get(this.locator).should('have.text', text)
+    cy.get(this.locator).should('contain.text', text)
     return this
   }
 

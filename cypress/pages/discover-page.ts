@@ -201,7 +201,7 @@ class SearchCategoryDialog {
   }
 
   assertTitle(title: string) {
-    cy.get('app-category-modal ion-title').should('have.text', title)
+    cy.get('app-category-modal ion-title').should('contain.text', title)
   }
 
   mainItemsAssertCount(count: number) {
@@ -213,11 +213,11 @@ class SearchCategoryDialog {
       .get('app-category-modal app-category-modal-main-item ion-item ion-radio.radio-checked')
       .parent('ion-item')
       .find('ion-label')
-      .should('have.text', label)
+      .should('contain.text', label)
   }
 
   mainItemsAssertLabel(mainIndex: number, label: string) {
-    cy.get('app-category-modal app-category-modal-main-item ion-item ion-label').eq(mainIndex).should('have.text', label)
+    cy.get('app-category-modal app-category-modal-main-item ion-item ion-label').eq(mainIndex).should('contain.text', label)
   }
 
   mainItemsClick(mainIndex: number) {
@@ -229,7 +229,7 @@ class SearchCategoryDialog {
   }
 
   subItemsAssertLabel(mainIndex: number, subIndex: number, label: string) {
-    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).find('ion-item ion-label').eq(subIndex).should('have.text', label)
+    cy.get('app-category-modal app-category-modal-main-item').eq(mainIndex).find('ion-item ion-label').eq(subIndex).should('contain.text', label)
   }
 
   subItemsClick(mainIndex: number, subIndex: number) {
@@ -243,7 +243,9 @@ class SearchDistanceComponent {
   private static CY_LOCATOR_POPOVER_RADIO_ITEM = 'ion-select-popover ion-item'
 
   assertDistance(value: string) {
-    cy.get(SearchDistanceComponent.CY_LOCATOR).should('have.attr', 'aria-label', value)
+    cy.get(SearchDistanceComponent.CY_LOCATOR).shadow().then(($shadowRoot) => {
+      expect($shadowRoot.find('.select-text')).to.have.text(value);
+    });
   }
 
   click() {

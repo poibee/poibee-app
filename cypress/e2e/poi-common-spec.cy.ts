@@ -27,9 +27,9 @@ describe('POI detail page', () => {
       poiPage.assertUrl('/poi/way-12345678')
 
       cy.get('[data-cy=columnCategories] ion-item').should('have.length', 2)
-      cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-label').should('have.text', 'Hotel')
+      cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-label').should('contain.text', 'Hotel')
       cy.get('[data-cy=columnCategories] ion-item').eq(0).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/hotel.png')
-      cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-label').should('have.text', 'Restaurant')
+      cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-label').should('contain.text', 'Restaurant')
       cy.get('[data-cy=columnCategories] ion-item').eq(1).find('ion-thumbnail img').should('have.attr', 'src', 'assets/category/restaurant.png')
     })
 

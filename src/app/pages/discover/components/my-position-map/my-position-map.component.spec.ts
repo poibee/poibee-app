@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { MyPositionMapComponent } from './my-position-map.component';
@@ -9,7 +9,7 @@ describe('MyPositionMapComponent', () => {
   let component: MyPositionMapComponent;
   let fixture: ComponentFixture<MyPositionMapComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MyPositionMapComponent ],
       imports: [IonicModule.forRoot()]

@@ -5,9 +5,10 @@
 ```npm install --location=global @ionic/cli@7```
 ```npm install```
 
-```npm --version``` ==> 10.2.4
 ```node --version``` ==> v20.11.1
+```npm --version``` ==> 10.2.4
 ```ionic --version``` ==> 7.2.0
+```./node_modules/.bin/tsc --version``` ==> 5.4.5
 
 ## Start Ionic local server
 ```ionic serve```
